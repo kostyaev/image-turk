@@ -1,0 +1,4 @@
+demos/
+static/
+venv/
+*.pyc
