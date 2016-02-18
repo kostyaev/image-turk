@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>Browse</h1>
+
+     <form method="post">
+         <label for="Query">Please enter a query:</label>
+         <input type="text" name="query" /><br />
+         <input type="submit" />
+     </form>
+
     {% for dir in dirs %}
         <div style="float: left;" class="dir" id="{{dir}}">
             <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text" style="width: 200px; height: 200px; display: block; position: relative;">
@@ -12,6 +19,6 @@
     <br/>
 
     {% for image in images %}
-        <img src="{{ image }}" class="imgContain" style="max-width: 250px"/>
+        <img src="{{ image }}" class="localImage imgContain" style="max-width: 250px"/>
     {% endfor %}
 {% endblock %}

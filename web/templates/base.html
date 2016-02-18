@@ -22,16 +22,39 @@
       $('.webImage').on("click", function (e) {
          var $input = $( this );
          var src = $input.attr("src")
-         console.log(src)
+         console.log(window.location.href)
          body = { "url": src }
          $(this).remove()
 
          $.ajax({
-          type: "POST",
+          type: "PUT",
           context: this,
           dataType: "json",
           contentType: "application/json; charset=utf-8",
-          url: "/images",
+          url: window.location.href,
+          data: JSON.stringify(body),
+          success: function(html){
+            <!--$(this).remove()-->
+         },
+          failure: function(errMsg) {
+            <!--$(this).addClass('classRed');-->
+         }
+        });
+
+       });
+
+       $('.localImage').on("click", function (e) {
+         var $input = $( this );
+         var src = $input.attr("src")
+         console.log(window.location.href)
+         body = { "path": src }
+         $(this).remove()
+         $.ajax({
+          type: "DELETE",
+          context: this,
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          url: window.location.href,
           data: JSON.stringify(body),
           success: function(html){
             <!--$(this).remove()-->
