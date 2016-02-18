@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Images</h1>
+    <h1>Browse</h1>
+    {% for dir in dirs %}
+        <div style="float: left;" class="dir" id="{{dir}}">
+            <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text" style="width: 200px; height: 200px; display: block; position: relative;">
+            <h2 style="width: 200px; position: relative; top: -20px; right: -80px">{{dir}}</h2>
+        </div>
+    {% endfor %}
+
+    <div style="clear: left;"></div>
+    <br/>
+
     {% for image in images %}
-      <img src="{{ image.url }}" class="imgContain" style="max-width: 250px"/>
+        <img src="{{ image }}" class="imgContain" style="max-width: 250px"/>
     {% endfor %}
 {% endblock %}

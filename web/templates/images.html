@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Images</h1>
+    {% for image in images %}
+      <img src="{{ image }}" class="imgContain webImage" style="max-width: 250px"/>
+    {% endfor %}
+{% endblock %}

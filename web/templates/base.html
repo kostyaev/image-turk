@@ -6,35 +6,53 @@
     <title>Welcome to microblog</title>
     {% endif %}
 
+    <style>
+        .classGreen {
+            opacity: 0.7;
+        }
+
+        .classRed {
+            opacity: 0.2;
+        }
+    </style>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
     $(document).ready(function() {
-      $('img').on("click", function (e) {
+      $('.webImage').on("click", function (e) {
          var $input = $( this );
          var src = $input.attr("src")
          console.log(src)
          body = { "url": src }
-         console.log(body)
+         $(this).remove()
 
          $.ajax({
           type: "POST",
+          context: this,
           dataType: "json",
           contentType: "application/json; charset=utf-8",
           url: "/images",
           data: JSON.stringify(body),
           success: function(html){
-              alert(src);
+            <!--$(this).remove()-->
          },
           failure: function(errMsg) {
-            alert(errMsg);
+            <!--$(this).addClass('classRed');-->
          }
         });
 
        });
+
+
+        $('.dir').on("click", function (e) {
+         var $input = $( this );
+         window.location.href = window.location.href + "/" + $(this).attr('id')
+
+       });
+
+
+
     });
-
-
-
     </script>
 
 
