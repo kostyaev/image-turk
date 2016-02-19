@@ -9,7 +9,7 @@ import imsearchtools
 import urllib
 import uuid
 
-image_dir = '/Users/kostyaev/Pictures/images2/'
+image_dir = '/opt/storage2/custom_dataset/images/'
 google_searcher = imsearchtools.query.GoogleWebSearch()
 
 

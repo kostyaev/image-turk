@@ -9,9 +9,9 @@
      </form>
 
     {% for dir in dirs %}
-        <div style="float: left;" class="dir" id="{{dir}}">
+        <div style="float: left; height: 270px;" class="dir" id="{{dir}}">
             <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text" style="width: 200px; height: 200px; display: block; position: relative;">
-            <h2 style="width: 200px; position: relative; top: -20px; right: -80px">{{dir}}</h2>
+            <p style="width: 200px; position: relative; text-align: center; word-break: break-word;">{{dir}}</p>
         </div>
     {% endfor %}
 
