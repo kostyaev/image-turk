@@ -29,7 +29,7 @@ def list_dirs(relative_path):
     return render_template("browse.html",
                            title='Browse',
                            dirs=dirs,
-                           images=images,
+                           images=sorted(images),
                            total=len(images) + len(dirs))
 
 
