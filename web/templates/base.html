@@ -55,7 +55,6 @@
        $('.localImage').on("click", function (e) {
          var $input = $( this );
          var src = $input.attr("src")
-         console.log(window.location.href)
          body = { "img": src }
          $(this).remove()
          $.ajax({
@@ -106,7 +105,6 @@
          dirExample.attr("id", dirName);
          dirExample.children("p").text(dirName);
          $( ".dirs" ).prepend(dirExample);
-         console.log(dirExample);
 
          $.ajax({
           type: "PUT",
@@ -120,6 +118,27 @@
           failure: function(errMsg) {
          }
         });
+       });
+
+
+        $('.renameDir').on("click", function (e) {
+         var dirName = $('#newDirName').val();
+         var body = { "renameDir": dirName };
+         console.log(window.location.href);
+          $.ajax({
+          type: "DELETE",
+          context: this,
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          url: window.location.href,
+          data: JSON.stringify(body),
+          success: function(html){
+
+         },
+          failure: function(errMsg) {
+         }
+        });
+
        });
 
 

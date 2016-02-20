@@ -109,9 +109,15 @@ def remove_item(relative_path):
     json = request.json
     if 'img' in json:
         os.remove(image_dir + json['img'])
-    else:
+    elif 'dir' in json:
         dir_name = json['dir']
         path = image_dir + relative_path + dir_name
         shutil.rmtree(path)
+    elif relative_path != '':
+        dir_name = json['renameDir']
+        old_path = image_dir + relative_path
+        new_path = '/'.join((image_dir + relative_path).split('/')[:-1]) + '/' + dir_name
+        os.rename(old_path, new_path)
+
     response = jsonify({})
     return response
