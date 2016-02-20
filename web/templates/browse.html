@@ -4,16 +4,39 @@
 
      <form method="post">
          <label for="Query">Please enter a query:</label>
-         <input type="text" name="query" /><br />
-         <input type="submit" />
+         <input type="text" name="query" />
+         <input type="submit" value="Search"/>
      </form>
 
+    <div>
+         <label for="Directory">Create directory:</label>
+         <input type="text" name="dirName" id="dirName"/>
+         <input type="submit" class="createDir" value="Create"/>
+     </div>
+    <br/>
+
+    <div style="display:none;">
+        <div style="float: left; height: 270px;" id="dir" class="dirSection">
+        <input type="button" class="dir delete"/>
+        <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text" class="dir" style="width: 200px; height: 200px; display: block; position: relative;">
+        <p style="width: 200px; position: relative; text-align: center; word-break: break-word;">dir</p>
+    </div>
+
+    </div>
+
+
+    <div class="dirs">
+
     {% for dir in dirs %}
-        <div style="float: left; height: 270px;" class="dir" id="{{dir}}">
-            <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text" style="width: 200px; height: 200px; display: block; position: relative;">
+        <div style="float: left; height: 270px;" id="{{dir}}" class="dirSection">
+            <input type="button" class="dir delete"/>
+            <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text" class="dir" style="width: 200px; height: 200px; display: block; position: relative;">
             <p style="width: 200px; position: relative; text-align: center; word-break: break-word;">{{dir}}</p>
         </div>
     {% endfor %}
+
+    </div>
+
 
     <div style="clear: left;"></div>
     <br/>

@@ -8,8 +8,9 @@ from os.path import join
 import imsearchtools
 import urllib
 import uuid
+import shutil
 
-image_dir = '/opt/storage2/custom_dataset/images/'
+image_dir = '/Users/kostyaev/Pictures/images2/'
 google_searcher = imsearchtools.query.GoogleWebSearch()
 
 
@@ -79,24 +80,38 @@ def query_page(relative_path):
 
 @app.route("/browse", defaults={'relative_path': ''}, methods=["PUT"])
 @app.route("/browse/<path:relative_path>", methods=["PUT"])
-def add_images(relative_path):
-    url = request.json['url']
+def add_item(relative_path):
+    json = request.json
     response = jsonify({})
-    relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
-    if '.gif' not in url:
-        data = urllib.urlopen(url).read()
-        if len(data) > 10000:
-            with open(image_dir + relative_path + str(uuid.uuid4()) + ".jpg", 'w') as f:
-                f.write(data)
+    if 'url' in json:
+        url = json['url']
+        relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
+        if '.gif' not in url:
+            data = urllib.urlopen(url).read()
+            if len(data) > 10000:
+                with open(image_dir + relative_path + str(uuid.uuid4()) + ".jpg", 'w') as f:
+                    f.write(data)
+        else:
+            response.status_code = 400
     else:
-        response.status_code = 400
+        dir_name = json['dir']
+        if len(relative_path) > 0:
+            relative_path += '/'
+        path = image_dir + relative_path + dir_name
+        if not os.path.exists(path):
+            os.makedirs(path)
     return response
 
 
 @app.route("/browse", defaults={'relative_path': ''}, methods=["DELETE"])
 @app.route("/browse/<path:relative_path>", methods=["DELETE"])
-def remove_image(relative_path):
-    img_path = request.json['path']
-    os.remove(image_dir + img_path)
+def remove_item(relative_path):
+    json = request.json
+    if 'img' in json:
+        os.remove(image_dir + json['img'])
+    else:
+        dir_name = json['dir']
+        path = image_dir + relative_path + dir_name
+        shutil.rmtree(path)
     response = jsonify({})
     return response

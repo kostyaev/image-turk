@@ -14,6 +14,15 @@
         .classRed {
             opacity: 0.2;
         }
+
+        .delete {
+            height: 48;
+            width: 48;
+            background: url('https://cdn3.iconfinder.com/data/icons/line/36/cancel-48.png') no-repeat;
+            position: relative;
+            left: 35px;
+            top: 10px;
+        }
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -47,8 +56,32 @@
          var $input = $( this );
          var src = $input.attr("src")
          console.log(window.location.href)
-         body = { "path": src }
+         body = { "img": src }
          $(this).remove()
+         $.ajax({
+          type: "DELETE",
+          context: this,
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          url: window.location.href,
+          data: JSON.stringify(body),
+          success: function(html){
+         },
+          failure: function(errMsg) {
+         }
+        });
+
+       });
+
+
+        $('body').on("click", 'img.dir', function (e) {
+         window.location.href = window.location.href + "/" + $(this).parent().attr('id')
+
+       });
+
+       $('body').on("click", 'input.dir', function (e) {
+         var body = { "dir": $(this).parent().attr("id") }
+         $(this).parent().remove()
          $.ajax({
           type: "DELETE",
           context: this,
@@ -63,15 +96,32 @@
             <!--$(this).addClass('classRed');-->
          }
         });
-
        });
 
+        $('.createDir').on("click", function (e) {
+         var dirName = $('#dirName').val();
+         var body = { "dir": dirName };
 
-        $('.dir').on("click", function (e) {
-         var $input = $( this );
-         window.location.href = window.location.href + "/" + $(this).attr('id')
+         var dirExample = $(".dirSection").first().clone();
+         dirExample.attr("id", dirName);
+         dirExample.children("p").text(dirName);
+         $( ".dirs" ).prepend(dirExample);
+         console.log(dirExample);
 
+         $.ajax({
+          type: "PUT",
+          context: this,
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          url: window.location.href,
+          data: JSON.stringify(body),
+          success: function(html){
+         },
+          failure: function(errMsg) {
+         }
+        });
        });
+
 
 
 
