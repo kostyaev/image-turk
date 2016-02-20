@@ -1,5 +1,4 @@
-from flask import Flask, request, jsonify
-from flask_restful import Api
+from flask import request, jsonify
 from flask import render_template
 from web import app
 import os
@@ -9,8 +8,8 @@ import imsearchtools
 import urllib
 import uuid
 import shutil
+from config import *
 
-image_dir = '/Users/kostyaev/Pictures/images2/'
 google_searcher = imsearchtools.query.GoogleWebSearch()
 
 
@@ -28,7 +27,7 @@ def query(keywords):
 
 @app.route("/images", methods=["GET"])
 def get_images():
-    images =[f for f in listdir(image_dir) if (f.endswith(".jpg"))]
+    images =[f for f in listdir(static_dir) if (f.endswith(".jpg"))]
     return render_template("images.html",
                            title='Home',
                            images=images)
@@ -41,7 +40,7 @@ def upload_image():
     if '.gif' not in url:
         data = urllib.urlopen(url).read()
         if len(data) > 10000:
-            with open(image_dir + str(uuid.uuid4()) + ".jpg", 'w') as f:
+            with open(static_dir + str(uuid.uuid4()) + ".jpg", 'w') as f:
                 f.write(data)
     else:
         response.status_code = 400
@@ -57,7 +56,7 @@ def delete_image():
 @app.route("/browse", defaults={'relative_path': ""})
 @app.route("/browse/<path:relative_path>", methods=["GET"])
 def list_dirs(relative_path):
-    path = join(image_dir, relative_path)
+    path = join(static_dir, relative_path)
     all_files = listdir(path)
     dirs = [f for f in all_files if os.path.isdir(join(path, f))]
     relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
@@ -89,7 +88,7 @@ def add_item(relative_path):
         if '.gif' not in url:
             data = urllib.urlopen(url).read()
             if len(data) > 10000:
-                with open(image_dir + relative_path + str(uuid.uuid4()) + ".jpg", 'w') as f:
+                with open(static_dir + relative_path + str(uuid.uuid4()) + ".jpg", 'w') as f:
                     f.write(data)
         else:
             response.status_code = 400
@@ -97,7 +96,7 @@ def add_item(relative_path):
         dir_name = json['dir']
         if len(relative_path) > 0:
             relative_path += '/'
-        path = image_dir + relative_path + dir_name
+        path = static_dir + relative_path + dir_name
         if not os.path.exists(path):
             os.makedirs(path)
     return response
@@ -108,15 +107,15 @@ def add_item(relative_path):
 def remove_item(relative_path):
     json = request.json
     if 'img' in json:
-        os.remove(image_dir + json['img'])
+        os.remove(static_dir + json['img'])
     elif 'dir' in json:
         dir_name = json['dir']
-        path = image_dir + relative_path + dir_name
+        path = static_dir + relative_path + dir_name
         shutil.rmtree(path)
     elif relative_path != '':
         dir_name = json['renameDir']
-        old_path = image_dir + relative_path
-        new_path = '/'.join((image_dir + relative_path).split('/')[:-1]) + '/' + dir_name
+        old_path = static_dir + relative_path
+        new_path = '/'.join((static_dir + relative_path).split('/')[:-1]) + '/' + dir_name
         os.rename(old_path, new_path)
 
     response = jsonify({})
