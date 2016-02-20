@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>Images</h1>
+    <h3>Number of images: {{total}}</h3>
     {% for image in images %}
       <img src="{{ image.url }}" class="webImage imgContain" style="max-width: 250px"/>
     {% endfor %}
