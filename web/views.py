@@ -23,7 +23,7 @@ def ping():
 def list_dirs(relative_path):
     path = join(static_dir, relative_path)
     all_files = listdir(path)
-    dirs = [f for f in all_files if os.path.isdir(join(path, f))]
+    dirs = [unicode(f, "utf-8") for f in all_files if os.path.isdir(join(path, f))]
     relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
     images = [relative_path + f for f in all_files if f.endswith(".jpg") or f.endswith(".JPEG")]
     return render_template("browse.html",
@@ -79,6 +79,7 @@ def remove_item(relative_path):
         os.remove(static_dir + json['img'])
     elif 'dir' in json:
         dir_name = json['dir']
+        relative_path = relative_path + "/" if relative_path != '' else relative_path
         path = static_dir + relative_path + dir_name
         shutil.rmtree(path)
     elif relative_path != '':
