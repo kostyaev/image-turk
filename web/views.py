@@ -21,11 +21,16 @@ def ping():
 @app.route("/browse", defaults={'relative_path': ""})
 @app.route("/browse/<path:relative_path>", methods=["GET"])
 def list_dirs(relative_path):
-    path = join(static_dir, relative_path)
-    all_files = listdir(path)
-    dirs = [unicode(f, "utf-8") for f in all_files if os.path.isdir(join(path, f))]
-    relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
-    images = [relative_path + f for f in all_files if f.endswith(".jpg") or f.endswith(".JPEG")]
+    images = []
+    dirs = []
+    try:
+        path = join(static_dir, relative_path)
+        all_files = listdir(path)
+        dirs = [unicode(f, "utf-8") if type(f) != unicode else f for f in all_files if os.path.isdir(join(path, f))]
+        relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
+        images = [relative_path + f for f in all_files if f.endswith(".jpg") or f.endswith(".JPEG")]
+    except Exception as e:
+        print e
     return render_template("browse.html",
                            title='Browse',
                            dirs=dirs,
