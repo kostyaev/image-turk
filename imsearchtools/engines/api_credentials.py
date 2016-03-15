@@ -26,5 +26,5 @@ GOOGLE_API_CX = ''
 
 # Obtain at:
 # http://www.flickr.com/services/api/
-FLICKR_API_KEY = ''
-FLICKR_API_SECRET = ''
+FLICKR_API_KEY = '667cb296677657fa1bac9edd89d34be5'
+FLICKR_API_SECRET = '4b227d270f2c57b5'

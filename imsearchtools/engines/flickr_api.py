@@ -9,7 +9,7 @@ from api_credentials import *
 ## API Configuration
 #  --------------------------------------------
 
-FLICKR_API_ENTRY = 'http://api.flickr.com/services/rest/'
+FLICKR_API_ENTRY = 'https://api.flickr.com/services/rest/'
 FLICKR_API_METHOD = 'flickr.photos.search'
 
 ## Search Class
@@ -91,7 +91,8 @@ class FlickrAPISearch(requests.Session, SearchClient):
                       'format': 'json',
                       'nojsoncallback': 1,
                       'sort': 'relevance',
-                      'content_type': 1} # just photos
+                      'content_type': 1,
+                      'extras': 'url_m'} # just photos
 
         # do request
         results = self._fetch_results(query,

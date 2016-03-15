@@ -11,11 +11,19 @@ import shutil
 from config import *
 
 google_searcher = imsearchtools.query.GoogleWebSearch()
+flickr_searcher = imsearchtools.query.FlickrAPISearch()
 
 
 @app.route("/ping", methods=["GET"])
 def ping():
     return "ok"
+
+@app.route("/query", methods=["GET"])
+def query():
+    query = request.args.get("q")
+    images = google_searcher.query(query, num_results=10)
+    result = flickr_searcher.query(query)
+    return jsonify({'data' : result})
 
 
 @app.route("/browse", defaults={'relative_path': ""})
@@ -42,6 +50,7 @@ def list_dirs(relative_path):
 @app.route("/browse/<path:relative_path>", methods=["POST"])
 def query_page(relative_path):
     q = request.form['query']
+    # search_engine = request.form['search_engine']
     max = int(request.form['max'])
     skip = int(request.form['skip'])
     images = google_searcher.query(q, num_results=max)[skip:]
