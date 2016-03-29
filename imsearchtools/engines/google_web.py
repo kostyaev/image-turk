@@ -32,7 +32,7 @@ class GoogleWebSearch(requests.Session, SearchClient):
         self.headers.update(kwargs)
         self.timeout = timeout
 
-        self._results_per_req = 100
+        self._results_per_req = 10
         self._supported_sizes_map = {'small': 's',
                                      'medium': 'm',
                                      'large': 'l'}

@@ -82,7 +82,7 @@ class SearchClient(object):
                                  query, result_offset,
                                  aux_params=aux_params,
                                  headers=headers,
-                                 num_results=num_results)
+                                 num_results=self._results_per_req)
                     for result_offset in range(0, num_results, self._results_per_req)]
 
             gevent.joinall(jobs, timeout=self.timeout)

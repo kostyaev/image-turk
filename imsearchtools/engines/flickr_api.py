@@ -29,7 +29,7 @@ class FlickrAPISearch(requests.Session, SearchClient):
         self.headers.update(kwargs)
         self.timeout = timeout
 
-        self._results_per_req = 100
+        self._results_per_req = 10
         self._supported_sizes_map = {'small': 't',
                                      'medium': 'n',
                                      'large': 'c'}
@@ -50,7 +50,7 @@ class FlickrAPISearch(requests.Session, SearchClient):
             if result_offset % float(self._results_per_req):
                 raise ValueError("Offset for Flickr API must be a multiple of self._results_per_req (%d)" %
                                  self._results_per_req)
-            page_num = result_offset / self._results_per_req
+            page_num = result_offset / self._results_per_req + 1
             # add query position to auxilary parameters
             aux_params['text'] = query
             aux_params['per_page'] = self._results_per_req
@@ -64,7 +64,7 @@ class FlickrAPISearch(requests.Session, SearchClient):
             # extract list of results from response
             result_dict = resp.json()
 
-            return result_dict['photos']['photo'][:(num_results-result_offset)]
+            return result_dict['photos']['photo']
 
         except requests.exceptions.RequestException:
             return []
