@@ -5,9 +5,10 @@ import os
 from os import listdir
 from os.path import join
 import imsearchtools
-import urllib
 import shutil
 from config import *
+from gevent import monkey; monkey.patch_all()
+import urllib2
 
 google_searcher = imsearchtools.query.GoogleWebSearch()
 flickr_searcher = imsearchtools.query.FlickrAPISearch()
@@ -65,7 +66,7 @@ def add_item(relative_path):
         id = json['id']
         relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
         if '.gif' not in url:
-            data = urllib.urlopen(url).read()
+            data = urllib2.urlopen(url).read()
             if len(data) > 10000:
                 with open(static_dir + relative_path + id + ".jpg", 'w') as f:
                     f.write(data)
