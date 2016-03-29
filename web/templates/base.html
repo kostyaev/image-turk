@@ -33,7 +33,7 @@
          var $input = $( this );
          var src = $input.attr("src")
          console.log(window.location.href)
-         body = { "url": src }
+         body = { "url": src, "id" :  $input.attr("id")}
          $(this).remove()
 
          $.ajax({
@@ -55,8 +55,7 @@
 
        $('.localImage').on("click", function (e) {
          var $input = $( this );
-         var src = $input.attr("src")
-         body = { "img": src }
+         body = { "img": $input.attr("src")}
          $(this).remove()
          $.ajax({
           type: "DELETE",

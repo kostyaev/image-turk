@@ -63,11 +63,12 @@ def add_item(relative_path):
     response = jsonify({})
     if 'url' in json:
         url = json['url']
+        id = json['id']
         relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
         if '.gif' not in url:
             data = urllib.urlopen(url).read()
             if len(data) > 10000:
-                with open(static_dir + relative_path + str(uuid.uuid4()) + ".jpg", 'w') as f:
+                with open(static_dir + relative_path + id + ".jpg", 'w') as f:
                     f.write(data)
         else:
             response.status_code = 400
