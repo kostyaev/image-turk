@@ -18,14 +18,6 @@ flickr_searcher = imsearchtools.query.FlickrAPISearch()
 def ping():
     return "ok"
 
-@app.route("/query", methods=["GET"])
-def query():
-    query = request.args.get("q")
-    images = google_searcher.query(query, num_results=10)
-    result = flickr_searcher.query(query)
-    return jsonify({'data' : result})
-
-
 @app.route("/browse", defaults={'relative_path': ""})
 @app.route("/browse/<path:relative_path>", methods=["GET"])
 def list_dirs(relative_path):
@@ -50,10 +42,14 @@ def list_dirs(relative_path):
 @app.route("/browse/<path:relative_path>", methods=["POST"])
 def query_page(relative_path):
     q = request.form['query']
-    # search_engine = request.form['search_engine']
+    search_engine = request.form['engine']
     max = int(request.form['max'])
     skip = int(request.form['skip'])
-    images = google_searcher.query(q, num_results=max)[skip:]
+    if search_engine == 'google':
+        searcher = google_searcher
+    else:
+        searcher = flickr_searcher
+    images = searcher.query(q, num_results=max)[skip:]
     return render_template("query.html",
                            title='Home',
                            images=images,
@@ -79,7 +75,7 @@ def add_item(relative_path):
         dir_name = json['dir']
         if len(relative_path) > 0:
             relative_path += '/'
-        path = static_dir + relative_path + dir_name
+        path = os.path.join(static_dir, relative_path + dir_name)
         if not os.path.exists(path):
             os.makedirs(path)
     return response

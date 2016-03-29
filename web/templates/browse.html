@@ -8,10 +8,15 @@
          <input type="text" name="query" />
 
          <label for="Skip">Skip:</label>
-         <input type="text" name="skip" />
+         <input type="text" name="skip" value="0"/>
 
          <label for="Limit">Max:</label>
-         <input type="text" name="max" />
+         <input type="text" name="max" value="100"/>
+
+         <select size="2" name="engine">
+            <option selected="selected">google</option>
+            <option>flickr</option>
+         </select>
 
          <input type="submit" value="Search"/>
      </form>
