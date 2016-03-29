@@ -6,7 +6,6 @@ from os import listdir
 from os.path import join
 import imsearchtools
 import urllib
-import uuid
 import shutil
 from config import *
 
