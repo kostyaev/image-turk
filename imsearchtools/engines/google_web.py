@@ -11,7 +11,7 @@ from api_credentials import *
 ## API Configuration
 #  --------------------------------------------
 
-GOOGLE_WEB_ENTRY = 'http://www.google.com/'
+GOOGLE_WEB_ENTRY = 'https://www.google.com/'
 GOOGLE_WEB_FUNC = 'search'
 
 ## Search Class
@@ -48,10 +48,10 @@ class GoogleWebSearch(requests.Session, SearchClient):
                                    num_results=-1):
         #if num_results == -1:
         #    num_results = self._results_per_req
-        image_div_pattern = re.compile(r'<div class="rg_di(.*?)</div>')
-        image_url_pattern = re.compile(r'imgurl=(.*?)&')
-        #image_id_pattern = re.compile(r'id":"(.*?):')
-        image_id_pattern = re.compile(r'name="(.*?):')
+        image_div_pattern = re.compile(r'<div class="rg_meta(.*?)</div>')
+        image_url_pattern = re.compile(r'"ou":"(.*?)"')
+        image_id_pattern = re.compile(r'id":"(.*?):')
+        #image_id_pattern = re.compile(r'name="(.*?):')
 
         try:
             page_idx = int(math.floor(result_offset/float(self._results_per_req)))
@@ -111,7 +111,7 @@ class GoogleWebSearch(requests.Session, SearchClient):
         # prepare shared parameters
         aux_params = {}
         aux_params['tbm'] = 'isch' #image search mode
-        aux_params['ijn'] = 0      # causes AJAX request contents only to be returned
+        # aux_params['ijn'] = 0      # causes AJAX request contents only to be returned
         if tbs_str:
             aux_params['tbs'] = tbs_str
 
