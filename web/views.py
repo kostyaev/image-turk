@@ -7,8 +7,8 @@ from os.path import join
 import searchtools
 import shutil
 from config import *
-from gevent import monkey; monkey.patch_all()
 import urllib2
+from loggers import logger
 
 google_searcher = searchtools.query.GoogleWebSearch()
 flickr_searcher = searchtools.query.FlickrAPISearch()
@@ -30,7 +30,8 @@ def list_dirs(relative_path):
         relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
         images = [relative_path + f for f in all_files if f.endswith(".jpg") or f.endswith(".JPEG")]
     except Exception as e:
-        print e
+        logger.info("Exception occured {}", e.message)
+        logger.exception(e)
     return render_template("browse.html",
                            title='Browse',
                            dirs=dirs,
@@ -49,7 +50,12 @@ def query_page(relative_path):
         searcher = google_searcher
     else:
         searcher = flickr_searcher
-    images = searcher.query(q, num_results=max)[skip:]
+    try:
+        images = searcher.query(q, num_results=max)[skip:]
+    except Exception as e:
+        logger.info("Exception occurred {}", e.message)
+        logger.exception(e)
+        images = []
     return render_template("query.html",
                            title='Home',
                            images=images,
