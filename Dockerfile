@@ -18,9 +18,9 @@ libfreetype6-dev
 COPY * /opt/image-turk/
 WORKDIR /opt/image-turk/
 
-RUN pip install -r requirements.txt
+RUN mkdir -p /opt/image-turk/data
 
-ADD requirements.txt /opt/
+RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
