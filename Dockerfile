@@ -11,17 +11,19 @@ libssl-dev \
 libxml2-dev \
 libxslt1-dev \
 libevent-dev \
+libjpeg8-dev \
 python-all-dev \
 libfreetype6-dev
 
-COPY * /opt/image-turk/
+COPY . /opt/image-turk/
 
 RUN mkdir -p /opt/image-turk/data
 
 RUN pip install -r /opt/image-turk/requirements.txt
 
-EXPOSE 5000
 
 WORKDIR /opt/image-turk/
 
-ENTRYPOINT ["python", "image-turk.py"]
+EXPOSE 5000
+
+CMD ["python", "image_turk.py"]
