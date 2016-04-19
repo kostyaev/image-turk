@@ -4,14 +4,14 @@ from web import app
 import os
 from os import listdir
 from os.path import join
-import imsearchtools
+import searchtools
 import shutil
 from config import *
 from gevent import monkey; monkey.patch_all()
 import urllib2
 
-google_searcher = imsearchtools.query.GoogleWebSearch()
-flickr_searcher = imsearchtools.query.FlickrAPISearch()
+google_searcher = searchtools.query.GoogleWebSearch()
+flickr_searcher = searchtools.query.FlickrAPISearch()
 
 
 @app.route("/ping", methods=["GET"])

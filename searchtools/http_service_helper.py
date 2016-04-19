@@ -4,9 +4,9 @@ import os
 
 from flask import request
 
-from imsearchtools import query as image_query
-from imsearchtools import process as image_process
-from imsearchtools import postproc_modules
+from searchtools import query as image_query
+from searchtools import process as image_process
+from searchtools import postproc_modules
 
 
 def imsearch_query(query, engine, query_params, query_timeout=-1.0):
