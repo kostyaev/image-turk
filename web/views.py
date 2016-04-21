@@ -34,7 +34,7 @@ def list_dirs(relative_path):
         logger.exception(e)
     return render_template("browse.html",
                            title='Browse',
-                           dirs=dirs,
+                           dirs=sorted(dirs),
                            images=sorted(images),
                            total=len(images) + len(dirs))
 
