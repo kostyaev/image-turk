@@ -132,8 +132,9 @@
           contentType: "application/json; charset=utf-8",
           url: window.location.href,
           data: JSON.stringify(body),
-          success: function(html){
-
+          success: function(html) {
+            parent_path = '/browse' + location.href.split('/browse')[1].split('/').slice(0,-1).join('/');
+            location.replace(parent_path);
          },
           failure: function(errMsg) {
          }
@@ -141,7 +142,26 @@
 
        });
 
+       $('.move_dir').on("click", function (e) {
+         var dest_dir = $('#dest_dir').val();
+         var body = { "move_dir": dest_dir };
+         console.log(window.location.href);
+          $.ajax({
+          type: "DELETE",
+          context: this,
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          url: window.location.href,
+          data: JSON.stringify(body),
+          success: function(html){
+            location.reload();
 
+         },
+          failure: function(errMsg) {
+         }
+        });
+
+       });
 
 
     });

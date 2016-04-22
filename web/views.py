@@ -92,6 +92,7 @@ def add_item(relative_path):
 @app.route("/browse/<path:relative_path>", methods=["DELETE"])
 def remove_item(relative_path):
     json = request.json
+
     if 'img' in json:
         os.remove(static_dir + json['img'])
     elif 'dir' in json:
@@ -99,11 +100,15 @@ def remove_item(relative_path):
         relative_path = relative_path + "/" if relative_path != '' else relative_path
         path = static_dir + relative_path + dir_name
         shutil.rmtree(path)
-    elif relative_path != '':
+    elif 'move_dir' in json:
+        old_path = join(static_dir, json['move_dir'])
+        new_path = static_dir + relative_path + '/' + json['move_dir'].split('/')[-1]
+        os.rename(old_path, new_path)
+    elif relative_path != '' and 'renameDir' in json:
         dir_name = json['renameDir']
         old_path = static_dir + relative_path
         new_path = '/'.join((static_dir + relative_path).split('/')[:-1]) + '/' + dir_name
         os.rename(old_path, new_path)
-
     response = jsonify({})
     return response
+
