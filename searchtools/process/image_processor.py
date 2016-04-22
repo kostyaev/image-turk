@@ -127,7 +127,7 @@ class ImageProcessor(object):
 
     def _filter_image(self, fn):
         # This is faster than reading the full image into memory: the PIL open
-        # function is lazy and only reads the header until the data is requested
+        # function is lazy and only reads the header until the dictionary is requested
         im = PILImage.open(fn)
         w, h = im.size
         # This is an in memory size *estimate*

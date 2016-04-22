@@ -56,10 +56,10 @@ def callback_func(out_dict, extra_prms=None):
     #response = ""
     #while 1:
     #    try:
-    #        data = sock.recv(1024)
-    #        if not data:
+    #        dictionary = sock.recv(1024)
+    #        if not dictionary:
     #            break
-    #        response += data
+    #        response += dictionary
     #    except timeout:
     #        print 'Socket timeout'
     #        sock.close()

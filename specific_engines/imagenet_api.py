@@ -5,7 +5,7 @@ class ImagenetSearcher:
     def __init__(self):
         self.wnid_to_word = {}
         self.word_to_wnid = {}
-        for line in open('data/words.txt'):
+        for line in open('dictionary/words.txt'):
             a = line.rstrip('\n').split('\t')
             word = a[1].lower()
             self.wnid_to_word[a[0]] = word
