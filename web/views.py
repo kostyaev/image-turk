@@ -9,9 +9,11 @@ import shutil
 from config import *
 import urllib2
 from loggers import logger
+import specific_engines
 
 google_searcher = searchtools.query.GoogleWebSearch()
 flickr_searcher = searchtools.query.FlickrAPISearch()
+imagenet_searcher = specific_engines.ImagenetSearcher()
 
 
 @app.route("/ping", methods=["GET"])
@@ -48,8 +50,10 @@ def query_page(relative_path):
     skip = int(request.form['skip'])
     if search_engine == 'google':
         searcher = google_searcher
-    else:
+    elif search_engine == 'flickr':
         searcher = flickr_searcher
+    else:
+        searcher = imagenet_searcher
     try:
         images = searcher.query(q, num_results=max)[skip:]
     except Exception as e:

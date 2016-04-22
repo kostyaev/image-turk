@@ -1,78 +1,81 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Browse</h1>
-    <h3>Number of items: {{total}}</h3>
+<h1>Browse</h1>
+<h3>Number of items: {{total}}</h3>
 
-     <form method="post">
-         <label for="Query">Please enter a query:</label>
-         <input type="text" name="query" />
+<form method="post">
+    <label for="Query">Please enter a query:</label>
+    <input type="text" name="query"/>
 
-         <label for="Skip">Skip:</label>
-         <input type="text" name="skip" value="0"/>
+    <label for="Skip">Skip:</label>
+    <input type="text" name="skip" value="0"/>
 
-         <label for="Limit">Max:</label>
-         <input type="text" name="max" value="100"/>
+    <label for="Limit">Max:</label>
+    <input type="text" name="max" value="100"/>
 
-         <select size="2" name="engine">
-            <option selected="selected">google</option>
-            <option>flickr</option>
-         </select>
+    <select size="3" name="engine">
+        <option selected="selected">google</option>
+        <option>flickr</option>
+        <option>imagenet</option>
+    </select>
 
-         <input type="submit" value="Search"/>
-     </form>
+    <input type="submit" value="Search"/>
+</form>
 
-    <div>
-         <label for="Directory">Create directory:</label>
-         <input type="text" name="dirName" id="dirName"/>
-         <input type="submit" class="createDir" value="Create"/>
-     </div>
+<div>
+    <label for="Directory">Create directory:</label>
+    <input type="text" name="dirName" id="dirName"/>
+    <input type="submit" class="createDir" value="Create"/>
+</div>
 
-    <br/>
+<br/>
 
 
-    <div>
-         <label for="Directory">Rename directory:</label>
-         <input type="text" name="newDirName" id="newDirName"/>
-         <input type="submit" class="renameDir" value="Rename"/>
-     </div>
+<div>
+    <label for="Directory">Rename directory:</label>
+    <input type="text" name="newDirName" id="newDirName"/>
+    <input type="submit" class="renameDir" value="Rename"/>
+</div>
 
-    <br/>
+<br/>
 
-    <div>
-         <label for="Directory">Move directory here:</label>
-         <input type="text" name="dest_dir" id="dest_dir"/>
-         <input type="submit" class="move_dir" value="Move"/>
-     </div>
+<div>
+    <label for="Directory">Move directory here:</label>
+    <input type="text" name="dest_dir" id="dest_dir"/>
+    <input type="submit" class="move_dir" value="Move"/>
+</div>
 
-    <br/>
+<br/>
 
-    <div style="display:none;">
-        <div style="float: left; height: 270px;" id="dir" class="dirSection">
-            <input type="button" class="dir delete"/>
-            <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text" class="dir" style="width: 200px; height: 200px; display: block; position: relative;">
-            <p style="width: 200px; position: relative; text-align: center; word-break: break-word;">dir</p>
-        </div>
-
+<div style="display:none;">
+    <div style="float: left; height: 270px;" id="dir" class="dirSection">
+        <input type="button" class="dir delete"/>
+        <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text"
+             class="dir" style="width: 200px; height: 200px; display: block; position: relative;">
+        <p style="width: 200px; position: relative; text-align: center; word-break: break-word;">dir</p>
     </div>
 
+</div>
 
-    <div class="dirs">
+
+<div class="dirs">
 
     {% for dir in dirs %}
-        <div style="float: left; height: 270px;" id="{{dir}}" class="dirSection">
-            <input type="button" class="dir delete"/>
-            <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text" class="dir" style="width: 200px; height: 200px; display: block; position: relative;">
-            <p style="width: 200px; position: relative; text-align: center; word-break: break-word;">{{dir}}</p>
-        </div>
-    {% endfor %}
-
+    <div style="float: left; height: 270px;" id="{{dir}}" class="dirSection">
+        <input type="button" class="dir delete"/>
+        <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text"
+             class="dir" style="width: 200px; height: 200px; display: block; position: relative;">
+        <p style="width: 200px; position: relative; text-align: center; word-break: break-word;">{{dir}}</p>
     </div>
-
-
-    <div style="clear: left;"></div>
-    <br/>
-
-    {% for image in images %}
-        <img src="{{ image }}" class="localImage imgContain" style="max-width: 256px"/>
     {% endfor %}
+
+</div>
+
+
+<div style="clear: left;"></div>
+<br/>
+
+{% for image in images %}
+<img src="{{ image }}" class="localImage imgContain" style="max-width: 256px"/>
+{% endfor %}
 {% endblock %}
