@@ -78,7 +78,7 @@
 
        });
 
-       $('body').on("click", 'input.dir', function (e) {
+       $('body').on("dblclick", 'input.dir', function (e) {
          var body = { "dir": $(this).parent().attr("id") }
          $(this).parent().remove()
          $.ajax({
