@@ -1,1 +1,3 @@
 from imagenet_api import ImagenetSearcher
+from instagram_api import InstagramSearcher
+from yandex_api import YandexSearcher

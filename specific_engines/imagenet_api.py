@@ -1,6 +1,5 @@
 import urllib2
 
-
 class ImagenetSearcher:
     def __init__(self):
         self.wnid_to_word = {}

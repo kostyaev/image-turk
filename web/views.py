@@ -15,6 +15,8 @@ google_searcher = searchtools.query.GoogleWebSearch()
 flickr_searcher = searchtools.query.FlickrAPISearch()
 imagenet_searcher = specific_engines.ImagenetSearcher()
 bing_searcher = searchtools.query.BingAPISearch()
+instagram_searcher = specific_engines.InstagramSearcher()
+yandex_searcher = specific_engines.YandexSearcher()
 
 @app.route("/ping", methods=["GET"])
 def ping():
@@ -53,6 +55,10 @@ def query_page(relative_path):
         searcher = flickr_searcher
     elif search_engine == 'bing':
         searcher = bing_searcher
+    elif search_engine == 'instagram':
+        searcher = instagram_searcher
+    elif search_engine == 'yandex':
+        searcher = yandex_searcher
     else:
         searcher = imagenet_searcher
     try:
