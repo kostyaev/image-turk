@@ -16,6 +16,7 @@ python-all-dev \
 libfreetype6-dev
 
 COPY . /opt/image-turk/
+COPY ../api_credentials.py /opt/image-turk/searchtools/engines/
 
 RUN mkdir -p /opt/image-turk/data
 

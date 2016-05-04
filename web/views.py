@@ -14,7 +14,7 @@ import specific_engines
 google_searcher = searchtools.query.GoogleWebSearch()
 flickr_searcher = searchtools.query.FlickrAPISearch()
 imagenet_searcher = specific_engines.ImagenetSearcher()
-
+bing_searcher = searchtools.query.BingAPISearch()
 
 @app.route("/ping", methods=["GET"])
 def ping():
@@ -40,7 +40,6 @@ def list_dirs(relative_path):
                            images=sorted(images),
                            total=len(images) + len(dirs))
 
-
 @app.route("/browse", defaults={'relative_path': ''}, methods=["POST"])
 @app.route("/browse/<path:relative_path>", methods=["POST"])
 def query_page(relative_path):
@@ -52,6 +51,8 @@ def query_page(relative_path):
         searcher = google_searcher
     elif search_engine == 'flickr':
         searcher = flickr_searcher
+    elif search_engine == 'bing':
+        searcher = bing_searcher
     else:
         searcher = imagenet_searcher
     try:

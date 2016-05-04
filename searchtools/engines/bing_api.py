@@ -48,9 +48,6 @@ class BingAPISearch(requests.Session, SearchClient):
     def _fetch_results_from_offset(self, query, result_offset,
                                    aux_params={}, headers={},
                                    num_results=-1):
-        if num_results == -1:
-            num_results = self._results_per_req
-
         try:
             quoted_query = "'%s'" % query
 
@@ -58,7 +55,7 @@ class BingAPISearch(requests.Session, SearchClient):
                 print quoted_query
                 print BING_API_FUNC
 
-            req_result_count = min(self._results_per_req, num_results-result_offset)
+            req_result_count = self._results_per_req
 
             # add query position to auxilary parameters
             aux_params['Query'] = quoted_query
@@ -76,7 +73,7 @@ class BingAPISearch(requests.Session, SearchClient):
             if DEBUG_MESSAGES:
                 print json.dumps(result_dict)
 
-            return result_dict['d']['results'][:(num_results-result_offset)]
+            return result_dict['d']['results']
         except requests.exceptions.RequestException, e:
             print 'error occurred: ' + str(e)
             return []
