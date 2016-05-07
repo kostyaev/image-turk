@@ -11,10 +11,10 @@ class InstagramSearcher:
 
     def preprocess(self, q):
         query = unicode(q, "utf-8") if type(q) != unicode else q
-        return query
+        return query.encode('utf-8')
 
     def query(self, query, num_results=20):
-        query = self.preprocess(query)
+        query = urllib2.quote(self.preprocess(query))
         all_images = []
         next_url = self.url.replace("{query}", query).replace("{limit}", str(self.max_number_per_req))
         for i in range(0, num_results, self.max_number_per_req):

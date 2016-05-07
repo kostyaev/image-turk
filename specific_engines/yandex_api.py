@@ -18,10 +18,10 @@ class YandexSearcher:
 
     def preprocess(self, q):
         query = unicode(q, "utf-8") if type(q) != unicode else q
-        return query
+        return query.encode('utf-8')
 
     def query(self, query, num_results=30):
-        query = self.preprocess(query)
+        query = urllib2.quote(self.preprocess(query))
         p = 0
         next_url = self.base_url.replace("{query}", query).replace("{page}", str(p))
         all_images = []
