@@ -12,11 +12,11 @@ from loggers import logger
 import specific_engines
 
 google_searcher = searchtools.query.GoogleWebSearch()
-flickr_searcher = searchtools.query.FlickrAPISearch()
 imagenet_searcher = specific_engines.ImagenetSearcher()
-bing_searcher = searchtools.query.BingAPISearch()
-instagram_searcher = specific_engines.InstagramSearcher()
 yandex_searcher = specific_engines.YandexSearcher()
+bing_searcher = None
+instagram_searcher = None
+flickr_searcher = None
 
 @app.route("/ping", methods=["GET"])
 def ping():
@@ -52,10 +52,19 @@ def query_page(relative_path):
     if search_engine == 'google':
         searcher = google_searcher
     elif search_engine == 'flickr':
+        global flickr_searcher
+        if flickr_searcher is None:
+            flickr_searcher = searchtools.query.FlickrAPISearch()
         searcher = flickr_searcher
     elif search_engine == 'bing':
+        global bing_searcher
+        if bing_searcher is None:
+           bing_searcher = searchtools.query.BingAPISearch()
         searcher = bing_searcher
     elif search_engine == 'instagram':
+        global instagram_searcher
+        if instagram_searcher is None:
+           instagram_searcher = specific_engines.InstagramSearcher()
         searcher = instagram_searcher
     elif search_engine == 'yandex':
         searcher = yandex_searcher
