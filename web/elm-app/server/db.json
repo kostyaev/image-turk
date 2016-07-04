@@ -1,0 +1,31 @@
+{
+  "dirs": [
+    {
+      "id": 1,
+      "name": "pizza",
+      "images": [
+        "http://toninospizzaandpasta.com/wp-content/uploads/2014/04/pizza-page.png",
+        "http://lookw.ru/1/131/1380316096-pitstsa-ch2--21.jpg",
+        "https://oop.pizzahut.ru/product_pics/main//1/66af26c90256d2e18ec5d52a0926930b.png"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "donuts",
+      "images": [
+        "https://pixabay.com/static/uploads/photo/2014/11/08/16/27/donut-522431_960_720.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/3/31/Jelly-Donut.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/a/a6/Shakoy_(also_known_as_siyakoy_or_lubid-lubid),_a_doughnut_variant_from_the_Philippines.jpg"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "burgers",
+      "images": [
+        "http://www.seriouseats.com/images/2016/04/20160428-memorial-day-burger-recipes-roundup-19.jpg",
+        "http://richfieldmnchamber.org/wp-content/uploads/2015/02/Dollarphotoclub_69856461.jpg",
+        "https://kitchensweetie.files.wordpress.com/2013/05/cooking-burgers-009.jpg"
+      ]
+    }
+  ]
+}

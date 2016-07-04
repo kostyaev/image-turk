@@ -1,0 +1,19 @@
+/*
+    Dir Tile
+*/
+
+.Dir--Tile--container {
+  width: 100px;
+  height: 105px;
+}
+
+.Dir--Tile--icon {
+  width: 100px;
+  height: 75px;
+}
+
+.Dir--Tile--name {
+  font-family: 'Fira Sans';
+  font-size: 14px;
+  font-weight: 300;
+}
