@@ -5,15 +5,15 @@ import Models exposing (Model)
 import Dirs.Update
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     DirsMsg subMsg ->
       let
-        ( updatedDirs, cmd ) =
+        (updatedDirs, cmd) =
           Dirs.Update.update subMsg model.dirs
       in
-        ( { model | dirs = updatedDirs }, Cmd.map DirsMsg cmd )
+        ({ model | dirs = updatedDirs }, Cmd.map DirsMsg cmd)
 
     NoOp ->
-      ( model, Cmd.none )
+      (model, Cmd.none)

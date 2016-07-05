@@ -10,5 +10,5 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-  { dirs = [ Dir 1 "pizza" [""] ]
+  { dirs = []
   }

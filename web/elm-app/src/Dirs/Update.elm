@@ -7,5 +7,8 @@ import Dirs.Models exposing (Dir)
 update : Msg -> List Dir -> ( List Dir, Cmd Msg )
 update message dirs =
   case message of
-    NoOp ->
+    FetchAllDone newDirs ->
+      ( newDirs, Cmd.none )
+
+    FetchAllFail error ->
       ( dirs, Cmd.none )

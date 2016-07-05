@@ -1,5 +1,9 @@
 module Dirs.Messages exposing (..)
 
+import Http
+import Dirs.Models exposing (DirId, Dir)
+
 
 type Msg
-  = NoOp
+  = FetchAllDone (List Dir)
+  | FetchAllFail Http.Error
