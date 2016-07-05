@@ -6,20 +6,23 @@
   "scripts": {
     "api": "node ./server/api.js",
     "build": "webpack",
-    "watch": "webpack --watch",
-    "dev": "webpack-dev-server --port 3000"
+    "watch": "webpack-dev-server --port 3000"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "autoprefixer": "^6.3.7",
+    "copy-webpack-plugin": "^3.0.1",
     "css-loader": "^0.23.1",
     "elm-webpack-loader": "^3.0.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.22.0",
     "json-server": "^0.8.15",
+    "node-sass": "^3.8.0",
     "postcss-loader": "^0.9.1",
+    "rimraf": "^2.5.3",
+    "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",

@@ -4,7 +4,9 @@ venv/
 *.pyc
 .idea/
 application.conf
+!application.conf.example
 elm-stuff
 node_modules
 .DS_Store
 dist
+npm-debug.log

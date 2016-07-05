@@ -1,52 +1,74 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var autoprefixer = require('autoprefixer');
-var path = require("path");
+var path = require('path');
 var webpack = require('webpack');
-
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: {
-    app: [
-      './index.js'
-    ]
-  },
+  entry: './index.js',
 
   output: {
-    path: path.resolve(__dirname + '/dist'),
-    filename: '[name].js',
+    filename: 'app.js',
+    path: './dist',
+  },
+
+  resolve: {
+    modulesDirectories: ['node_modules'],
+    extensions: ['', '.js', '.elm'],
   },
 
   module: {
+    noParse: /\.elm$/,
+
     loaders: [
       {
-        test: /\.(css|scss)$/,
-        loader: ExtractTextPlugin.extract(
-            'style-loader', 'css-loader', 'postcss-loader'
-        )
+        test: /\.(png|jpg|otf|eot|ttf|woff|woff2|svg|json|gif)(\?.*)?$/,
+        loader: 'file?name=[hash].[ext]',
       },
-      {
-        test:    /\.html$/,
-        exclude: /node_modules/,
-        loader:  'file?name=[name].[ext]',
-      },
+
       {
         test:    /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
         loader:  'elm-webpack',
       },
-      {
-        test: /\.(png|swf|jpg|otf|eot|ttf|woff|woff2|svg|json|mp4|gif)(\?.*)?$/,
-        loader: 'file?name=[hash].[ext]'
-      }
-    ],
 
-    noParse: /\.elm$/,
+      {
+        test: /\.(css|scss)$/,
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
+        )
+      },
+    ],
   },
 
-  devServer: {
-    inline: true,
-    stats: { colors: true },
-  }
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: './assets/',
+        to:   'assets/'
+      }
+    ]),
 
-};
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      hash: true,
+      template: './index.html'
+    }),
+
+    new webpack.optimize.OccurenceOrderPlugin(),
+
+    new webpack.optimize.DedupePlugin(),
+
+    new ExtractTextPlugin('./main.css', { allChunks: true }),
+
+    new webpack.optimize.UglifyJsPlugin({
+        minimize:   true,
+        compressor: { warnings: false },
+        // mangle:  true,
+    }),
+  ],
+}
