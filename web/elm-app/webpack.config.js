@@ -30,7 +30,7 @@ module.exports = {
       {
         test:    /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
-        loader:  'elm-webpack',
+        loader:  'elm-hot!elm-webpack',
       },
 
       {
@@ -38,8 +38,8 @@ module.exports = {
         loader: ExtractTextPlugin.extract(
           'style-loader',
           'css-loader',
-          'postcss-loader',
-          'sass-loader'
+          'sass-loader',
+          'postcss-loader'
         )
       },
     ],

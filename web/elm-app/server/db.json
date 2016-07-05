@@ -26,6 +26,15 @@
         "http://richfieldmnchamber.org/wp-content/uploads/2015/02/Dollarphotoclub_69856461.jpg",
         "https://kitchensweetie.files.wordpress.com/2013/05/cooking-burgers-009.jpg"
       ]
+    },
+    {
+      "id": 4,
+      "name": "really long name for a folder",
+      "images": [
+        "http://www.seriouseats.com/images/2016/04/20160428-memorial-day-burger-recipes-roundup-19.jpg",
+        "http://richfieldmnchamber.org/wp-content/uploads/2015/02/Dollarphotoclub_69856461.jpg",
+        "https://kitchensweetie.files.wordpress.com/2013/05/cooking-burgers-009.jpg"
+      ]
     }
   ]
 }

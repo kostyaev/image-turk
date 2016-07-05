@@ -1,6 +1,7 @@
 module View exposing (..)
 
 import Html exposing (Html, div, text)
+import Html.Attributes exposing (class)
 import Html.App
 import Messages exposing (Msg(..))
 import Models exposing (Model)
@@ -9,8 +10,15 @@ import Dirs.Views.Tile
 
 view : Model -> Html Msg
 view model =
-  div []
-      [ page model ]
+  div [ class "App--container" ]
+    [ div [ class "App--TreeSide" ]
+      [ div [ class "App--TreeNav" ] []
+      ]
+    , div [ class "App--TileSide" ]
+      [ div [ class "App--TileNav" ] []
+      , page model
+      ]
+    ]
 
 
 page : Model -> Html Msg

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>back-1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="main" transform="translate(-15.000000, -15.000000)">
+            <g id="back-1" transform="translate(15.000000, 15.000000)">
+                <g id="Capa_1">
+                    <g id="Group">
+                        <ellipse id="Oval" fill="#EED26A" cx="12.5" cy="12.5" rx="12.4902664" ry="12.4902664"></ellipse>
+                        <path d="M12.5,24.9902664 C19.3981837,24.9902664 24.9902664,19.3981837 24.9902664,12.5 C24.9902664,5.60181635 19.3981837,0.00973360656 12.5,0.00973360656 C5.60181635,0.00973360656 0.00973360656,5.60181635 0.00973360656,12.5 C0.00973360656,19.3981837 5.60181635,24.9902664 12.5,24.9902664 Z" id="Oval" fill="#D7D7D7"></path>
+                        <path d="M19.9391906,11.2866803 L17.4397541,11.2872439 L12.9789959,7.79067623 L7.46762295,11.3431352 L6.96239754,14.4717725 L16.8536373,24.2101947 C20.5904201,22.820543 23.4779713,19.695082 24.5441086,15.8203893 L19.9391906,11.2866803 Z" id="Shape" fill="#C4C4C4"></path>
+                        <polygon id="Shape" fill="#FFFFFF" points="5.03294057 12.558709 11.4038422 18.875666 13.0522541 17.201332 9.46588115 13.6990266 19.9762295 13.6172131 19.9579406 11.267623 9.44651639 11.3494877 12.9789959 7.79067623 11.3046619 6.14221311"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

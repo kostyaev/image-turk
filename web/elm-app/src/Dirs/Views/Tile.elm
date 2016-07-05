@@ -16,6 +16,6 @@ view dirs =
 -- renderDir : List Dir -> Html Msg
 renderDir dir =
   div [ class "Dir--Tile--container" ]
-    [ div [ class "Dir--Tile--icon" ] [ img [ src "/assets/big-folder--closed.png" ] [] ]
+    [ div [ class "Dir--Tile--icon" ] [ img [ src "/assets/big-folder--closed.svg" ] [] ]
     , div [ class "Dir--Tile--name" ] [ text dir.name ]
     ]

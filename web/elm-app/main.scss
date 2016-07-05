@@ -1,19 +1,124 @@
 /*
+    Main styles
+*/
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  font-family: 'Fira Sans';
+
+  -webkit-font-smoothing: subpixel-antialiased;
+  text-rendering: geometricPrecision;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#main {
+  width: 100%;
+  height: 100%;
+}
+
+.App--container {
+  width: 100%;
+  height: 100%;
+}
+
+.App--TreeSide{
+  display: inline-flex;
+
+  width: 330px;
+  height: 100%;
+
+  vertical-align: top;
+}
+
+.App--TreeNav {
+
+}
+
+.App--TileSide {
+  position: relative;
+
+  display: inline-block;
+
+  width: calc(100% - 330px);
+  height: 100%;
+  padding: 50px 40px 80px 40px;
+
+  background-color: #F7F7F7;
+}
+
+.App--TileNav {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 50px;
+
+  background: url('/assets/wave_bg.png') repeat;
+}
+
+
+
+/*
     Dir Tile
 */
 
 .Dir--Tile--container {
+  position: relative;
+  z-index: 10;
+
+  display: inline-block;
+  text-align: center;
+
   width: 100px;
   height: 105px;
+  margin-top: 30px;
+}
+
+.Dir--Tile--container:not(:last-child) {
+  margin-right: 30px;
 }
 
 .Dir--Tile--icon {
   width: 100px;
   height: 75px;
+  margin-bottom: 10px;
 }
 
 .Dir--Tile--name {
-  font-family: 'Fira Sans';
+  display: inline-block;
+  overflow: hidden !important;
+
+  width: 85px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
   font-size: 14px;
   font-weight: 300;
+}
+
+.Dir--Tile--container:hover {
+  cursor: pointer;
+}
+
+.Dir--Tile--container:hover::after {
+  position: absolute;
+  z-index: -5;
+  top: -10px;
+  right: -7px;
+  bottom: -10px;
+  left: -7px;
+
+  content: '';
+
+  border-radius: 8px;
+  background: url('/assets/wave_bg.png') repeat;
 }
