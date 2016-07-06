@@ -1,21 +1,31 @@
 module Dirs.Views.Tile exposing (..)
 
-import Html exposing (div, img, text)
+import Html exposing (Html, div, img, text)
 import Html.Attributes exposing (class, src)
 import Dirs.Messages exposing (..)
-import Dirs.Models exposing (Dir)
+import Dirs.Models exposing (SubDir)
 
 
--- view : List Dir -> Html Msg
-view dirs =
-  div []
-    [ div [] (List.map renderDir dirs)
-    ]
+view : { a | current : Maybe (List SubDir) } -> Html Msg
+view dir =
+  case dir.current of
+    Just current ->
+      div []
+        [ div [] (List.map renderSubDir current)
+        ]
+
+    Nothing ->
+      renderNothing
 
 
--- renderDir : List Dir -> Html Msg
-renderDir dir =
+renderSubDir : SubDir -> Html Msg
+renderSubDir subDir =
   div [ class "Dir--Tile--container" ]
     [ div [ class "Dir--Tile--icon" ] [ img [ src "/assets/big-folder--closed.svg" ] [] ]
-    , div [ class "Dir--Tile--name" ] [ text dir.name ]
+    , div [ class "Dir--Tile--name" ] [ text subDir.name ]
     ]
+
+
+renderNothing : Html Msg
+renderNothing =
+  div [] []

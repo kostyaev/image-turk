@@ -9,8 +9,8 @@ type alias ImageRecord =
   , url: String
   }
 
-type alias DirRecord =
-  { id: Int
+type alias SubDir =
+  { id: DirId
   , name: String
   }
 
@@ -18,9 +18,9 @@ type alias DirRecord =
 type alias Dir =
   { id: DirId
   , name: String
-  , images: List ImageRecord
-  , current: List DirRecord
-  , previous: List DirRecord
+  , images: Maybe (List ImageRecord)
+  , current: Maybe (List SubDir)
+  , previous: Maybe (List SubDir)
   }
 
 
@@ -28,7 +28,7 @@ new : Dir
 new =
   { id = 0
   , name = "Untitled folder"
-  , images = [ImageRecord 0 ""]
-  , current = [DirRecord 0 ""]
-  , previous = [DirRecord 0 ""]
+  , images = Just [ImageRecord 0 ""]
+  , current = Just [SubDir 0 ""]
+  , previous = Just [SubDir 0 ""]
   }

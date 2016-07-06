@@ -1,12 +1,13 @@
 module Dirs.Commands exposing (..)
 
 import Http
-import Json.Decode exposing (Decoder, object2, object5, list, int, string, (:=))
+import Json.Decode exposing (Decoder, object2, object5, list, int, string, (:=), maybe)
 import Task
 import Dirs.Models exposing (DirId, Dir, ImageRecord, DirRecord)
 import Dirs.Messages exposing (..)
 
 
+fetchAllUrl : String
 fetchAllUrl =
   "http://localhost:4000/dirs"
 
@@ -27,9 +28,9 @@ memberDecoder =
   object5 Dir
     ("id" := int)
     ("name" := string)
-    ("images" := list imageDecoder)
-    ("current" := list dirDecoder)
-    ("previous" := list dirDecoder)
+    (maybe ("images" := list imageDecoder))
+    (maybe ("current" := list dirDecoder))
+    (maybe ("previous" := list dirDecoder))
 
 
 imageDecoder : Decoder ImageRecord

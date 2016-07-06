@@ -7,27 +7,55 @@ import Messages exposing (Msg(..))
 import Models exposing (Model)
 import Dirs.Views.Tile
 import Dirs.Views.Tree
+import Routing exposing (Route(..))
 
 
-view : Model -> Html Msg
+-- view : Model -> Html Msg
 view model =
-  div [ class "App--container" ]
-    [ div [ class "App--TreeSide" ]
-      [ div [ class "App--TreeNav" ] []
-      , renderTreeView model
-      ]
-    , div [ class "App--TileSide" ]
-      [ div [ class "App--TileNav" ] []
-      , renderTileView model
-      ]
+  div []
+    [ renderView model ]
+
+
+-- renderView : Model -> Html Msg
+renderView model =
+  case model.route of
+    DirsRoute ->
+      mainLayout model 0
+
+    DirRoute id ->
+      mainLayout model id
+
+    NotFoundRoute ->
+      notFoundView
+
+
+-- mainLayout : Model -> Int -> Html Msg
+mainLayout model dirId =
+  let
+    maybeDir =
+      model.dirs
+        |> List.filter (\dir -> dir.id == dirId)
+        |> List.head
+  in
+    case maybeDir of
+      Just dir ->
+        div [ class "App--container" ]
+          [ div [ class "App--TreeSide" ]
+            [ div [ class "App--TreeNav" ] []
+            , Html.App.map DirsMsg (Dirs.Views.Tree.view dir)
+            ]
+          , div [ class "App--TileSide" ]
+            [ div [ class "App--TileNav" ] []
+            , Html.App.map DirsMsg (Dirs.Views.Tile.view dir)
+            ]
+          ]
+
+      Nothing ->
+        notFoundView
+
+
+notFoundView : Html msg
+notFoundView =
+  div []
+    [ text "Not found"
     ]
-
-
-renderTileView : Model -> Html Msg
-renderTileView model =
-  Html.App.map DirsMsg (Dirs.Views.Tile.view model.dirs)
-
-
-renderTreeView : Model -> Html Msg
-renderTreeView model =
-  Html.App.map DirsMsg (Dirs.Views.Tree.view model.dirs)

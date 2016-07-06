@@ -1,6 +1,18 @@
 {
   "dirs": [
     {
+      "id": 0,
+
+      "name": "home",
+
+      "current": [
+        {"id": 10, "name": "pizza"},
+        {"id": 20, "name": "donuts"},
+        {"id": 30, "name": "burgers and sandwiches"}
+      ]
+    },
+
+    {
       "id": 10,
 
       "name": "pizza",
