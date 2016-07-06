@@ -29,16 +29,17 @@ html, body {
 }
 
 .App--TreeSide{
+  position: relative;
+
   display: inline-flex;
 
-  width: 330px;
+  width: 250px;
   height: 100%;
+  padding-top: 50px;
 
   vertical-align: top;
-}
 
-.App--TreeNav {
-
+  background-color: #F7F7F7;
 }
 
 .App--TileSide {
@@ -46,14 +47,12 @@ html, body {
 
   display: inline-block;
 
-  width: calc(100% - 330px);
+  width: calc(100% - 250px);
   height: 100%;
   padding: 50px 40px 80px 40px;
-
-  background-color: #F7F7F7;
 }
 
-.App--TileNav {
+.App--TreeNav, .App--TileNav {
   position: absolute;
   top: 0;
   left: 0;
@@ -62,6 +61,46 @@ html, body {
   height: 50px;
 
   background: url('/assets/wave_bg.png') repeat;
+}
+
+
+/*
+    Dir Tree
+*/
+
+.Dir--Tree--container {
+  width: 250px;
+  height: 54px;
+}
+
+.Dir--Tree--icon {
+  display: inline-block;
+
+  width: 40px;
+  height: 30px;
+  margin: 11px;
+}
+
+.Dir--Tree--name {
+  display: inline-block;
+  overflow: hidden !important;
+
+  width: 140px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 26px;
+}
+
+.Dir--Tree--container:hover {
+  cursor: pointer;
+}
+
+.Dir--Tree--container:hover {
+  background-color: #ECECEC;
 }
 
 
@@ -75,11 +114,12 @@ html, body {
   z-index: 10;
 
   display: inline-block;
-  text-align: center;
 
   width: 100px;
   height: 105px;
   margin-top: 30px;
+
+  text-align: center;
 }
 
 .Dir--Tile--container:not(:last-child) {
@@ -120,5 +160,5 @@ html, body {
   content: '';
 
   border-radius: 8px;
-  background: url('/assets/wave_bg.png') repeat;
+  background-color: #F7F7F7;
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="40px" height="30px" viewBox="0 0 40 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>folder-1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="main" transform="translate(-15.000000, -321.000000)" fill="#D6D6D6">
+            <g id="folder-1" transform="translate(15.000000, 321.000000)">
+                <g id="Layer_1">
+                    <g id="Group">
+                        <path d="M13.4022414,2.60078947 L13.4022414,1.47657895 C13.4022414,0.690526316 12.7701724,0.0473684211 11.9976724,0.0473684211 L3.93284483,0.0473684211 C3.16021552,0.0473684211 2.52827586,0.690526316 2.52827586,1.47657895 L2.52827586,2.60078947 L2.10698276,2.60078947 C0.948103448,2.60078947 0,3.56552632 0,4.74460526 L0,27.7401316 C0,28.9192105 0.948103448,29.8839474 2.10685345,29.8839474 L37.7910776,29.8839474 C38.9498276,29.8839474 39.897931,28.9192105 39.897931,27.7401316 L39.897931,4.74460526 C39.8980603,3.56552632 38.9499569,2.60078947 37.7910776,2.60078947 L13.4022414,2.60078947 Z" id="Shape"></path>
+                        <rect id="Rectangle-path" x="3.00556034" y="4.65592105" width="33.8869397" height="23.1727632"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

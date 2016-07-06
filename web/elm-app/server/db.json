@@ -1,39 +1,105 @@
 {
   "dirs": [
     {
-      "id": 1,
+      "id": 10,
+
       "name": "pizza",
+
       "images": [
-        "http://toninospizzaandpasta.com/wp-content/uploads/2014/04/pizza-page.png",
-        "http://lookw.ru/1/131/1380316096-pitstsa-ch2--21.jpg",
-        "https://oop.pizzahut.ru/product_pics/main//1/66af26c90256d2e18ec5d52a0926930b.png"
+        {
+          "id": 11,
+          "url": "http://toninospizzaandpasta.com/wp-content/uploads/2014/04/pizza-page.png"
+        },
+        {
+          "id": 12,
+          "url": "http://lookw.ru/1/131/1380316096-pitstsa-ch2--21.jpg"
+        },
+        {
+          "id": 13,
+          "url": "https://oop.pizzahut.ru/product_pics/main//1/66af26c90256d2e18ec5d52a0926930b.png"
+        }
+      ],
+
+      "current": [
+        {"id": 11, "name": "margarita"},
+        {"id": 12, "name": "peperoni"},
+        {"id": 13, "name": "casaer"}
+      ],
+
+      "previous": [
+        {"id": 10, "name": "pizza"},
+        {"id": 9, "name": "beer"},
+        {"id": 8, "name": "bread"},
+        {"id": 7, "name": "soda"}
       ]
     },
+
+
     {
-      "id": 2,
+      "id": 20,
+
       "name": "donuts",
+
       "images": [
-        "https://pixabay.com/static/uploads/photo/2014/11/08/16/27/donut-522431_960_720.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/3/31/Jelly-Donut.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/a/a6/Shakoy_(also_known_as_siyakoy_or_lubid-lubid),_a_doughnut_variant_from_the_Philippines.jpg"
+        {
+          "id": 21,
+          "url": "https://pixabay.com/static/uploads/photo/2014/11/08/16/27/donut-522431_960_720.jpg"
+        },
+        {
+          "id": 22,
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/31/Jelly-Donut.jpg"
+        },
+        {
+          "id": 23,
+          "url": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Shakoy_(also_known_as_siyakoy_or_lubid-lubid),_a_doughnut_variant_from_the_Philippines.jpg"
+        }
+      ],
+
+      "current": [
+        {"id": 21, "name": "sweet"},
+        {"id": 22, "name": "sour"},
+        {"id": 23, "name": "chocolate"}
+      ],
+
+      "previous": [
+        {"id": 20, "name": "donuts"},
+        {"id": 19, "name": "ice-cream"},
+        {"id": 18, "name": "salad"}
       ]
     },
+
+
     {
-      "id": 3,
-      "name": "burgers",
+      "id": 30,
+
+      "name": "burgers and sandwiches",
+
       "images": [
-        "http://www.seriouseats.com/images/2016/04/20160428-memorial-day-burger-recipes-roundup-19.jpg",
-        "http://richfieldmnchamber.org/wp-content/uploads/2015/02/Dollarphotoclub_69856461.jpg",
-        "https://kitchensweetie.files.wordpress.com/2013/05/cooking-burgers-009.jpg"
-      ]
-    },
-    {
-      "id": 4,
-      "name": "really long name for a folder",
-      "images": [
-        "http://www.seriouseats.com/images/2016/04/20160428-memorial-day-burger-recipes-roundup-19.jpg",
-        "http://richfieldmnchamber.org/wp-content/uploads/2015/02/Dollarphotoclub_69856461.jpg",
-        "https://kitchensweetie.files.wordpress.com/2013/05/cooking-burgers-009.jpg"
+        {
+          "id": 31,
+          "url": "http://www.seriouseats.com/images/2016/04/20160428-memorial-day-burger-recipes-roundup-19.jpg"
+        },
+        {
+          "id": 32,
+          "url": "http://richfieldmnchamber.org/wp-content/uploads/2015/02/Dollarphotoclub_69856461.jpg"
+        },
+        {
+          "id": 33,
+          "url": "https://kitchensweetie.files.wordpress.com/2013/05/cooking-burgers-009.jpg"
+        }
+      ],
+
+      "current": [
+        {"id": 31, "name": "vegan"},
+        {"id": 32, "name": "fish"},
+        {"id": 33, "name": "double cheese"}
+      ],
+
+      "previous": [
+        {"id": 30, "name": "burgers and sandwiches"},
+        {"id": 29, "name": "cola"},
+        {"id": 28, "name": "pasta"},
+        {"id": 27, "name": "hummus"}
       ]
     }
   ]
