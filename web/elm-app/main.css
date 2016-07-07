@@ -23,12 +23,12 @@ html, body {
   height: 100%;
 }
 
-.App--container {
+.App__container {
   width: 100%;
   height: 100%;
 }
 
-.App--TreeSide{
+.App__TreeSide{
   position: relative;
 
   display: inline-flex;
@@ -42,7 +42,7 @@ html, body {
   background-color: #F7F7F7;
 }
 
-.App--TileSide {
+.App__TileSide {
   position: relative;
 
   display: inline-block;
@@ -52,7 +52,7 @@ html, body {
   padding: 50px 40px 80px 40px;
 }
 
-.App--TreeNav, .App--TileNav {
+.App__TreeNav, .App__TileNav {
   position: absolute;
   top: 0;
   left: 0;
@@ -65,15 +65,15 @@ html, body {
 
 
 /*
-    Dir Tree
+    Folder Tree
 */
 
-.Dir--Tree--container {
+.Folder__Tree__container {
   width: 250px;
   height: 54px;
 }
 
-.Dir--Tree--icon {
+.Folder__Tree__icon {
   display: inline-block;
 
   width: 40px;
@@ -81,7 +81,7 @@ html, body {
   margin: 11px;
 }
 
-.Dir--Tree--name {
+.Folder__Tree__name {
   display: inline-block;
   overflow: hidden !important;
 
@@ -95,21 +95,21 @@ html, body {
   line-height: 26px;
 }
 
-.Dir--Tree--container:hover {
+.Folder__Tree__container:hover {
   cursor: pointer;
 }
 
-.Dir--Tree--container:hover {
+.Folder__Tree__container:hover {
   background-color: #ECECEC;
 }
 
 
 
 /*
-    Dir Tile
+    Folder Tile
 */
 
-.Dir--Tile--container {
+.Folder__Tile__container {
   position: relative;
   z-index: 10;
 
@@ -122,17 +122,17 @@ html, body {
   text-align: center;
 }
 
-.Dir--Tile--container:not(:last-child) {
+.Folder__Tile__container:not(:last-child) {
   margin-right: 30px;
 }
 
-.Dir--Tile--icon {
+.Folder__Tile__icon {
   width: 100px;
   height: 75px;
   margin-bottom: 10px;
 }
 
-.Dir--Tile--name {
+.Folder__Tile__name {
   display: inline-block;
   overflow: hidden !important;
 
@@ -145,11 +145,11 @@ html, body {
   font-weight: 300;
 }
 
-.Dir--Tile--container:hover {
+.Folder__Tile__container:hover {
   cursor: pointer;
 }
 
-.Dir--Tile--container:hover::after {
+.Folder__Tile__container:hover::after {
   position: absolute;
   z-index: -5;
   top: -10px;

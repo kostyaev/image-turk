@@ -1,17 +1,20 @@
 module Models exposing (..)
 
-import Dirs.Models exposing (Dir)
+import Folders.Models exposing (Folder)
 import Routing
+import Hop.Types exposing (Location)
 
 
-type alias Model =
-  { dirs : List Dir
+type alias MainModel =
+  { location : Location
   , route : Routing.Route
+  , folders: List Folder
   }
 
 
-initialModel : Routing.Route -> Model
-initialModel route =
-  { dirs = []
+newMainModel : Route -> Hop.Types.Location -> MainModel
+newMainModel route location =
+  { location = location
   , route = route
+  , folders = []
   }

@@ -5,7 +5,7 @@ import Messages exposing (Msg(..))
 import Models exposing (Model, initialModel)
 import View exposing (view)
 import Update exposing (update)
-import Dirs.Commands exposing(fetchAll)
+import Folders.Commands exposing(fetchAll)
 import Routing exposing (Route)
 
 
@@ -15,7 +15,7 @@ init result =
     currentRoute =
       Routing.routeFromResult result
   in
-    (initialModel currentRoute, Cmd.map DirsMsg fetchAll)
+    (initialModel currentRoute, Cmd.map FoldersMsg fetchAll)
 
 
 subscriptions : Model -> Sub Msg

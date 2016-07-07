@@ -1,7 +1,9 @@
 module Messages exposing (..)
 
-import Dirs.Messages
+import Hop.Types exposing (Query)
+import Folders.Messages
+
 
 type Msg
-  = DirsMsg Dirs.Messages.Msg
-  | NoOp
+  = SetQuery Query
+  | FoldersMsg Folders.Messages.Msg

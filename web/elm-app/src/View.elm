@@ -4,49 +4,43 @@ import Html exposing (Html, div, text)
 import Html.Attributes exposing (class)
 import Html.App
 import Messages exposing (Msg(..))
-import Models exposing (Model)
-import Dirs.Views.Tile
-import Dirs.Views.Tree
+import Models exposing (MainModel)
+import Folders.Views.Tile
+import Folders.Views.Tree
 import Routing exposing (Route(..))
 
 
-view : Model -> Html Msg
+view : MainModel -> Html Msg
 view model =
-  div []
-    [ renderView model ]
-
-
--- renderView : Model -> Html Msg
-renderView model =
   case model.route of
-    DirsRoute ->
+    MainRoute ->
       mainLayout model 0
 
-    DirRoute id ->
+    FolderRoute id ->
       mainLayout model id
 
     NotFoundRoute ->
       notFoundView
 
 
--- mainLayout : Model -> Int -> Html Msg
-mainLayout model dirId =
+mainLayout : MainModel -> Int -> Html Msg
+mainLayout model folderId =
   let
-    maybeDir =
-      model.dirs
-        |> List.filter (\dir -> dir.id == dirId)
+    maybeFolder =
+      model.folders
+        |> List.filter (\folder -> folder.id == folderId)
         |> List.head
   in
-    case maybeDir of
-      Just dir ->
-        div [ class "App--container" ]
-          [ div [ class "App--TreeSide" ]
-            [ div [ class "App--TreeNav" ] []
-            , Html.App.map DirsMsg (Dirs.Views.Tree.view dir)
+    case maybeFolder of
+      Just folder ->
+        div [ class "App__container" ]
+          [ div [ class "App__TreeSide" ]
+            [ div [ class "App__TreeNav" ] []
+            , Html.App.map FoldersMsg (Folders.Views.Tree.view folder)
             ]
-          , div [ class "App--TileSide" ]
-            [ div [ class "App--TileNav" ] []
-            , Html.App.map DirsMsg (Dirs.Views.Tile.view dir)
+          , div [ class "App__TileSide" ]
+            [ div [ class "App__TileNav" ] []
+            , Html.App.map FoldersMsg (Folders.Views.Tile.view folder)
             ]
           ]
 

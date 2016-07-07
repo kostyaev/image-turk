@@ -1,42 +1,51 @@
 module Routing exposing (..)
 
-import String
-import Navigation
-import UrlParser exposing (..)
-import Dirs.Models exposing (DirId)
+import Hop exposing (matcherToPath)
+import Hop.Types exposing (Config, PathMatcher)
+import Hop.Matchers exposing (..)
+import Folders.Models exposing (FolderId)
 
 
 type Route
-  = DirsRoute
-  | DirRoute DirId
+  = MainRoute
+  | FolderRoute FolderId
   | NotFoundRoute
 
 
-matchers : Parser (Route -> a) a
+matchers : List (PathMatcher Route)
 matchers =
-  oneOf
-    [ format DirRoute (s "" </> int)
-    , format DirsRoute (s "")
-    ]
+  [ matcherFolder
+  , matcherMain
+  ]
 
 
-hashParser : Navigation.Location -> Result String Route
-hashParser location =
-  location.hash
-    |> String.dropLeft 1
-    |> parse identity matchers
+matcherFolder : PathMatcher Route
+matcherFolder =
+  match2 FolderRoute "" int
 
 
-parser : Navigation.Parser (Result String Route)
-parser =
-  Navigation.makeParser hashParser
+matcherMain : PathMatcher Route
+matcherMain =
+  match2 FolderRoute "" int
 
 
-routeFromResult : Result String Route -> Route
-routeFromResult result =
-  case result of
-    Ok route ->
-      route
+config : Config Route
+config =
+  { hash = False
+  , basePath = ""
+  , matchers = matchers
+  , notFound = NotFoundRoute
+  }
 
-    Err string ->
-      NotFoundRoute
+
+reverse : Route -> String
+reverse route =
+  case route of
+    MainRoute ->
+      matcherToPath matcherMain []
+
+    FolderRoute id ->
+      matcherToPath matcherFolder [ toString id ]
+
+    NotFoundRoute ->
+      ""
