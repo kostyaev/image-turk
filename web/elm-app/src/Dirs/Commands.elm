@@ -3,7 +3,7 @@ module Dirs.Commands exposing (..)
 import Http
 import Json.Decode exposing (Decoder, object2, object5, list, int, string, (:=), maybe)
 import Task
-import Dirs.Models exposing (DirId, Dir, ImageRecord, DirRecord)
+import Dirs.Models exposing (DirId, Dir, ImageRecord, SubDir)
 import Dirs.Messages exposing (..)
 
 
@@ -40,8 +40,8 @@ imageDecoder =
     ("url" := string)
 
 
-dirDecoder : Decoder DirRecord
+dirDecoder : Decoder SubDir
 dirDecoder =
-  object2 DirRecord
+  object2 SubDir
     ("id" := int)
     ("name" := string)

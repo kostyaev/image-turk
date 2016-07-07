@@ -15,9 +15,8 @@ type Route
 matchers : Parser (Route -> a) a
 matchers =
   oneOf
-    [ format DirsRoute (s "")
-    , format DirRoute (s "dirs" </> int)
-    , format DirsRoute (s "dirs")
+    [ format DirRoute (s "" </> int)
+    , format DirsRoute (s "")
     ]
 
 
@@ -40,4 +39,4 @@ routeFromResult result =
       route
 
     Err string ->
-      NotFoundRoute        
+      NotFoundRoute

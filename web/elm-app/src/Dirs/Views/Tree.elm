@@ -2,6 +2,7 @@ module Dirs.Views.Tree exposing (..)
 
 import Html exposing (Html, div, img, text)
 import Html.Attributes exposing (class, src)
+import Html.Events exposing (onClick)
 import Dirs.Messages exposing (..)
 import Dirs.Models exposing (SubDir)
 
@@ -24,7 +25,7 @@ view dir =
 
 renderSubDir : SubDir -> Html Msg
 renderSubDir subDir =
-  div [ class "Dir--Tree--container" ]
+  div [ class "Dir--Tree--container", onClick (GoDir subDir.id) ]
     [ div [ class "Dir--Tree--icon" ] [ img [ src "/assets/small-folder--closed.svg" ] [] ]
     , div [ class "Dir--Tree--name" ] [ text subDir.name ]
     ]

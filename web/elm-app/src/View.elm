@@ -10,7 +10,7 @@ import Dirs.Views.Tree
 import Routing exposing (Route(..))
 
 
--- view : Model -> Html Msg
+view : Model -> Html Msg
 view model =
   div []
     [ renderView model ]
