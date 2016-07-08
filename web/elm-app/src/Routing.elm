@@ -12,23 +12,6 @@ type Route
   | NotFoundRoute
 
 
-matchers : List (PathMatcher Route)
-matchers =
-  [ matcherFolder
-  , matcherMain
-  ]
-
-
-matcherFolder : PathMatcher Route
-matcherFolder =
-  match2 FolderRoute "" int
-
-
-matcherMain : PathMatcher Route
-matcherMain =
-  match2 FolderRoute "" int
-
-
 config : Config Route
 config =
   { hash = False
@@ -38,14 +21,31 @@ config =
   }
 
 
+matchers : List (PathMatcher Route)
+matchers =
+  [ matchFolder
+  , matchMain
+  ]
+
+
+matchFolder : PathMatcher Route
+matchFolder =
+  match2 FolderRoute "" int
+
+
+matchMain : PathMatcher Route
+matchMain =
+  match1 MainRoute ""
+
+
 reverse : Route -> String
 reverse route =
   case route of
     MainRoute ->
-      matcherToPath matcherMain []
+      matcherToPath matchMain []
 
     FolderRoute id ->
-      matcherToPath matcherFolder [ toString id ]
+      matcherToPath matchFolder [ toString id ]
 
     NotFoundRoute ->
       ""

@@ -8,23 +8,24 @@ import Models exposing (MainModel)
 import Folders.Views.Tile
 import Folders.Views.Tree
 import Routing exposing (Route(..))
+import Folders.Models exposing (FolderId)
 
 
 view : MainModel -> Html Msg
 view model =
   case model.route of
     MainRoute ->
-      mainLayout model 0
+      foldersView model 0
 
     FolderRoute id ->
-      mainLayout model id
+      foldersView model id
 
     NotFoundRoute ->
       notFoundView
 
 
-mainLayout : MainModel -> Int -> Html Msg
-mainLayout model folderId =
+foldersView : MainModel -> FolderId -> Html Msg
+foldersView model folderId =
   let
     maybeFolder =
       model.folders

@@ -1,43 +1,46 @@
 module Main exposing (..)
 
 import Navigation
-import Messages exposing (Msg(..))
-import Models exposing (Model, initialModel)
+import Hop exposing (matchUrl)
+import Hop.Types exposing (Router)
+import Messages exposing (..)
+import Models exposing (MainModel, newMainModel)
 import View exposing (view)
 import Update exposing (update)
 import Folders.Commands exposing(fetchAll)
-import Routing exposing (Route)
-
-
-init : Result String Route -> (Model, Cmd Msg)
-init result =
-  let
-    currentRoute =
-      Routing.routeFromResult result
-  in
-    (initialModel currentRoute, Cmd.map FoldersMsg fetchAll)
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-  Sub.none
-
-
-urlUpdate : Result String Route -> Model -> (Model, Cmd Msg)
-urlUpdate result model =
-  let
-    currentRoute =
-      Routing.routeFromResult result
-  in
-    ({ model | route = currentRoute }, Cmd.none)
+import Routing
 
 
 main : Program Never
 main =
-  Navigation.program Routing.parser
+  Navigation.program urlParser
     { init = init
     , view = view
     , update = update
     , urlUpdate = urlUpdate
-    , subscriptions = subscriptions
+    , subscriptions = (always Sub.none)
     }
+
+
+init : (Routing.Route, Hop.Types.Location) -> (MainModel, Cmd Msg)
+init (route, location) =
+  (newMainModel route location, Cmd.map FoldersMsg fetchAll)
+
+
+urlParser : Navigation.Parser (Routing.Route, Hop.Types.Location)
+urlParser =
+  Navigation.makeParser (.href >> matchUrl Routing.config)
+
+
+urlUpdate : (Routing.Route, Hop.Types.Location) -> MainModel -> (MainModel, Cmd Msg)
+urlUpdate (route, location) model =
+  ({ model | route = route, location = location }, Cmd.none)
+
+
+-- init : Result String Route -> (Model, Cmd Msg)
+-- init result =
+--   let
+--     currentRoute =
+--       Routing.routeFromResult result
+--   in
+--     (initialModel currentRoute, Cmd.map FoldersMsg fetchAll)

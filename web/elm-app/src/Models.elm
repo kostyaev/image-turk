@@ -12,7 +12,7 @@ type alias MainModel =
   }
 
 
-newMainModel : Route -> Hop.Types.Location -> MainModel
+newMainModel : Routing.Route -> Hop.Types.Location -> MainModel
 newMainModel route location =
   { location = location
   , route = route

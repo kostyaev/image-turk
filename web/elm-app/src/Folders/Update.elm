@@ -1,18 +1,37 @@
 module Folders.Update exposing (..)
 
-import Folders.Messages exposing (Msg(..))
+import Folders.Messages exposing (..)
 import Folders.Models exposing (Folder)
 import Navigation
+import Hop exposing (makeUrl)
+import Hop.Types exposing (Location)
+import Routing
 
 
-update : Msg -> List Folder -> ( List Folder, Cmd Msg )
-update message folders =
+type alias UpdateModel =
+  { folders : List Folder
+  , location : Location
+  }
+
+
+update : Msg -> UpdateModel -> (UpdateModel, Cmd Msg)
+update message model =
   case message of
     FetchAllDone newFolders ->
-      ( newFolders, Cmd.none )
+      let
+        newModel =
+          ({ model | folders = newFolders })
+      in
+        (newModel, Cmd.none)
 
     FetchAllFail error ->
-      ( folders, Cmd.none )
+      (model, Cmd.none)
 
-    GoFolder id ->
-      (folders, Navigation.modifyUrl ("#/" ++ (toString id)))
+    NavigateToFolder id ->
+      let
+        cmd =
+          Routing.reverse (Routing.FolderRoute id)
+            |> makeUrl Routing.config
+            |> Navigation.modifyUrl
+      in
+        (model, cmd)
