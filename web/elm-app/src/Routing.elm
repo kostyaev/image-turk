@@ -30,7 +30,7 @@ matchers =
 
 matchFolder : PathMatcher Route
 matchFolder =
-  match2 FolderRoute "" int
+  match2 FolderRoute "/" int
 
 
 matchMain : PathMatcher Route

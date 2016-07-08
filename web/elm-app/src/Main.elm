@@ -35,12 +35,3 @@ urlParser =
 urlUpdate : (Routing.Route, Hop.Types.Location) -> MainModel -> (MainModel, Cmd Msg)
 urlUpdate (route, location) model =
   ({ model | route = route, location = location }, Cmd.none)
-
-
--- init : Result String Route -> (Model, Cmd Msg)
--- init result =
---   let
---     currentRoute =
---       Routing.routeFromResult result
---   in
---     (initialModel currentRoute, Cmd.map FoldersMsg fetchAll)

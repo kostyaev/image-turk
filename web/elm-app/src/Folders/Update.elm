@@ -32,6 +32,6 @@ update message model =
         cmd =
           Routing.reverse (Routing.FolderRoute id)
             |> makeUrl Routing.config
-            |> Navigation.modifyUrl
+            |> Navigation.newUrl
       in
         (model, cmd)
