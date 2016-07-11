@@ -7,15 +7,25 @@ import Folders.Models exposing (FolderId, Folder, ImageRecord, SubFolder)
 import Folders.Messages exposing (..)
 
 
-fetchAllUrl : String
-fetchAllUrl =
-  "http://localhost:4000/folders"
+foldersRepo : String
+foldersRepo =
+  "http://localhost:4000/folders/"
 
 
 fetchAll : Cmd Msg
 fetchAll =
-  Http.get collectionDecoder fetchAllUrl
+  Http.get collectionDecoder foldersRepo
     |> Task.perform FetchAllFail FetchAllDone
+
+
+fetchOne : FolderId -> Cmd Msg
+fetchOne id =
+  let
+    query =
+      foldersRepo ++ toString id
+  in
+    Http.get memberDecoder query
+      |> Task.perform FetchOneFail FeatchOneDone
 
 
 collectionDecoder : Decoder (List Folder)

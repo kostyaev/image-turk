@@ -25,7 +25,7 @@ view folder =
 
 renderSubFolder : SubFolder -> Html Msg
 renderSubFolder subFolder =
-  div [ class "Folder__Tree__container", onClick (NavigateToFolder subFolder.id) ]
+  div [ class "Folder__Tree__container", onClick (FetchAndNavigate subFolder.id) ]
     [ div [ class "Folder__Tree__icon" ] [ img [ src "/assets/small-folder--closed.svg" ] [] ]
     , div [ class "Folder__Tree__name" ] [ text subFolder.name ]
     ]

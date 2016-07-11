@@ -6,7 +6,7 @@ import Navigation
 import Hop exposing (makeUrl)
 import Hop.Types exposing (Location)
 import Routing
-
+import Folders.Commands exposing(fetchOne)
 
 type alias UpdateModel =
   { folders : List Folder
@@ -27,11 +27,21 @@ update message model =
     FetchAllFail error ->
       (model, Cmd.none)
 
-    NavigateToFolder id ->
+    FeatchOneDone newFolder ->
       let
-        cmd =
+        newModel =
+          ({ model | folders = [newFolder] })
+      in
+        (newModel, Cmd.none)
+
+    FetchOneFail error ->
+      (model, Cmd.none)
+
+    FetchAndNavigate id ->
+      let
+        navigateCmd =
           Routing.reverse (Routing.FolderRoute id)
             |> makeUrl Routing.config
             |> Navigation.newUrl
       in
-        (model, cmd)
+        (model, Cmd.batch [(fetchOne id), navigateCmd])

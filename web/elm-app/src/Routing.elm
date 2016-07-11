@@ -14,7 +14,7 @@ type Route
 
 config : Config Route
 config =
-  { hash = False
+  { hash = True
   , basePath = ""
   , matchers = matchers
   , notFound = NotFoundRoute
