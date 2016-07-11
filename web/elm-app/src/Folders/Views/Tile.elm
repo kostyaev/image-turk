@@ -6,12 +6,12 @@ import Folders.Messages exposing (..)
 import Folders.Models exposing (SubFolder)
 
 
-view : { a | current : Maybe (List SubFolder) } -> Html Msg
+view : { a | siblings : Maybe (List SubFolder) } -> Html Msg
 view folder =
-  case folder.current of
-    Just current ->
+  case folder.siblings of
+    Just siblings ->
       div []
-        [ div [] (List.map renderSubFolder current)
+        [ div [] (List.map renderSubFolder siblings)
         ]
 
     Nothing ->

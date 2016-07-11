@@ -68,6 +68,22 @@ html, body {
     Folder Tree
 */
 
+.App__TreeNav__back-icon {
+  display: inline-block;
+  margin: 25px 105px 15px;
+
+  transition: transform .1s ease-in;
+}
+
+.App__TreeNav__back-icon img {
+  margin: auto;
+  display: block;
+}
+
+.App__TreeNav__back-icon:hover {
+  cursor: pointer;
+}
+
 .Folder__Tree__container {
   width: 250px;
   height: 54px;

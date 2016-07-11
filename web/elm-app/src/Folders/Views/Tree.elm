@@ -4,27 +4,51 @@ import Html exposing (Html, div, img, text)
 import Html.Attributes exposing (class, src)
 import Html.Events exposing (onClick)
 import Folders.Messages exposing (..)
-import Folders.Models exposing (SubFolder)
+import Folders.Models exposing (SubFolder, FolderId, Folder)
 
 
-view : { a | current : Maybe (List SubFolder), previous : Maybe (List SubFolder) } -> Html Msg
+type alias TreeView a =
+  { a
+  | siblings : Maybe (List SubFolder)
+  , children : Maybe (List SubFolder)
+  , parent : Maybe FolderId
+  , name : String
+  }
+
+
+view : TreeView a -> Html Msg
 view folder =
   let
     maybeSubFolders =
-      Maybe.oneOf [ folder.previous, folder.current ]
+      Maybe.oneOf [ folder.children, folder.siblings ]
+
+    renderBackButton =
+      case folder.parent of
+        Just parent ->
+          div [ class "App__TreeNav__back-icon", onClick (FetchAndNavigate parent) ]
+            [ img [ src "/assets/back.svg" ] [] ]
+        Nothing ->
+          renderNothing
+
+    name =
+      folder.name
   in
     case maybeSubFolders of
       Just subFolders ->
         div []
-          [ div [] (List.map renderSubFolder subFolders)
+          [ div [ class "App__TreeNav" ] []
+          , div []
+              [ renderBackButton
+              , div [] (List.map (renderSubFolder name) subFolders)
+              ]
           ]
 
       Nothing ->
         renderNothing
 
 
-renderSubFolder : SubFolder -> Html Msg
-renderSubFolder subFolder =
+renderSubFolder : String -> SubFolder -> Html Msg
+renderSubFolder name subFolder =
   div [ class "Folder__Tree__container", onClick (FetchAndNavigate subFolder.id) ]
     [ div [ class "Folder__Tree__icon" ] [ img [ src "/assets/small-folder--closed.svg" ] [] ]
     , div [ class "Folder__Tree__name" ] [ text subFolder.name ]

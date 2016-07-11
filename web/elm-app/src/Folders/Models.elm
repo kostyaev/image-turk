@@ -19,8 +19,9 @@ type alias Folder =
   { id: FolderId
   , name: String
   , images: Maybe (List ImageRecord)
-  , current: Maybe (List SubFolder)
-  , previous: Maybe (List SubFolder)
+  , children: Maybe (List SubFolder)
+  , siblings: Maybe (List SubFolder)
+  , parent: Maybe FolderId
   }
 
 
@@ -29,6 +30,7 @@ new =
   { id = 0
   , name = "Untitled folder"
   , images = Just [ImageRecord 0 ""]
-  , current = Just [SubFolder 0 ""]
-  , previous = Just [SubFolder 0 ""]
+  , children = Just [SubFolder 0 ""]
+  , siblings = Just [SubFolder 0 ""]
+  , parent = Nothing
   }

@@ -1,7 +1,7 @@
 module Folders.Commands exposing (..)
 
 import Http
-import Json.Decode exposing (Decoder, object2, object5, list, int, string, (:=), maybe)
+import Json.Decode exposing (Decoder, object2, object6, list, int, string, (:=), maybe)
 import Task
 import Folders.Models exposing (FolderId, Folder, ImageRecord, SubFolder)
 import Folders.Messages exposing (..)
@@ -35,12 +35,13 @@ collectionDecoder =
 
 memberDecoder : Decoder Folder
 memberDecoder =
-  object5 Folder
+  object6 Folder
     ("id" := int)
     ("name" := string)
     (maybe ("images" := list imageDecoder))
-    (maybe ("current" := list folderDecoder))
-    (maybe ("previous" := list folderDecoder))
+    (maybe ("siblings" := list folderDecoder))
+    (maybe ("children" := list folderDecoder))
+    (maybe ("parent" := int))
 
 
 imageDecoder : Decoder ImageRecord

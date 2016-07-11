@@ -31,17 +31,16 @@ update message model =
       let
         newModel =
           ({ model | folders = [newFolder] })
+
+        navigateCmd =
+          Routing.reverse (Routing.FolderRoute newFolder.id)
+            |> makeUrl Routing.config
+            |> Navigation.newUrl
       in
-        (newModel, Cmd.none)
+        (newModel, navigateCmd)
 
     FetchOneFail error ->
       (model, Cmd.none)
 
     FetchAndNavigate id ->
-      let
-        navigateCmd =
-          Routing.reverse (Routing.FolderRoute id)
-            |> makeUrl Routing.config
-            |> Navigation.newUrl
-      in
-        (model, Cmd.batch [(fetchOne id), navigateCmd])
+      (model, fetchOne id)

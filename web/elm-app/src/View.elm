@@ -36,9 +36,7 @@ foldersView model folderId =
       Just folder ->
         div [ class "App__container" ]
           [ div [ class "App__TreeSide" ]
-            [ div [ class "App__TreeNav" ] []
-            , Html.App.map FoldersMsg (Folders.Views.Tree.view folder)
-            ]
+            [ Html.App.map FoldersMsg (Folders.Views.Tree.view folder) ]
           , div [ class "App__TileSide" ]
             [ div [ class "App__TileNav" ] []
             , Html.App.map FoldersMsg (Folders.Views.Tile.view folder)
