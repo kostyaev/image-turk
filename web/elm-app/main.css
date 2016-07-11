@@ -70,18 +70,22 @@ html, body {
 
 .App__TreeNav__back-icon {
   display: inline-block;
+
   margin: 25px 105px 15px;
 
-  transition: transform .1s ease-in;
+  transition: transform .3s ease;
 }
 
 .App__TreeNav__back-icon img {
-  margin: auto;
   display: block;
+
+  margin: auto;
 }
 
 .App__TreeNav__back-icon:hover {
   cursor: pointer;
+  border-radius: 50%;
+  transform: rotate(360deg);
 }
 
 .Folder__Tree__container {
@@ -126,6 +130,13 @@ html, body {
 */
 
 .Folder__Tile__container {
+  display: flex;
+
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.Folder__Tile__folder-container {
   position: relative;
   z-index: 10;
 
@@ -134,11 +145,12 @@ html, body {
   width: 100px;
   height: 105px;
   margin-top: 30px;
+  margin-bottom: 30px;
 
   text-align: center;
 }
 
-.Folder__Tile__container:not(:last-child) {
+.Folder__Tile__folder-container {
   margin-right: 30px;
 }
 
@@ -161,11 +173,11 @@ html, body {
   font-weight: 300;
 }
 
-.Folder__Tile__container:hover {
+.Folder__Tile__folder-container:hover {
   cursor: pointer;
 }
 
-.Folder__Tile__container:hover::after {
+.Folder__Tile__folder-container:hover::after {
   position: absolute;
   z-index: -5;
   top: -10px;
@@ -177,4 +189,17 @@ html, body {
 
   border-radius: 8px;
   background-color: #F7F7F7;
+}
+
+.Folder__Tile__image {
+  max-height: 90px;
+  margin-top: 5px;
+  margin-right: 30px;
+  margin-bottom: 30px;
+
+  border: 1px solid #d6d6d6;
+}
+
+.Folder__Tile__image {
+  margin-right: 30px;
 }
