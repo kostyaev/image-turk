@@ -53,3 +53,10 @@ update message model =
           ({ model | modal = Just modalName })
       in
         (newModel, Cmd.none)
+
+    CloseModal ->
+      let
+        newModel =
+          ({ model | modal = Nothing })
+      in
+        (newModel, Cmd.none)

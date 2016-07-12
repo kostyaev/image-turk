@@ -62,5 +62,5 @@ renameModal =
   div [ class "Modal__dialog__rename" ]
     [ input [ class "input", placeholder "...please enter new name" ] []
     , div [ class "btn" ] [ text "Save" ]
-    , div [ class "btn--cancel" ] [ text "Cancel" ]
+    , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
     ]

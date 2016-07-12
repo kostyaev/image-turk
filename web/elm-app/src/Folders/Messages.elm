@@ -12,3 +12,4 @@ type Msg
   | FetchOneFail Http.Error
   | FetchAndNavigate FolderId
   | ShowModal ModalName
+  | CloseModal
