@@ -7,7 +7,7 @@ import Messages exposing (Msg(..))
 import Models exposing (MainModel)
 import Folders.Views.Tile
 import Folders.Views.Tree
-import Folders.Views.Edit
+import Folders.Views.NavBar
 import Routing exposing (Route(..))
 import Folders.Models exposing (FolderId)
 
@@ -32,11 +32,14 @@ foldersView model folderId =
       model.folders
         |> List.filter (\folder -> folder.id == folderId)
         |> List.head
+
+    maybeModal =
+      model.modal
   in
     case maybeFolder of
       Just folder ->
         div [ class "App__container" ]
-          [ Html.App.map FoldersMsg (Folders.Views.Edit.view)
+          [ Html.App.map FoldersMsg (Folders.Views.NavBar.view maybeModal)
           , div [ class "App__TreeSide" ]
             [ Html.App.map FoldersMsg (Folders.Views.Tree.view folder)
             ]

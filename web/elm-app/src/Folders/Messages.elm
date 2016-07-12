@@ -2,6 +2,7 @@ module Folders.Messages exposing (..)
 
 import Http
 import Folders.Models exposing (FolderId, Folder)
+import Models exposing (ModalName)
 
 
 type Msg
@@ -10,3 +11,4 @@ type Msg
   | FeatchOneDone Folder
   | FetchOneFail Http.Error
   | FetchAndNavigate FolderId
+  | ShowModal ModalName

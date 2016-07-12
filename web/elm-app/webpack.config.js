@@ -34,16 +34,16 @@ module.exports = {
       },
 
       {
-        test: /\.(css|scss)$/,
+        test: /\.css$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader',
-          'sass-loader',
-          'postcss-loader'
+          'css-loader!postcss-loader'
         )
       },
     ],
   },
+
+  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
 
   plugins: [
     new CopyWebpackPlugin([

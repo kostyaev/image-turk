@@ -6,11 +6,13 @@ import Navigation
 import Hop exposing (makeUrl)
 import Hop.Types exposing (Location)
 import Routing
-import Folders.Commands exposing(fetchOne)
+import Folders.Commands exposing (fetchOne)
+
 
 type alias UpdateModel =
   { folders : List Folder
   , location : Location
+  , modal : Maybe String
   }
 
 
@@ -44,3 +46,10 @@ update message model =
 
     FetchAndNavigate id ->
       (model, fetchOne id)
+
+    ShowModal modalName ->
+      let
+        newModel =
+          ({ model | modal = Just modalName })
+      in
+        (newModel, Cmd.none)

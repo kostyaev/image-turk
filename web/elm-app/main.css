@@ -71,13 +71,14 @@ html, body {
 
   padding: 15px 20px;
 
+  transform: translateZ(0px);
+
   color: #7A7A7A;
 
   font-size: 14px;
+  font-weight: 500;
 
   align-items: stretch;
-  transform: translateZ(0px);
-  font-weight: 500;
 }
 
 .App__NavBar__container img {
@@ -89,6 +90,122 @@ html, body {
 
   background-color: rgba(210, 210, 210, 0.3);
 }
+
+.input {
+  height: 36px;
+  padding: 6px 10px 5px 10px;
+
+  border: 1px solid #D2D2D2;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: inset 0 2px 0 #D2D2D2;
+
+  font-size: 16px;
+  font-weight: 300;
+}
+
+::-webkit-input-placeholder {font-style: italic;}
+::-moz-placeholder          {font-style: italic;}/* Firefox 19+ */
+:-moz-placeholder           {font-style: italic;}/* Firefox 18- */
+:-ms-input-placeholder      {font-style: italic;}
+
+.btn, .btn--cancel {
+    height: 34px;
+    padding: 0px 30px;
+    color: #848584;
+    font-weight: 500;
+    line-height: 36px;
+}
+
+.btn {
+  height: 34px;
+  padding: 0px 30px;
+
+  transition: all .05s ease-out;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  color: #848584;
+  border: 1px solid #d2d2d2;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, #fff 0%, #ECECEC 100%);
+  background-color: #fff;
+  box-shadow: inset 0 -3px 12px rgba(255,255,255, .5), 0 2px 0 #d2d2d2;
+
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 36px;
+}
+
+.btn:hover {
+  cursor: pointer;
+
+  color: #4A4A4A;
+}
+
+.btn:active {
+  background: linear-gradient(to bottom, #ECECEC 0%, #fff 100%);
+  box-shadow: inset 0 -3px 12px rgba(255,255,255, .5), 0 0 0 #d2d2d2;
+}
+
+.btn--cancel {
+  font-size: 14px;
+}
+
+.btn--cancel:hover {
+  cursor: pointer;
+
+  color: #4A4A4A;
+}
+
+
+/*
+    Modals
+*/
+
+.Modal__back, .Modal__dialog {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.Modal__back {
+  z-index: 50;
+
+  background-color: rgba(0,0,0,0.5);
+}
+
+.Modal__dialog {
+  z-index: 100;
+
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+
+  border-radius: 4px;
+  background: url('/assets/wave_bg.png') repeat;
+}
+
+.Modal__dialog__rename {
+  width: 590px;
+  height: 90px;
+  padding: 25px 30px 30px 20px;
+}
+
+.Modal__dialog__rename * {
+  display: inline-block;
+
+  vertical-align: top;
+}
+
+.Modal__dialog__rename .input {
+  width: 300px;
+  margin-right: 25px;
+}
+
 
 /*
     Folder Tree
