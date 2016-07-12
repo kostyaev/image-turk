@@ -22,14 +22,6 @@ view folder =
     maybeSubFolders =
       Maybe.oneOf [ folder.children, folder.siblings ]
 
-    renderBackButton =
-      case folder.parent of
-        Just parent ->
-          div [ class "App__TreeNav__back-icon", onClick (FetchAndNavigate parent) ]
-            [ img [ src "/assets/back.svg" ] [] ]
-        Nothing ->
-          renderNothing
-
     name =
       folder.name
   in
@@ -38,8 +30,9 @@ view folder =
         div []
           [ div [ class "App__TreeNav" ] []
           , div []
-              [ renderBackButton
-              , div [] (List.map (renderSubFolder name) subFolders)
+              [ renderBackButton folder.parent
+              , renderOpenedFolder name
+              , div [] (List.map renderSubFolder subFolders)
               ]
           ]
 
@@ -47,8 +40,8 @@ view folder =
         renderNothing
 
 
-renderSubFolder : String -> SubFolder -> Html Msg
-renderSubFolder name subFolder =
+renderSubFolder : SubFolder -> Html Msg
+renderSubFolder subFolder =
   div [ class "Folder__Tree__container", onClick (FetchAndNavigate subFolder.id) ]
     [ div [ class "Folder__Tree__icon" ] [ img [ src "/assets/small-folder--closed.svg" ] [] ]
     , div [ class "Folder__Tree__name" ] [ text subFolder.name ]
@@ -58,3 +51,21 @@ renderSubFolder name subFolder =
 renderNothing : Html Msg
 renderNothing =
   div [] []
+
+
+renderBackButton : Maybe FolderId -> Html Msg
+renderBackButton maybeParent =
+  case maybeParent of
+    Just parent ->
+      div [ class "App__TreeNav__back-icon", onClick (FetchAndNavigate parent) ] []
+
+    Nothing ->
+      renderNothing
+
+
+renderOpenedFolder : String -> Html a
+renderOpenedFolder name =
+  div [ class "Folder__Tree__container--open" ]
+    [ div [ class "Folder__Tree__icon" ] [ img [ src "/assets/small-folder--open.svg" ] [] ]
+    , div [ class "Folder__Tree__name" ] [ text name ]
+    ]

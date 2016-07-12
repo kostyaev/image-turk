@@ -5,7 +5,7 @@
 
       "name": "home",
 
-      "siblings": [
+      "children": [
         {"id": 10, "name": "pizza"},
         {"id": 20, "name": "donuts"},
         {"id": 30, "name": "burgers and sandwiches"}
@@ -53,9 +53,8 @@
       ],
 
       "siblings": [
-        {"id": 9, "name": "beer"},
-        {"id": 8, "name": "bread"},
-        {"id": 7, "name": "soda"}
+        {"id": 20, "name": "donuts"},
+        {"id": 30, "name": "burgers and sandwiches"}
       ]
     },
 
@@ -89,8 +88,8 @@
       ],
 
       "siblings": [
-        {"id": 19, "name": "ice-cream"},
-        {"id": 18, "name": "salad"}
+        {"id": 10, "name": "pizza"},
+        {"id": 30, "name": "burgers and sandwiches"}
       ]
     },
 
@@ -124,9 +123,8 @@
       ],
 
       "siblings": [
-        {"id": 29, "name": "cola"},
-        {"id": 28, "name": "pasta"},
-        {"id": 27, "name": "hummus"}
+        {"id": 20, "name": "donuts"},
+        {"id": 10, "name": "pizza"}
       ]
     }
   ]
