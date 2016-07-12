@@ -7,6 +7,7 @@ import Messages exposing (Msg(..))
 import Models exposing (MainModel)
 import Folders.Views.Tile
 import Folders.Views.Tree
+import Folders.Views.Edit
 import Routing exposing (Route(..))
 import Folders.Models exposing (FolderId)
 
@@ -35,11 +36,12 @@ foldersView model folderId =
     case maybeFolder of
       Just folder ->
         div [ class "App__container" ]
-          [ div [ class "App__TreeSide" ]
-            [ Html.App.map FoldersMsg (Folders.Views.Tree.view folder) ]
+          [ Html.App.map FoldersMsg (Folders.Views.Edit.view)
+          , div [ class "App__TreeSide" ]
+            [ Html.App.map FoldersMsg (Folders.Views.Tree.view folder)
+            ]
           , div [ class "App__TileSide" ]
-            [ div [ class "App__TileNav" ] []
-            , Html.App.map FoldersMsg (Folders.Views.Tile.view folder)
+            [ Html.App.map FoldersMsg (Folders.Views.Tile.view folder)
             ]
           ]
 

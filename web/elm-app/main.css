@@ -52,10 +52,13 @@ html, body {
   padding: 50px 40px 80px 40px;
 }
 
-.App__TreeNav, .App__TileNav {
+.App__NavBar {
   position: absolute;
+  z-index: 10;
   top: 0;
   left: 0;
+
+  display: flex;
 
   width: 100%;
   height: 50px;
@@ -63,6 +66,29 @@ html, body {
   background: url('/assets/wave_bg.png') repeat;
 }
 
+.App__NavBar__container {
+  display: flex;
+
+  padding: 15px 20px;
+
+  color: #7A7A7A;
+
+  font-size: 14px;
+
+  align-items: stretch;
+  transform: translateZ(0px);
+  font-weight: 500;
+}
+
+.App__NavBar__container img {
+  margin-right: 10px;
+}
+
+.App__NavBar__container:hover {
+  cursor: pointer;
+
+  background-color: rgba(210, 210, 210, 0.3);
+}
 
 /*
     Folder Tree
@@ -104,8 +130,12 @@ html, body {
 }
 
 .Folder__Tree__container, .Folder__Tree__container--open {
+  display: flex;
+
   width: 250px;
   height: 54px;
+
+  align-items: center;
 }
 
 .Folder__Tree__icon {

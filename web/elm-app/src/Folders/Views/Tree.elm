@@ -28,8 +28,7 @@ view folder =
     case maybeSubFolders of
       Just subFolders ->
         div []
-          [ div [ class "App__TreeNav" ] []
-          , div []
+          [ div []
               [ renderBackButton folder.parent
               , renderOpenedFolder name
               , div [] (List.map renderSubFolder subFolders)
