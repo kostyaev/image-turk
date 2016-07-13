@@ -1,7 +1,7 @@
 module Folders.Views.NavBar exposing (..)
 
 import Html exposing (Html, div, img, text, input, a)
-import Html.Attributes exposing (class, src, placeholder)
+import Html.Attributes exposing (class, src, placeholder, autofocus)
 import Html.Events exposing (onClick, onInput)
 import Folders.Messages exposing (..)
 
@@ -22,7 +22,7 @@ view maybeModal =
 renderNavBar : Html Msg
 renderNavBar =
   div [ class "App__NavBar" ]
-    [ div [ class "App__NavBar__container" ]
+    [ div [ class "App__NavBar__container", onClick (ShowModal "new") ]
       [ img [ src "/assets/new-folder.svg" ] []
       , div [ class "App__NavBar__name" ] [ text "New folder" ]
       ]
@@ -45,22 +45,40 @@ renderModal : String -> Html Msg
 renderModal name =
   let
     body =
-      if name == "rename" then
-        renameModal
-      else
-        div [] []
+      case name of
+        "rename" -> renderRenameFolderView
+        "new" -> renderNewFolderView
+        _ -> div [] []
   in
-    div [ class "Modal__back" ]
+    div []
       [ div [ class "Modal__dialog" ]
-        [ body
-        ]
+          [ body
+          ]
+      , div [ class "Modal__back", onClick CloseModal ] []
       ]
 
 
-renameModal : Html Msg
-renameModal =
+renderNewFolderView : Html Msg
+renderNewFolderView =
   div [ class "Modal__dialog__rename" ]
-    [ input [ class "input", placeholder "...please enter new name" ] []
+    [ div [ class "Modal__dialog__title" ]
+        [ img [ src "/assets/new-folder.svg" ] []
+        , div [ class "Modal__dialog__title__name" ] [ text "New folder" ]
+        ]
+    , input [ class "input", placeholder "...please enter a name", autofocus True ] []
+    , div [ class "btn" ] [ text "Create" ]
+    , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
+    ]
+
+
+renderRenameFolderView : Html Msg
+renderRenameFolderView =
+  div [ class "Modal__dialog__rename" ]
+    [ div [ class "Modal__dialog__title" ]
+        [ img [ src "/assets/rename-folder.svg" ] []
+        , div [ class "Modal__dialog__title__name" ] [ text "Rename current" ]
+        ]
+    , input [ class "input", placeholder "...please enter a new name", autofocus True ] []
     , div [ class "btn" ] [ text "Save" ]
     , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
     ]

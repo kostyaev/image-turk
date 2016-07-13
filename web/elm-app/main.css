@@ -88,18 +88,20 @@ html, body {
 .App__NavBar__container:hover {
   cursor: pointer;
 
+  color: #4A4A4A;
   background-color: rgba(210, 210, 210, 0.3);
 }
 
 .input {
   height: 36px;
-  padding: 6px 10px 5px 10px;
+  padding: 7px 10px 4px;
 
   border: 1px solid #D2D2D2;
   border-radius: 4px;
   outline: none;
   box-shadow: inset 0 2px 0 #D2D2D2;
 
+  font-family: 'Fira Sans';
   font-size: 16px;
   font-weight: 300;
 }
@@ -110,11 +112,15 @@ html, body {
 :-ms-input-placeholder      {font-style: italic;}
 
 .btn, .btn--cancel {
-    height: 34px;
-    padding: 0px 30px;
-    color: #848584;
-    font-weight: 500;
-    line-height: 36px;
+  display: inline-block;
+
+  height: 34px;
+  padding: 0px 30px;
+
+  color: #848584;
+
+  font-weight: 500;
+  line-height: 36px;
 }
 
 .btn {
@@ -189,22 +195,53 @@ html, body {
   background: url('/assets/wave_bg.png') repeat;
 }
 
+.Modal__dialog__title {
+  position: absolute;
+  top: -20px;
+
+  padding: 5px 20px 0;
+
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.Modal__dialog__title__name {
+  display: inline-block;
+
+  margin-left: 10px;
+
+  vertical-align: text-top!important;
+
+  color: #7a7a7a;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+
+
+/*
+    Modal Rename
+*/
+
 .Modal__dialog__rename {
-  width: 590px;
-  height: 90px;
+  width: 400px;
+  height: 170px;
   padding: 25px 30px 30px 20px;
 }
 
-.Modal__dialog__rename * {
-  display: inline-block;
-
+.Modal__dialog__rename .btn, .Modal__dialog__rename .input {
   vertical-align: top;
 }
 
 .Modal__dialog__rename .input {
-  width: 300px;
-  margin-right: 25px;
+  width: 330px;
+  margin: 15px 0 20px;
+  display: block;
 }
+
 
 
 /*
@@ -279,9 +316,7 @@ html, body {
 
 .Folder__Tree__container:hover {
   cursor: pointer;
-}
 
-.Folder__Tree__container:hover {
   background-color: #ECECEC;
 }
 
