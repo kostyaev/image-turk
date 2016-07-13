@@ -201,9 +201,9 @@ html, body {
 
   padding: 5px 20px 0;
 
-  border: 1px solid #e7e7e7;
+  border: 1px solid #D9D9D9;
   border-radius: 4px;
-  background-color: #fff;
+  background-color: #FAFAFA;
 }
 
 .Modal__dialog__title__name {
@@ -237,11 +237,76 @@ html, body {
 }
 
 .Modal__dialog__rename .input {
-  width: 330px;
-  margin: 15px 0 20px;
   display: block;
+
+  width: 330px;
+  margin: 15px 0 25px;
 }
 
+
+
+/*
+    Modal Upload
+*/
+
+.Modal__dialog__upload {
+  width: 500px;
+  height: 330px;
+  margin: 15px 0 0;
+  padding: 25px 30px 30px 20px;
+}
+
+.Upload__area {
+  position: relative;
+
+  margin-bottom: 30px;
+
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.file-input:hover {
+  cursor: pointer;
+}
+
+.Upload__area__img {
+  display: block;
+
+  margin: 35px auto 15px;
+}
+
+.Upload__area__title {
+  display: block;
+
+  width: 160px;
+  margin: 0 auto 30px;
+
+  text-align: center;
+
+  color: #7A7A7A;
+}
+
+.Upload__area__title--drag {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.Upload__area__title--select {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+}
 
 
 /*

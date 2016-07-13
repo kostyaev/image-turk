@@ -1,7 +1,7 @@
 module Folders.Views.NavBar exposing (..)
 
 import Html exposing (Html, div, img, text, input, a)
-import Html.Attributes exposing (class, src, placeholder, autofocus)
+import Html.Attributes exposing (class, src, placeholder, autofocus, type')
 import Html.Events exposing (onClick, onInput)
 import Folders.Messages exposing (..)
 
@@ -34,7 +34,7 @@ renderNavBar =
       [ img [ src "/assets/rename-folder.svg" ] []
       , div [ class "App__NavBar__name" ] [ text "Rename current" ]
       ]
-    , div [ class "App__NavBar__container" ]
+    , div [ class "App__NavBar__container", onClick (ShowModal "upload") ]
       [ img [ src "/assets/add-img-zip.svg" ] []
       , div [ class "App__NavBar__name" ] [ text "Add img/zip" ]
       ]
@@ -48,6 +48,7 @@ renderModal name =
       case name of
         "rename" -> renderRenameFolderView
         "new" -> renderNewFolderView
+        "upload" -> renderFileUploadView
         _ -> div [] []
   in
     div []
@@ -65,7 +66,7 @@ renderNewFolderView =
         [ img [ src "/assets/new-folder.svg" ] []
         , div [ class "Modal__dialog__title__name" ] [ text "New folder" ]
         ]
-    , input [ class "input", placeholder "...please enter a name", autofocus True ] []
+    , input [ type' "text", class "input", placeholder "...please enter name", autofocus True ] []
     , div [ class "btn" ] [ text "Create" ]
     , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
     ]
@@ -78,7 +79,27 @@ renderRenameFolderView =
         [ img [ src "/assets/rename-folder.svg" ] []
         , div [ class "Modal__dialog__title__name" ] [ text "Rename current" ]
         ]
-    , input [ class "input", placeholder "...please enter a new name", autofocus True ] []
+    , input [ type' "text", class "input", placeholder "...please enter a new name", autofocus True ] []
     , div [ class "btn" ] [ text "Save" ]
+    , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
+    ]
+
+
+renderFileUploadView : Html Msg
+renderFileUploadView =
+  div [ class "Modal__dialog__upload" ]
+    [ div [ class "Modal__dialog__title" ]
+        [ img [ src "/assets/add-img-zip.svg" ] []
+        , div [ class "Modal__dialog__title__name" ] [ text "Add img/zip" ]
+        ]
+    , div [ class "Upload__area" ]
+      [ img [ class "Upload__area__img", src "/assets/add-img-zip--big.svg" ] []
+      , div [ class "Upload__area__title" ]
+        [ div [ class "Upload__area__title--drag" ] [ text "Drag and Drop" ]
+        , div [ class "Upload__area__title--select" ] [ text "or click to select files" ]
+        ]
+      , input [ type' "file", class "file-input", placeholder "...add a file" ] []
+      ]
+    , div [ class "btn" ] [ text "Upload" ]
     , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
     ]

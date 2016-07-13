@@ -10,6 +10,7 @@ from config import *
 import urllib2
 from loggers import logger
 import specific_engines
+from flask import json
 
 google_searcher = searchtools.query.GoogleWebSearch()
 imagenet_searcher = specific_engines.ImagenetSearcher()
