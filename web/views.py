@@ -19,9 +19,6 @@ bing_searcher = None
 instagram_searcher = None
 flickr_searcher = None
 
-@app.route("/ping", methods=["GET"])
-def ping():
-    return "ok"
 
 @app.route("/browse", defaults={'relative_path': ""})
 @app.route("/browse/<path:relative_path>", methods=["GET"])
