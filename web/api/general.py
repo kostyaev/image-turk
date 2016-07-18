@@ -31,6 +31,7 @@ def isdir(d):
     return os.path.isdir(os.path.join(static_dir, d))
 
 
+
 def get_page_params(r):
     page, page_size = int(r.args.get('page', '1')), int(r.args.get('size', '30'))
     page = 0 if page < 1 else page
@@ -91,3 +92,28 @@ def search():
 
     return jsonify({"images": images})
 
+
+
+# @app.route("/api/images", methods=["POST"])
+# def add_image():
+#     json = request.json
+#     response = jsonify({})
+#     if 'url' in json:
+#         url = json['url']
+#         id = json['image_id']
+#         dir_id = json['dir_id']
+#         if '.gif' not in url:
+#             data = urllib2.urlopen(url).read()
+#             if len(data) > 10000:
+#                 with open(os.path.join(static_dir, dir_id) + '/' + id + ".jpg", 'w') as f:
+#                     f.write(data)
+#         else:
+#             response.status_code = 400
+#     else:
+#         dir_name = json['dir']
+#         if len(relative_path) > 0:
+#             relative_path += '/'
+#         path = os.path.join(static_dir, relative_path + dir_name)
+#         if not os.path.exists(path):
+#             os.makedirs(path)
+#     return response
