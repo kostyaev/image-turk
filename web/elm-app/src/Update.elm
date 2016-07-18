@@ -22,9 +22,15 @@ update message model =
           { folders = model.folders
           , location = model.location
           , modal = model.modal
+          , inputs = model.inputs
           }
 
         (updatedModel, cmd) =
           Folders.Update.update subMessage updateModel
       in
-        ({ model | folders = updatedModel.folders, modal = updatedModel.modal }, Cmd.map FoldersMsg cmd)
+        ({ model
+         | folders = updatedModel.folders
+         , modal = updatedModel.modal
+         , inputs = updatedModel.inputs
+         }
+        , Cmd.map FoldersMsg cmd)

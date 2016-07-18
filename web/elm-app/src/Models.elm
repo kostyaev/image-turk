@@ -9,11 +9,17 @@ type alias ModalName =
   String
 
 
+type alias InputFields =
+  { newName : String
+  }
+
+
 type alias MainModel =
   { location : Location
   , route : Routing.Route
   , folders : List Folder
   , modal : Maybe ModalName
+  , inputs: InputFields
   }
 
 
@@ -23,4 +29,5 @@ newMainModel route location =
   , route = route
   , folders = []
   , modal = Nothing
+  , inputs = InputFields ""
   }

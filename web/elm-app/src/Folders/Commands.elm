@@ -2,6 +2,7 @@ module Folders.Commands exposing (..)
 
 import Http
 import Json.Decode exposing (Decoder, object2, object6, list, int, string, (:=), maybe)
+import Json.Encode as ToJson
 import Task
 import Folders.Models exposing (FolderId, Folder, ImageRecord, SubFolder)
 import Folders.Messages exposing (..)
@@ -56,3 +57,32 @@ folderDecoder =
   object2 SubFolder
     ("id" := int)
     ("name" := string)
+
+
+
+-- MODALS COMMANDS
+
+
+renameTask : FolderId -> String -> Platform.Task Http.Error Folder
+renameTask folderId name =
+  let
+    body =
+      ToJson.object [ ("name", ToJson.string name) ]
+        |> ToJson.encode 0
+        |> Http.string
+
+    config =
+      { verb = "PATCH"
+      , headers = [ ( "Content-Type", "application/json" ) ]
+      , url = "http://localhost:4000/folders/" ++ (toString folderId)
+      , body = body
+      }
+  in
+    Http.send Http.defaultSettings config
+      |> Http.fromJson memberDecoder
+
+
+rename : FolderId -> String -> Cmd Msg
+rename folderId newName =
+  renameTask folderId newName
+    |> Task.perform RenameFail RenameSuccess

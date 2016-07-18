@@ -13,3 +13,7 @@ type Msg
   | FetchAndNavigate FolderId
   | ShowModal ModalName
   | CloseModal
+  | HandleRenameInputChange String
+  | RenameFolder FolderId
+  | RenameFail Http.Error
+  | RenameSuccess Folder
