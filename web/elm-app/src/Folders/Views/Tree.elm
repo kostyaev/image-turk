@@ -2,7 +2,7 @@ module Folders.Views.Tree exposing (..)
 
 import Html exposing (Html, div, img, text)
 import Html.Attributes exposing (class, src)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onClick, onDoubleClick)
 import Folders.Messages exposing (..)
 import Folders.Models exposing (SubFolder, FolderId, Folder)
 
@@ -62,9 +62,9 @@ renderBackButton maybeParent =
       renderNothing
 
 
-renderOpenedFolder : String -> Html a
+renderOpenedFolder : String -> Html Msg
 renderOpenedFolder name =
   div [ class "Folder__Tree__container--open" ]
     [ div [ class "Folder__Tree__icon" ] [ img [ src "/assets/small-folder--open.svg" ] [] ]
-    , div [ class "Folder__Tree__name" ] [ text name ]
+    , div [ class "Folder__Tree__name", onDoubleClick (ShowModal "rename") ] [ text name ]
     ]

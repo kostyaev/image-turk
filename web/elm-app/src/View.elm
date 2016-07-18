@@ -39,7 +39,7 @@ foldersView model folderId =
     case maybeFolder of
       Just folder ->
         div [ class "App__container" ]
-          [ Html.App.map FoldersMsg (Folders.Views.NavBar.view maybeModal)
+          [ Html.App.map FoldersMsg (Folders.Views.NavBar.view maybeModal folder)
           , div [ class "App__TreeSide" ]
             [ Html.App.map FoldersMsg (Folders.Views.Tree.view folder)
             ]

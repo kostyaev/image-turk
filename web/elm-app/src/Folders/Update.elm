@@ -6,19 +6,24 @@ import Navigation
 import Hop exposing (makeUrl)
 import Hop.Types exposing (Location)
 import Routing
-import Folders.Commands exposing (fetchOne)
+import Folders.Commands exposing (fetchOne, rename)
+import Models exposing (InputFields)
 
 
 type alias UpdateModel =
   { folders : List Folder
   , location : Location
   , modal : Maybe String
+  , inputs : InputFields
   }
 
 
 update : Msg -> UpdateModel -> (UpdateModel, Cmd Msg)
 update message model =
   case message of
+    FetchAllFail error ->
+      (model, Cmd.none)
+
     FetchAllDone newFolders ->
       let
         newModel =
@@ -26,7 +31,8 @@ update message model =
       in
         (newModel, Cmd.none)
 
-    FetchAllFail error ->
+
+    FetchOneFail error ->
       (model, Cmd.none)
 
     FeatchOneDone newFolder ->
@@ -41,11 +47,10 @@ update message model =
       in
         (newModel, navigateCmd)
 
-    FetchOneFail error ->
-      (model, Cmd.none)
 
     FetchAndNavigate id ->
       (model, fetchOne id)
+
 
     ShowModal modalName ->
       let
@@ -60,3 +65,35 @@ update message model =
           ({ model | modal = Nothing })
       in
         (newModel, Cmd.none)
+
+
+    HandleRenameInputChange newName ->
+      let
+        newInputs =
+          { newName = newName
+          }
+      in
+        ({ model | inputs = newInputs }, Cmd.none)
+
+    RenameFolder folderId ->
+      let
+        newName =
+          model.inputs.newName
+      in
+        (model, (rename folderId newName))
+
+
+    RenameFail error ->
+      (model, Cmd.none)
+
+    RenameSuccess newFolder ->
+      let
+        newModel =
+          ({ model | folders = [newFolder], modal = Nothing })
+
+        navigateCmd =
+          Routing.reverse (Routing.FolderRoute newFolder.id)
+            |> makeUrl Routing.config
+            |> Navigation.newUrl
+      in
+        (newModel, navigateCmd)
