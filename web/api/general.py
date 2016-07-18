@@ -31,6 +31,12 @@ def isdir(d):
     return os.path.isdir(os.path.join(static_dir, d))
 
 
+def get_page_params(r):
+    page, page_size = int(r.args.get('page', '1')), int(r.args.get('size', '30'))
+    page = 0 if page < 1 else page
+    return page_size, (page-1)*page_size
+
+
 @app.route("/api/dirs", defaults={'path_id': ""})
 @app.route("/api/dirs/", defaults={'path_id': ""})
 @app.route("/api/dirs/<path:path_id>", methods=["GET"])
@@ -45,3 +51,43 @@ def get_dir_by_id(path_id):
     response = {'id': path_id, 'name': path_id.rstrip('/').split('/')[-1], 'images': images,
                 'parent': parent_dir_id, 'children': child_dirs, 'siblings': siblings_dirs}
     return jsonify(response)
+
+@app.route("/api/search", methods=["GET"])
+def search():
+    q = request.args.get('query')
+    search_engine = request.args.get('source')
+
+    limit, offset = get_page_params(request)
+
+    if search_engine == 'google':
+        searcher = google_searcher
+    elif search_engine == 'flickr':
+        global flickr_searcher
+        if flickr_searcher is None:
+            flickr_searcher = searchtools.query.FlickrAPISearch()
+        searcher = flickr_searcher
+    elif search_engine == 'bing':
+        global bing_searcher
+        if bing_searcher is None:
+           bing_searcher = searchtools.query.BingAPISearch()
+        searcher = bing_searcher
+    elif search_engine == 'instagram':
+        global instagram_searcher
+        if instagram_searcher is None:
+           instagram_searcher = specific_engines.InstagramSearcher()
+        searcher = instagram_searcher
+    elif search_engine == 'yandex':
+        searcher = yandex_searcher
+    else:
+        searcher = imagenet_searcher
+
+    try:
+        images = searcher.query(q, num_results=offset+limit)[offset:offset+limit]
+        images = [{'id': img['image_id'], 'url': img['url']} for img in images]
+    except Exception as e:
+        logger.info("Exception occurred {}", e.message)
+        logger.exception(e)
+        images = []
+
+    return jsonify({"images": images})
+
