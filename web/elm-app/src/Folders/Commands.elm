@@ -86,3 +86,28 @@ rename : FolderId -> String -> Cmd Msg
 rename folderId newName =
   renameTask folderId newName
     |> Task.perform RenameFail RenameSuccess
+
+
+createFolderTask : String -> Platform.Task Http.Error Folder
+createFolderTask name =
+  let
+    body =
+      ToJson.object [ ("name", ToJson.string name) ]
+        |> ToJson.encode 0
+        |> Http.string
+
+    config =
+      { verb = "POST"
+      , headers = [ ( "Content-Type", "application/json" ) ]
+      , url = "http://localhost:4000/folders/"
+      , body = body
+      }
+  in
+    Http.send Http.defaultSettings config
+      |> Http.fromJson memberDecoder
+
+
+createFolder : String -> Cmd Msg
+createFolder folderName =
+  createFolderTask folderName
+    |> Task.perform NewFolderFail NewFolderSuccess

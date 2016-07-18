@@ -6,7 +6,7 @@ import Navigation
 import Hop exposing (makeUrl)
 import Hop.Types exposing (Location)
 import Routing
-import Folders.Commands exposing (fetchOne, rename)
+import Folders.Commands exposing (fetchOne, rename, createFolder)
 import Models exposing (InputFields)
 
 
@@ -71,6 +71,7 @@ update message model =
       let
         newInputs =
           { newName = newName
+          , newFolder = ""
           }
       in
         ({ model | inputs = newInputs }, Cmd.none)
@@ -87,6 +88,39 @@ update message model =
       (model, Cmd.none)
 
     RenameSuccess newFolder ->
+      let
+        newModel =
+          ({ model | folders = [newFolder], modal = Nothing })
+
+        navigateCmd =
+          Routing.reverse (Routing.FolderRoute newFolder.id)
+            |> makeUrl Routing.config
+            |> Navigation.newUrl
+      in
+        (newModel, navigateCmd)
+
+
+    HandleNewFolderInputChange newFolder ->
+      let
+        newInputs =
+          { newName = ""
+          , newFolder = newFolder
+          }
+      in
+        ({ model | inputs = newInputs }, Cmd.none)
+
+    NewFolder ->
+      let
+        newFolder =
+          model.inputs.newFolder
+      in
+        (model, (createFolder newFolder))
+
+
+    NewFolderFail error ->
+      (model, Cmd.none)
+
+    NewFolderSuccess newFolder ->
       let
         newModel =
           ({ model | folders = [newFolder], modal = Nothing })

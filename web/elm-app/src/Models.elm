@@ -11,6 +11,7 @@ type alias ModalName =
 
 type alias InputFields =
   { newName : String
+  , newFolder : String
   }
 
 
@@ -29,5 +30,5 @@ newMainModel route location =
   , route = route
   , folders = []
   , modal = Nothing
-  , inputs = InputFields ""
+  , inputs = InputFields "" ""
   }

@@ -17,3 +17,7 @@ type Msg
   | RenameFolder FolderId
   | RenameFail Http.Error
   | RenameSuccess Folder
+  | HandleNewFolderInputChange String
+  | NewFolder
+  | NewFolderFail Http.Error
+  | NewFolderSuccess Folder

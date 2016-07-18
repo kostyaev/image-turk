@@ -54,6 +54,7 @@ def id2path(id):
 def ping():
     return "ok"
 
+
 @app.route("/api/dirs", defaults={'path_id': ""})
 @app.route("/api/dirs/", defaults={'path_id': ""})
 @app.route("/api/dirs/<path:path_id>", methods=["GET"])
@@ -104,7 +105,6 @@ def create_dir(path_id):
         return respond(resp, 400)
 
 
-
 @app.route("/api/search", methods=["GET"])
 def search():
     q = request.args.get('query')
@@ -141,7 +141,6 @@ def search():
         images = []
 
     return respond({"images": images})
-
 
 
 @app.route("/api/images", methods=["POST"])

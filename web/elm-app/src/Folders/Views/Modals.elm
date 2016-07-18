@@ -31,8 +31,13 @@ renderNewFolderView =
         [ img [ src "/assets/new-folder.svg" ] []
         , div [ class "Modal__dialog__title__name" ] [ text "New folder" ]
         ]
-    , input [ type' "text", class "input", placeholder "...please enter name", autofocus True ] []
-    , div [ class "btn" ] [ text "Create" ]
+    , input [ onInput HandleNewFolderInputChange
+            , type' "text"
+            , class "input"
+            , placeholder "...please enter a name"
+            , autofocus True
+            ] []
+    , div [ class "btn", onClick NewFolder ] [ text "Create" ]
     , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
     ]
 
