@@ -31,11 +31,11 @@ def isdir(d):
     return os.path.isdir(os.path.join(static_dir, d))
 
 
-
+@app.route("/api/dirs", defaults={'path_id': ""})
+@app.route("/api/dirs/", defaults={'path_id': ""})
 @app.route("/api/dirs/<path:path_id>", methods=["GET"])
 def get_dir_by_id(path_id):
     all_files = [join(path_id, f) for f in listdir(path_id)]
-
     child_dirs = [{'id': f, 'name': f.rsplit('/', 1)[-1]} for f in all_files if isdir(f)]
     images = [{'id': f.rsplit('/', 1)[-1], 'url': f} for f in all_files if f.lower().endswith('.jpg')]
     parent_dir_id = path_id.rstrip('/').rsplit('/', 1)[0]
@@ -45,3 +45,15 @@ def get_dir_by_id(path_id):
                 'parent': parent_dir_id, 'children': child_dirs, 'siblings': siblings_dirs}
     return jsonify(response)
 
+
+# @app.route("/api/dirs/<path:path_id>", methods=["GET"])
+# def get_dir_by_id(path_id):
+#     all_files = [join(path_id, f) for f in listdir(path_id)]
+#     child_dirs = [{'id': f, 'name': f.rsplit('/', 1)[-1]} for f in all_files if isdir(f)]
+#     images = [{'id': f.rsplit('/', 1)[-1], 'url': f} for f in all_files if f.lower().endswith('.jpg')]
+#     parent_dir_id = path_id.rstrip('/').rsplit('/', 1)[0]
+#     parent_dir_id = '' if parent_dir_id == path_id else parent_dir_id
+#     siblings_dirs = [{'id': join(parent_dir_id, f), 'name': f} for f in listdir(parent_dir_id) if isdir(join(parent_dir_id, f))]
+#     response = {'id': path_id, 'name': path_id.rstrip('/').split('/')[-1], 'images': images,
+#                 'parent': parent_dir_id, 'children': child_dirs, 'siblings': siblings_dirs}
+#     return jsonify(response)
