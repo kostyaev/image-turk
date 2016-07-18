@@ -54,6 +54,6 @@ foldersView model folderId =
 
 notFoundView : Html msg
 notFoundView =
-  div []
-    [ text "Not found"
+  div [ class "page404__box" ]
+    [ div [ class "page404__text" ] [ text "404" ]
     ]
