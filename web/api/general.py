@@ -26,6 +26,9 @@ def listdir(d):
 def isdir(d):
     return os.path.isdir(os.path.join(static_dir, d))
 
+def mkdir(d):
+    return os.makedirs(os.path.join(static_dir, d))
+
 def exists(d):
     return os.path.exists(os.path.join(static_dir, d))
 
@@ -54,7 +57,7 @@ def get_dir_by_id(path_id):
     cur_dir_name = path_id.rsplit('/', 1)[-1]
     resp = {}
     if not exists(path_id):
-        return respond(resp)
+        return respond(resp, 400)
     else:
         all_files = [join(path_id, f) for f in listdir(path_id)]
         child_dirs = [{'id': f, 'name': f.rsplit('/', 1)[-1]} for f in all_files if isdir(f)]
@@ -68,6 +71,36 @@ def get_dir_by_id(path_id):
         resp = {'id': path_id, 'name': name, 'images': images,
                     'parent': parent_dir_id, 'children': child_dirs, 'siblings': siblings_dirs}
     return respond(resp)
+
+
+@app.route("/api/dirs", defaults={'path_id': ""})
+@app.route("/api/dirs/", defaults={'path_id': ""})
+@app.route("/api/dirs/<path:path_id>", methods=["PATCH"])
+def rename_dir(path_id):
+    path_id = path_id.rstrip('/')
+    cur_dir_name = path_id.rsplit('/', 1)[-1]
+    resp = {}
+    #TODO implement this method
+    return respond(resp)
+
+
+
+@app.route("/api/dirs", defaults={'path_id': ""})
+@app.route("/api/dirs/", defaults={'path_id': ""})
+@app.route("/api/dirs/<path:path_id>", methods=["POST"])
+def create_dir(path_id):
+    path_id = path_id.rstrip('/')
+    cur_dir_name = path_id.rsplit('/', 1)[-1]
+    parent_dir_id = path_id.rstrip('/').rsplit('/', 1)[0]
+    parent_dir_id = '' if parent_dir_id == path_id else parent_dir_id
+    try:
+        mkdir(join(parent_dir_id, cur_dir_name))
+        return respond({}, 200)
+    except:
+        resp = {"error": "Dir {} already exists".format(cur_dir_name)}
+        return respond(resp, 400)
+
+
 
 @app.route("/api/search", methods=["GET"])
 def search():
