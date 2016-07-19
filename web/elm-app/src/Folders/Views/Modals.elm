@@ -6,7 +6,7 @@ import Html.Events exposing (onClick, onInput)
 import Folders.Messages exposing (..)
 
 
-renderModal : String -> { a | id : Int } -> Html Msg
+renderModal : String -> { a | id : String } -> Html Msg
 renderModal name folder =
   let
     body =
@@ -42,7 +42,7 @@ renderNewFolderView =
     ]
 
 
-renderRenameFolderView : { a | id : Int } -> Html Msg
+renderRenameFolderView : { a | id : String } -> Html Msg
 renderRenameFolderView folder =
   div [ class "Modal__dialog__rename" ]
     [ div [ class "Modal__dialog__title" ]

@@ -9,29 +9,26 @@ import Folders.Views.Tile
 import Folders.Views.Tree
 import Folders.Views.NavBar
 import Routing exposing (Route(..))
-import Folders.Models exposing (FolderId)
 
 
 view : MainModel -> Html Msg
 view model =
   case model.route of
     MainRoute ->
-      foldersView model 0
+      foldersView model
 
     FolderRoute id ->
-      foldersView model id
+      foldersView model
 
     NotFoundRoute ->
       notFoundView
 
 
-foldersView : MainModel -> FolderId -> Html Msg
-foldersView model folderId =
+foldersView : MainModel -> Html Msg
+foldersView model =
   let
     maybeFolder =
-      model.folders
-        |> List.filter (\folder -> folder.id == folderId)
-        |> List.head
+      model.folder
 
     maybeModal =
       model.modal

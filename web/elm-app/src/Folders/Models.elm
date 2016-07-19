@@ -2,12 +2,18 @@ module Folders.Models exposing (..)
 
 
 type alias FolderId =
-  Int
+  String
+
+
+type alias FolderName =
+  String
+
 
 type alias ImageRecord =
-  { id: Int
+  { id: String
   , url: String
   }
+
 
 type alias SubFolder =
   { id: FolderId
@@ -21,16 +27,16 @@ type alias Folder =
   , images: Maybe (List ImageRecord)
   , children: Maybe (List SubFolder)
   , siblings: Maybe (List SubFolder)
-  , parent: Maybe FolderId
+  , parent: FolderId
   }
 
 
 new : Folder
 new =
-  { id = 0
+  { id = ""
   , name = "Untitled folder"
-  , images = Just [ImageRecord 0 ""]
-  , children = Just [SubFolder 0 ""]
-  , siblings = Just [SubFolder 0 ""]
-  , parent = Nothing
+  , images = Just [ImageRecord "" ""]
+  , children = Just [SubFolder "" ""]
+  , siblings = Just [SubFolder "" ""]
+  , parent = ""
   }

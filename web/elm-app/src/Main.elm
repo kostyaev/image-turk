@@ -7,7 +7,7 @@ import Messages exposing (..)
 import Models exposing (MainModel, newMainModel)
 import View exposing (view)
 import Update exposing (update)
-import Folders.Commands exposing(fetchAll)
+import Folders.Commands exposing(fetchRoot)
 import Routing
 
 
@@ -24,7 +24,7 @@ main =
 
 init : (Routing.Route, Hop.Types.Location) -> (MainModel, Cmd Msg)
 init (route, location) =
-  (newMainModel route location, Cmd.map FoldersMsg fetchAll)
+  (newMainModel route location, Cmd.map FoldersMsg fetchRoot)
 
 
 urlParser : Navigation.Parser (Routing.Route, Hop.Types.Location)

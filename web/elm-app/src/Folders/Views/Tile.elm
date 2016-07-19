@@ -2,9 +2,10 @@ module Folders.Views.Tile exposing (..)
 
 import Html exposing (Html, div, img, text)
 import Html.Attributes exposing (class, src)
+import Html.Events exposing (onClick, onDoubleClick)
 import Folders.Messages exposing (..)
 import Folders.Models exposing (SubFolder, ImageRecord)
-
+import Folders.Commands exposing (serverUrl)
 
 type alias TileView a =
   { a
@@ -38,14 +39,14 @@ view folder =
 renderSubFolder : SubFolder -> Html Msg
 renderSubFolder subFolder =
   div [ class "Folder__Tile__folder-container" ]
-    [ div [ class "Folder__Tile__icon" ] [ img [ src "/assets/big-folder--closed.svg" ] [] ]
+    [ div [ class "Folder__Tile__icon", onClick (FetchAndNavigate subFolder.id) ] [ img [ src "/assets/big-folder--closed.svg" ] [] ]
     , div [ class "Folder__Tile__name" ] [ text subFolder.name ]
     ]
 
 
 renderImages : { a | url : String } -> Html Msg
 renderImages image =
-  img [ class "Folder__Tile__image", src image.url ] []
+  img [ class "Folder__Tile__image", src (serverUrl ++ image.url) ] []
 
 
 renderNothing : Html Msg

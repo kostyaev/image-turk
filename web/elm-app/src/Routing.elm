@@ -30,7 +30,7 @@ matchers =
 
 matchFolder : PathMatcher Route
 matchFolder =
-  match2 FolderRoute "/" int
+  match2 FolderRoute "/" str
 
 
 matchMain : PathMatcher Route
@@ -44,8 +44,8 @@ reverse route =
     MainRoute ->
       matcherToPath matchMain []
 
-    FolderRoute id ->
-      matcherToPath matchFolder [ toString id ]
+    FolderRoute str ->
+      matcherToPath matchFolder [ str ]
 
     NotFoundRoute ->
       ""

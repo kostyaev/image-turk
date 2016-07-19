@@ -19,7 +19,7 @@ update message model =
     FoldersMsg subMessage ->
       let
         updateModel =
-          { folders = model.folders
+          { folder = model.folder
           , location = model.location
           , modal = model.modal
           , inputs = model.inputs
@@ -29,7 +29,7 @@ update message model =
           Folders.Update.update subMessage updateModel
       in
         ({ model
-         | folders = updatedModel.folders
+         | folder = updatedModel.folder
          , modal = updatedModel.modal
          , inputs = updatedModel.inputs
          }

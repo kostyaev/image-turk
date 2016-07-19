@@ -5,13 +5,14 @@ import Html.Attributes exposing (class, src)
 import Html.Events exposing (onClick, onDoubleClick)
 import Folders.Messages exposing (..)
 import Folders.Models exposing (SubFolder, FolderId, Folder)
+import String
 
 
 type alias TreeView a =
   { a
   | siblings : Maybe (List SubFolder)
   , children : Maybe (List SubFolder)
-  , parent : Maybe FolderId
+  , parent : FolderId
   , name : String
   }
 
@@ -52,14 +53,12 @@ renderNothing =
   div [] []
 
 
-renderBackButton : Maybe FolderId -> Html Msg
-renderBackButton maybeParent =
-  case maybeParent of
-    Just parent ->
-      div [ class "App__TreeNav__back-icon", onClick (FetchAndNavigate parent) ] []
-
-    Nothing ->
-      renderNothing
+renderBackButton : FolderId -> Html Msg
+renderBackButton parent =
+  if String.isEmpty parent then
+    renderNothing
+  else
+    div [ class "App__TreeNav__back-icon", onClick (FetchAndNavigate parent) ] []
 
 
 renderOpenedFolder : String -> Html Msg

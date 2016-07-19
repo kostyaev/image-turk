@@ -18,7 +18,7 @@ type alias InputFields =
 type alias MainModel =
   { location : Location
   , route : Routing.Route
-  , folders : List Folder
+  , folder : Maybe Folder
   , modal : Maybe ModalName
   , inputs: InputFields
   }
@@ -28,7 +28,7 @@ newMainModel : Routing.Route -> Hop.Types.Location -> MainModel
 newMainModel route location =
   { location = location
   , route = route
-  , folders = []
+  , folder = Nothing
   , modal = Nothing
   , inputs = InputFields "" ""
   }

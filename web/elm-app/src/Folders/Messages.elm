@@ -6,10 +6,10 @@ import Models exposing (ModalName)
 
 
 type Msg
-  = FetchAllDone (List Folder)
-  | FetchAllFail Http.Error
-  | FeatchOneDone Folder
-  | FetchOneFail Http.Error
+  = FetchRootDone Folder
+  | FetchRootFail Http.Error
+  | FetchFolderDone Folder
+  | FetchFolderFail Http.Error
   | FetchAndNavigate FolderId
   | ShowModal ModalName
   | CloseModal

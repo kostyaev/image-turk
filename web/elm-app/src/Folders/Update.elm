@@ -6,14 +6,14 @@ import Navigation
 import Hop exposing (makeUrl)
 import Hop.Types exposing (Location)
 import Routing
-import Folders.Commands exposing (fetchOne, rename, createFolder)
-import Models exposing (InputFields)
+import Folders.Commands exposing (fetchFolder, rename, createFolder)
+import Models exposing (InputFields, ModalName)
 
 
 type alias UpdateModel =
-  { folders : List Folder
-  , location : Location
-  , modal : Maybe String
+  { location : Location
+  , folder : Maybe Folder
+  , modal : Maybe ModalName
   , inputs : InputFields
   }
 
@@ -21,24 +21,24 @@ type alias UpdateModel =
 update : Msg -> UpdateModel -> (UpdateModel, Cmd Msg)
 update message model =
   case message of
-    FetchAllFail error ->
+    FetchRootFail error ->
       (model, Cmd.none)
 
-    FetchAllDone newFolders ->
+    FetchRootDone newFolder ->
       let
         newModel =
-          ({ model | folders = newFolders })
+          ({ model | folder = Just newFolder })
       in
         (newModel, Cmd.none)
 
 
-    FetchOneFail error ->
+    FetchFolderFail error ->
       (model, Cmd.none)
 
-    FeatchOneDone newFolder ->
+    FetchFolderDone newFolder ->
       let
         newModel =
-          ({ model | folders = [newFolder] })
+          ({ model | folder = Just newFolder })
 
         navigateCmd =
           Routing.reverse (Routing.FolderRoute newFolder.id)
@@ -49,7 +49,7 @@ update message model =
 
 
     FetchAndNavigate id ->
-      (model, fetchOne id)
+      (model, fetchFolder id)
 
 
     ShowModal modalName ->
@@ -90,7 +90,7 @@ update message model =
     RenameSuccess newFolder ->
       let
         newModel =
-          ({ model | folders = [newFolder], modal = Nothing })
+          ({ model | folder = Just newFolder, modal = Nothing })
 
         navigateCmd =
           Routing.reverse (Routing.FolderRoute newFolder.id)
@@ -111,10 +111,15 @@ update message model =
 
     NewFolder ->
       let
-        newFolder =
+        folderName =
           model.inputs.newFolder
+
+        parent =
+          case model.folder of
+            Just folder -> folder.id
+            Nothing -> Debug.crash "Maybe you have an error"
       in
-        (model, (createFolder newFolder))
+        (model, (createFolder folderName parent))
 
 
     NewFolderFail error ->
@@ -123,7 +128,7 @@ update message model =
     NewFolderSuccess newFolder ->
       let
         newModel =
-          ({ model | folders = [newFolder], modal = Nothing })
+          ({ model | folder = Just newFolder, modal = Nothing })
 
         navigateCmd =
           Routing.reverse (Routing.FolderRoute newFolder.id)

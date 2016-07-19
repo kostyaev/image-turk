@@ -7,7 +7,7 @@ import Folders.Messages exposing (..)
 import Folders.Views.Modals exposing (renderModal)
 
 
-view : Maybe String -> { a | id : Int } -> Html Msg
+view : Maybe String -> { a | id : String } -> Html Msg
 view maybeModal folder =
   case maybeModal of
     Just modalName ->
