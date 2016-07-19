@@ -33,6 +33,12 @@ def isdir(d):
 def exists(d):
     return os.path.exists(os.path.join(static_dir, d))
 
+def respond(r, status_code = 200):
+    resp = jsonify(r)
+    resp.headers.add('Access-Control-Allow-Origin', '*')
+    resp.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    resp.status_code = status_code
+    return resp
 
 
 def get_page_params(r):
@@ -45,12 +51,10 @@ def get_page_params(r):
 @app.route("/api/dirs/", defaults={'path_id': ""})
 @app.route("/api/dirs/<path:path_id>", methods=["GET"])
 def get_dir_by_id(path_id):
-    path_id=path_id.rstrip('/')
-    response = {}
+    path_id = path_id.rstrip('/')
+    resp = {}
     if not exists(path_id):
-        response = jsonify(response)
-        response.status_code = 400
-        return response
+        return respond(resp)
     else:
         all_files = [join(path_id, f) for f in listdir(path_id)]
         child_dirs = [{'id': f, 'name': f.rsplit('/', 1)[-1]} for f in all_files if isdir(f)]
@@ -58,17 +62,15 @@ def get_dir_by_id(path_id):
         parent_dir_id = path_id.rstrip('/').rsplit('/', 1)[0]
         parent_dir_id = '' if parent_dir_id == path_id else parent_dir_id
         siblings_dirs = [{'id': join(parent_dir_id, f), 'name': f} for f in listdir(parent_dir_id) if isdir(join(parent_dir_id, f))]
-        response = {'id': path_id, 'name': path_id.rstrip('/').split('/')[-1], 'images': images,
+        resp = {'id': path_id, 'name': path_id.rstrip('/').split('/')[-1], 'images': images,
                     'parent': parent_dir_id, 'children': child_dirs, 'siblings': siblings_dirs}
-        return jsonify(response)
+    return respond(resp)
 
 @app.route("/api/search", methods=["GET"])
 def search():
     q = request.args.get('query')
     search_engine = request.args.get('source')
-
     limit, offset = get_page_params(request)
-
     if search_engine == 'google':
         searcher = google_searcher
     elif search_engine == 'flickr':
@@ -99,14 +101,14 @@ def search():
         logger.exception(e)
         images = []
 
-    return jsonify({"images": images})
+    return respond({"images": images})
 
 
 
 @app.route("/api/images", methods=["POST"])
 def add_image():
     json = request.json
-    response = jsonify({})
+    response = {}
     if 'url' in json:
         url = json['url']
         id = json['image_id']
@@ -117,5 +119,5 @@ def add_image():
                 with open(os.path.join(static_dir, dir_id) + '/' + id + ".jpg", 'w') as f:
                     f.write(data)
         else:
-            response.status_code = 400
-    return response
+            return respond(response, status_code=400)
+    return respond(response)
