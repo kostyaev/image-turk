@@ -63,7 +63,9 @@ def get_dir_by_id(path_id):
         parent_dir_id = '' if parent_dir_id == path_id else parent_dir_id
         siblings_dirs = [{'id': join(parent_dir_id, f), 'name': f}
                          for f in listdir(parent_dir_id) if isdir(join(parent_dir_id, f)) and cur_dir_name != f]
-        resp = {'id': path_id, 'name': path_id.rstrip('/').split('/')[-1], 'images': images,
+        name = path_id.rstrip('/').split('/')[-1]
+        name = static_dir.rstrip('/').rsplit('/', 1)[-1] if name == '' else name
+        resp = {'id': path_id, 'name': name, 'images': images,
                     'parent': parent_dir_id, 'children': child_dirs, 'siblings': siblings_dirs}
     return respond(resp)
 
