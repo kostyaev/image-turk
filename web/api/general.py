@@ -30,6 +30,9 @@ def listdir(d):
 def isdir(d):
     return os.path.isdir(os.path.join(static_dir, d))
 
+def exists(d):
+    return os.path.exists(os.path.join(static_dir, d))
+
 
 
 def get_page_params(r):
@@ -43,15 +46,21 @@ def get_page_params(r):
 @app.route("/api/dirs/<path:path_id>", methods=["GET"])
 def get_dir_by_id(path_id):
     path_id=path_id.rstrip('/')
-    all_files = [join(path_id, f) for f in listdir(path_id)]
-    child_dirs = [{'id': f, 'name': f.rsplit('/', 1)[-1]} for f in all_files if isdir(f)]
-    images = [{'id': f.rsplit('/', 1)[-1], 'url': f} for f in all_files if f.lower().endswith('.jpg')]
-    parent_dir_id = path_id.rstrip('/').rsplit('/', 1)[0]
-    parent_dir_id = '' if parent_dir_id == path_id else parent_dir_id
-    siblings_dirs = [{'id': join(parent_dir_id, f), 'name': f} for f in listdir(parent_dir_id) if isdir(join(parent_dir_id, f))]
-    response = {'id': path_id, 'name': path_id.rstrip('/').split('/')[-1], 'images': images,
-                'parent': parent_dir_id, 'children': child_dirs, 'siblings': siblings_dirs}
-    return jsonify(response)
+    response = {}
+    if not exists(path_id):
+        response = jsonify(response)
+        response.status_code = 400
+        return response
+    else:
+        all_files = [join(path_id, f) for f in listdir(path_id)]
+        child_dirs = [{'id': f, 'name': f.rsplit('/', 1)[-1]} for f in all_files if isdir(f)]
+        images = [{'id': f.rsplit('/', 1)[-1], 'url': f} for f in all_files if f.lower().endswith('.jpg')]
+        parent_dir_id = path_id.rstrip('/').rsplit('/', 1)[0]
+        parent_dir_id = '' if parent_dir_id == path_id else parent_dir_id
+        siblings_dirs = [{'id': join(parent_dir_id, f), 'name': f} for f in listdir(parent_dir_id) if isdir(join(parent_dir_id, f))]
+        response = {'id': path_id, 'name': path_id.rstrip('/').split('/')[-1], 'images': images,
+                    'parent': parent_dir_id, 'children': child_dirs, 'siblings': siblings_dirs}
+        return jsonify(response)
 
 @app.route("/api/search", methods=["GET"])
 def search():
@@ -94,26 +103,19 @@ def search():
 
 
 
-# @app.route("/api/images", methods=["POST"])
-# def add_image():
-#     json = request.json
-#     response = jsonify({})
-#     if 'url' in json:
-#         url = json['url']
-#         id = json['image_id']
-#         dir_id = json['dir_id']
-#         if '.gif' not in url:
-#             data = urllib2.urlopen(url).read()
-#             if len(data) > 10000:
-#                 with open(os.path.join(static_dir, dir_id) + '/' + id + ".jpg", 'w') as f:
-#                     f.write(data)
-#         else:
-#             response.status_code = 400
-#     else:
-#         dir_name = json['dir']
-#         if len(relative_path) > 0:
-#             relative_path += '/'
-#         path = os.path.join(static_dir, relative_path + dir_name)
-#         if not os.path.exists(path):
-#             os.makedirs(path)
-#     return response
+@app.route("/api/images", methods=["POST"])
+def add_image():
+    json = request.json
+    response = jsonify({})
+    if 'url' in json:
+        url = json['url']
+        id = json['image_id']
+        dir_id = json['dir_id']
+        if '.gif' not in url:
+            data = urllib2.urlopen(url).read()
+            if len(data) > 10000:
+                with open(os.path.join(static_dir, dir_id) + '/' + id + ".jpg", 'w') as f:
+                    f.write(data)
+        else:
+            response.status_code = 400
+    return response
