@@ -17,10 +17,6 @@ instagram_searcher = None
 flickr_searcher = None
 
 
-@app.route("/ping", methods=["GET"])
-def ping():
-    return "ok"
-
 def join(a,b):
     return os.path.join(static_dir, a, b).replace(static_dir, '')
 
@@ -40,18 +36,22 @@ def respond(r, status_code = 200):
     resp.status_code = status_code
     return resp
 
-
 def get_page_params(r):
     page, page_size = int(r.args.get('page', '1')), int(r.args.get('size', '30'))
     page = 0 if page < 1 else page
     return page_size, (page-1)*page_size
 
 
+@app.route("/ping", methods=["GET"])
+def ping():
+    return "ok"
+
 @app.route("/api/dirs", defaults={'path_id': ""})
 @app.route("/api/dirs/", defaults={'path_id': ""})
 @app.route("/api/dirs/<path:path_id>", methods=["GET"])
 def get_dir_by_id(path_id):
     path_id = path_id.rstrip('/')
+    cur_dir_name = path_id.rsplit('/', 1)[-1]
     resp = {}
     if not exists(path_id):
         return respond(resp)
@@ -61,7 +61,8 @@ def get_dir_by_id(path_id):
         images = [{'id': f.rsplit('/', 1)[-1], 'url': f} for f in all_files if f.lower().endswith('.jpg')]
         parent_dir_id = path_id.rstrip('/').rsplit('/', 1)[0]
         parent_dir_id = '' if parent_dir_id == path_id else parent_dir_id
-        siblings_dirs = [{'id': join(parent_dir_id, f), 'name': f} for f in listdir(parent_dir_id) if isdir(join(parent_dir_id, f))]
+        siblings_dirs = [{'id': join(parent_dir_id, f), 'name': f}
+                         for f in listdir(parent_dir_id) if isdir(join(parent_dir_id, f)) and cur_dir_name != f]
         resp = {'id': path_id, 'name': path_id.rstrip('/').split('/')[-1], 'images': images,
                     'parent': parent_dir_id, 'children': child_dirs, 'siblings': siblings_dirs}
     return respond(resp)
