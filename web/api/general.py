@@ -34,8 +34,6 @@ def exists(d):
 
 def respond(r, status_code = 200):
     resp = jsonify(r)
-    resp.headers.add('Access-Control-Allow-Origin', '*')
-    resp.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     resp.status_code = status_code
     return resp
 
@@ -80,8 +78,8 @@ def get_dir_by_id(path_id):
     return respond(resp)
 
 
-@app.route("/api/dirs", defaults={'path_id': ""})
-@app.route("/api/dirs/", defaults={'path_id': ""})
+@app.route("/api/dirs", defaults={'path_id': ""}, methods=["PATCH"])
+@app.route("/api/dirs/", defaults={'path_id': ""}, methods=["PATCH"])
 @app.route("/api/dirs/<path:path_id>", methods=["PATCH"])
 def rename_dir(path_id):
     path_id = id2path(path_id)
@@ -91,15 +89,13 @@ def rename_dir(path_id):
     return respond(resp)
 
 
-
-@app.route("/api/dirs", defaults={'path_id': ""})
-@app.route("/api/dirs/", defaults={'path_id': ""})
+@app.route("/api/dirs", defaults={'path_id': ""}, methods=["POST"])
+@app.route("/api/dirs/", defaults={'path_id': ""}, methods=["POST"])
 @app.route("/api/dirs/<path:path_id>", methods=["POST"])
 def create_dir(path_id):
     path_id = id2path(path_id)
-    cur_dir_name = path_id.rsplit('/', 1)[-1]
+    cur_dir_name = request.json['dir_name']
     parent_dir_id = path_id.rstrip('/').rsplit('/', 1)[0]
-    parent_dir_id = '' if parent_dir_id == path_id else parent_dir_id
     try:
         mkdir(join(parent_dir_id, cur_dir_name))
         return respond({}, 200)
