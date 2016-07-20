@@ -14,6 +14,7 @@ renderModal name folder =
         "rename" -> renderRenameFolderView folder
         "new" -> renderNewFolderView
         "upload" -> renderFileUploadView
+        "turking" -> renderTurkingView
         _ -> div [] []
   in
     div []
@@ -77,4 +78,30 @@ renderFileUploadView =
       ]
     , div [ class "btn" ] [ text "Upload" ]
     , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
+    ]
+
+
+renderTurkingView =
+  div [ class "Modal__dialog__turking" ]
+    [ div [ class "Modal__dialog__title" ]
+        [ img [ src "/assets/turking_cloud.svg" ] []
+        , div [ class "Modal__dialog__title__name" ] [ text "Search images" ]
+        ]
+    , input [ onInput HandleRenameInputChange
+            , type' "text"
+            , class "input"
+            , placeholder "...what do you want to find?"
+            , autofocus True
+            ] []
+    , div [ class "Modal__turking__filters" ]
+      [ div [ class "Modal__turking__filters--btn" ] [ text "Google" ]
+      , div [ class "Modal__turking__filters--btn" ] [ text "Flickr" ]
+      , div [ class "Modal__turking__filters--btn" ] [ text "Bing" ]
+      , div [ class "Modal__turking__filters--btn" ] [ text "Instagram" ]
+      , div [ class "Modal__turking__filters--btn" ] [ text "Yandex" ]
+      , div [ class "Modal__turking__filters--btn" ] [ text "Imagenet" ]
+      ]
+    , div [ class "btn" ] [ text "FETCH" ]
+    , div [ class "btn--cancel", onClick CloseModal ] [ text "Exit" ]
+    , div [ class "Modal__turking__results" ] []
     ]

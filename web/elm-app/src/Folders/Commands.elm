@@ -92,7 +92,7 @@ createFolderTask : FolderName -> FolderId -> Platform.Task Http.Error Folder
 createFolderTask name parent =
   let
     body =
-      ToJson.object [ ("name", ToJson.string name) ]
+      ToJson.object [ ("dir_name", ToJson.string name) ]
         |> ToJson.encode 0
         |> Http.string
 

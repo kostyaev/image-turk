@@ -23,7 +23,11 @@ view maybeModal folder =
 renderNavBar : Html Msg
 renderNavBar =
   div [ class "App__NavBar" ]
-    [ div [ class "App__NavBar__container", onClick (ShowModal "new") ]
+    [ div [ class "App__NavBar__container", onClick (ShowModal "turking") ]
+      [ img [ src "/assets/turking_cloud.svg" ] []
+      , div [ class "App__NavBar__name" ] [ text "Search images" ]
+      ]
+    , div [ class "App__NavBar__container", onClick (ShowModal "new") ]
       [ img [ src "/assets/new-folder.svg" ] []
       , div [ class "App__NavBar__name" ] [ text "New folder" ]
       ]
