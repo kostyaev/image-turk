@@ -46,7 +46,9 @@ renderSubFolder subFolder =
 
 renderImages : { a | url : String } -> Html Msg
 renderImages image =
-  img [ class "Folder__Tile__image", src (serverUrl ++ image.url) ] []
+  div [ class "Folder__Tile__image__container" ]
+    [ img [ class "Folder__Tile__image", src (serverUrl ++ image.url) ] []
+    ]
 
 
 renderNothing : Html Msg
