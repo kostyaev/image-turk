@@ -5,7 +5,7 @@ import Html.Attributes exposing (class, src)
 import Html.Events exposing (onClick, onDoubleClick)
 import Folders.Messages exposing (..)
 import Folders.Models exposing (SubFolder, ImageRecord)
-import Folders.Commands exposing (serverUrl)
+import Utils exposing (serverUrl)
 
 type alias TileView a =
   { a

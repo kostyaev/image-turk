@@ -6,7 +6,8 @@ import Navigation
 import Hop exposing (makeUrl)
 import Hop.Types exposing (Location)
 import Routing
-import Folders.Commands exposing (fetchFolder, rename, createFolder, fetchImages)
+import Folders.Commands exposing (fetchFolder)
+import Modals.Commands exposing (renameFolder, createFolder, fetchImages)
 import Models exposing (InputFields, ModalName, SearchResults)
 
 
@@ -87,7 +88,7 @@ update message model =
         newName =
           model.inputs.newName
       in
-        (model, (rename folderId newName))
+        (model, (renameFolder folderId newName))
 
 
     RenameFail error ->
