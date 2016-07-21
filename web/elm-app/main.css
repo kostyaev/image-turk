@@ -348,21 +348,25 @@ html, body {
 .Modal__dialog__turking {
   width: 90vw;
   height: 90vh;
-  margin: 20px 0 0 0;
+  margin: 15px 0 0 0;
   padding: 25px 30px 30px 20px;
 }
 
 .Modal__dialog__turking input {
-  width: 500px;
-  margin-bottom: 20px;
+  width: 350px;
+  margin-right: 25px;
+  margin-bottom: 10px;
+
+  vertical-align: top;
 }
 
 .Modal__turking__filters {
-  display: flex;
+  display: inline-flex;
   overflow: hidden;
 
   width: 450px;
-  margin-bottom: 20px;
+  margin: 0 25px 0 0;
+  margin-bottom: 15px;
 
   color: rgba(0, 0, 0, 0.9);
   border: 1px solid #D4D4D4;
@@ -392,14 +396,41 @@ html, body {
 }
 
 .Modal__turking__results {
+  overflow: hidden;
+  overflow-y: scroll;
+
   width: 100%;
-  height: calc(100% - 190px);
-  margin-top: 35px;
+  height: calc(100% - 95px);
+  margin-top: 0;
+  padding: 20px 15px;
 
   border-radius: 4px;
   background-color: #fff;
 }
 
+.Modal__turking__results__img {
+  display: inline-block;
+
+  margin-right: 10px;
+}
+
+.Modal__turking__results__img img {
+  max-height: 130px;
+
+  border: 1px solid rgba(155,155,155,0.2);
+}
+
+.btn__container {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+@media screen and (min-width: 1213px) {
+  .Modal__turking__results {
+    height: calc(100% - 60px);
+    margin-top: 10px;
+  }
+}
 
 
 /*

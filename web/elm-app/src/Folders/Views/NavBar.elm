@@ -21,12 +21,15 @@ view model =
 
     imgSource =
       model.imgSource
+
+    searchResults =
+      model.searchResults  
   in
     case maybeModal of
       Just modal ->
         div []
           [ renderNavBar
-          , renderModal modal folderId imgSource
+          , renderModal modal folderId imgSource searchResults
           ]
 
       Nothing ->

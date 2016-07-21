@@ -23,6 +23,9 @@ type alias UpdateModel =
 update : Msg -> UpdateModel -> (UpdateModel, Cmd Msg)
 update message model =
   case message of
+    NoOp ->
+      (model, Cmd.none)
+
     FetchRootFail error ->
       (model, Cmd.none)
 

@@ -4,12 +4,13 @@ import Html exposing (Html, div, img, text, input)
 import Html.Attributes exposing (class, classList, src, placeholder, autofocus, type')
 import Html.Events exposing (onClick, onInput)
 import Folders.Messages exposing (..)
-import Folders.Models exposing (Folder, FolderId, ModalName)
-import Models exposing (ImgSource)
+import Folders.Models exposing (Folder, FolderId, ModalName, ImageRecord)
+import Models exposing (ImgSource, SearchResults)
+import Utils exposing (onEnter)
 
 
-renderModal : ModalName -> FolderId -> Maybe ImgSource -> Html Msg
-renderModal name folderId imgSource =
+renderModal : ModalName -> FolderId -> Maybe ImgSource -> Maybe SearchResults -> Html Msg
+renderModal name folderId imgSource searchResults =
   let
     selectedSource =
       case imgSource of
@@ -21,7 +22,7 @@ renderModal name folderId imgSource =
         "rename" -> renderRenameFolderView folderId
         "new" -> renderNewFolderView
         "upload" -> renderFileUploadView
-        "turking" -> renderTurkingView selectedSource
+        "turking" -> renderTurkingView selectedSource searchResults
         _ -> div [] []
   in
     div []
@@ -44,6 +45,7 @@ renderNewFolderView =
             , class "input"
             , placeholder "...please enter a name"
             , autofocus True
+            , onEnter NewFolder
             ] []
     , div [ class "btn", onClick NewFolder ] [ text "Create" ]
     , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
@@ -62,6 +64,7 @@ renderRenameFolderView folderId =
             , class "input"
             , placeholder "...please enter a new name"
             , autofocus True
+            , onEnter (RenameFolder folderId)
             ] []
     , div [ class "btn", onClick (RenameFolder folderId) ] [ text "Save" ]
     , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
@@ -88,14 +91,19 @@ renderFileUploadView =
     ]
 
 
-renderTurkingView : String -> Html Msg
-renderTurkingView selectedSource =
+renderTurkingView : String -> Maybe SearchResults -> Html Msg
+renderTurkingView selectedSource searchResults =
   let
     btnClassName source =
       classList
         [ ("Modal__turking__filters__btn", True)
         , ("Modal__turking__filters__btn--selected", selectedSource == source)
         ]
+
+    images =
+      case searchResults of
+        Just results -> results.images
+        Nothing -> []
   in
   div [ class "Modal__dialog__turking" ]
     [ div [ class "Modal__dialog__title" ]
@@ -107,6 +115,7 @@ renderTurkingView selectedSource =
             , class "input"
             , placeholder "...what do you want to find?"
             , autofocus True
+            , onEnter FetchImages
             ] []
     , div [ class "Modal__turking__filters" ]
       [ div
@@ -140,7 +149,16 @@ renderTurkingView selectedSource =
           ]
           [ text "Imagenet" ]
       ]
-    , div [ class "btn", onClick FetchImages ] [ text "FETCH" ]
-    , div [ class "btn--cancel", onClick CloseModal ] [ text "Exit" ]
-    , div [ class "Modal__turking__results" ] []
+    , div [ class "btn__container" ]
+        [ div [ class "btn", onClick FetchImages ] [ text "FETCH" ]
+        , div [ class "btn--cancel", onClick CloseModal ] [ text "Exit" ]
+        ]
+    , div [ class "Modal__turking__results" ] (List.map renderSearchResult images)
+    ]
+
+
+renderSearchResult : ImageRecord -> Html Msg
+renderSearchResult imgRecord =
+  div [ class "Modal__turking__results__img" ]
+    [ img [ src imgRecord.url ] []
     ]

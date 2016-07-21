@@ -14,7 +14,8 @@ type alias ImgSourceName =
 
 
 type Msg
-  = FetchRootDone Folder
+  = NoOp
+  | FetchRootDone Folder
   | FetchRootFail Http.Error
   | FetchFolderDone Folder
   | FetchFolderFail Http.Error
