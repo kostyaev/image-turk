@@ -1,20 +1,27 @@
 module Folders.Views.Modals exposing (..)
 
 import Html exposing (Html, div, img, text, input)
-import Html.Attributes exposing (class, src, placeholder, autofocus, type')
+import Html.Attributes exposing (class, classList, src, placeholder, autofocus, type')
 import Html.Events exposing (onClick, onInput)
 import Folders.Messages exposing (..)
+import Folders.Models exposing (Folder, FolderId, ModalName)
+import Models exposing (ImgSource)
 
 
-renderModal : String -> { a | id : String } -> Html Msg
-renderModal name folder =
+renderModal : ModalName -> FolderId -> ImgSource -> Html Msg
+renderModal name folderId imgSource =
   let
+    selectedSource =
+      case imgSource of
+        Just imgSource -> imgSource
+        Nothing -> "google"
+
     body =
       case name of
-        "rename" -> renderRenameFolderView folder
+        "rename" -> renderRenameFolderView folderId
         "new" -> renderNewFolderView
         "upload" -> renderFileUploadView
-        "turking" -> renderTurkingView
+        "turking" -> renderTurkingView selectedSource
         _ -> div [] []
   in
     div []
@@ -43,8 +50,8 @@ renderNewFolderView =
     ]
 
 
-renderRenameFolderView : { a | id : String } -> Html Msg
-renderRenameFolderView folder =
+renderRenameFolderView : FolderId -> Html Msg
+renderRenameFolderView folderId =
   div [ class "Modal__dialog__rename" ]
     [ div [ class "Modal__dialog__title" ]
         [ img [ src "/assets/rename-folder.svg" ] []
@@ -56,7 +63,7 @@ renderRenameFolderView folder =
             , placeholder "...please enter a new name"
             , autofocus True
             ] []
-    , div [ class "btn", onClick (RenameFolder folder.id) ] [ text "Save" ]
+    , div [ class "btn", onClick (RenameFolder folderId) ] [ text "Save" ]
     , div [ class "btn--cancel", onClick CloseModal ] [ text "Cancel" ]
     ]
 
@@ -81,25 +88,57 @@ renderFileUploadView =
     ]
 
 
-renderTurkingView =
+renderTurkingView : String -> Html Msg
+renderTurkingView selectedSource =
+  let
+    btnClassName source =
+      classList
+        [ ("Modal__turking__filters__btn", True)
+        , ("Modal__turking__filters__btn--selected", selectedSource == source)
+        ]
+  in
   div [ class "Modal__dialog__turking" ]
     [ div [ class "Modal__dialog__title" ]
         [ img [ src "/assets/turking_cloud.svg" ] []
         , div [ class "Modal__dialog__title__name" ] [ text "Search images" ]
         ]
-    , input [ onInput HandleRenameInputChange
+    , input [ onInput HandleTurkingInputChange
             , type' "text"
             , class "input"
             , placeholder "...what do you want to find?"
             , autofocus True
             ] []
     , div [ class "Modal__turking__filters" ]
-      [ div [ class "Modal__turking__filters--btn" ] [ text "Google" ]
-      , div [ class "Modal__turking__filters--btn" ] [ text "Flickr" ]
-      , div [ class "Modal__turking__filters--btn" ] [ text "Bing" ]
-      , div [ class "Modal__turking__filters--btn" ] [ text "Instagram" ]
-      , div [ class "Modal__turking__filters--btn" ] [ text "Yandex" ]
-      , div [ class "Modal__turking__filters--btn" ] [ text "Imagenet" ]
+      [ div
+          [ btnClassName "google"
+          , onClick (SelectImgSource "google")
+          ]
+          [ text "Google" ]
+      , div
+          [ btnClassName "flickr"
+          , onClick (SelectImgSource "flickr")
+          ]
+          [ text "Flickr" ]
+      , div
+          [ btnClassName "bing"
+          , onClick (SelectImgSource "bing")
+          ]
+          [ text "Bing" ]
+      , div
+          [ btnClassName "instagram"
+          , onClick (SelectImgSource "instagram")
+          ]
+          [ text "Instagram" ]
+      , div
+          [ btnClassName "yandex"
+          , onClick (SelectImgSource "yandex")
+          ]
+          [ text "Yandex" ]
+      , div
+          [ btnClassName "imagenet"
+          , onClick (SelectImgSource "imagenet")
+          ]
+          [ text "Imagenet" ]
       ]
     , div [ class "btn" ] [ text "FETCH" ]
     , div [ class "btn--cancel", onClick CloseModal ] [ text "Exit" ]

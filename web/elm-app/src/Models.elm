@@ -6,12 +6,17 @@ import Hop.Types exposing (Location)
 
 
 type alias ModalName =
-  String
+  Maybe String
+
+
+type alias ImgSource =
+  Maybe String
 
 
 type alias InputFields =
   { newName : String
   , newFolder : String
+  , query : String
   }
 
 
@@ -19,8 +24,9 @@ type alias MainModel =
   { location : Location
   , route : Routing.Route
   , folder : Maybe Folder
-  , modal : Maybe ModalName
+  , modal : ModalName
   , inputs: InputFields
+  , imgSource : ImgSource
   }
 
 
@@ -30,5 +36,6 @@ newMainModel route location =
   , route = route
   , folder = Nothing
   , modal = Nothing
-  , inputs = InputFields "" ""
+  , inputs = InputFields "" "" ""
+  , imgSource = Nothing
   }

@@ -5,19 +5,32 @@ import Html.Attributes exposing (class, src)
 import Html.Events exposing (onClick, onInput)
 import Folders.Messages exposing (..)
 import Folders.Views.Modals exposing (renderModal)
+import Models exposing (MainModel)
 
 
-view : Maybe String -> { a | id : String } -> Html Msg
-view maybeModal folder =
-  case maybeModal of
-    Just modalName ->
-      div []
-        [ renderNavBar
-        , renderModal modalName folder
-        ]
+view : MainModel -> Html Msg
+view model =
+  let
+    maybeModal =
+      model.modal
 
-    Nothing ->
-      renderNavBar
+    folderId =
+      case model.folder of
+        Just folder -> folder.id
+        Nothing -> Debug.crash "Error: expect folder with an ID got nothing"
+
+    imgSource =
+      model.imgSource
+  in
+    case maybeModal of
+      Just modal ->
+        div []
+          [ renderNavBar
+          , renderModal modal folderId imgSource
+          ]
+
+      Nothing ->
+        renderNavBar
 
 
 renderNavBar : Html Msg

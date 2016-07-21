@@ -9,6 +9,10 @@ type alias FolderName =
   String
 
 
+type alias ModalName =
+  String
+
+
 type alias ImageRecord =
   { id: String
   , url: String

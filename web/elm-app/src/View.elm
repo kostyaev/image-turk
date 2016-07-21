@@ -29,14 +29,11 @@ foldersView model =
   let
     maybeFolder =
       model.folder
-
-    maybeModal =
-      model.modal
   in
     case maybeFolder of
       Just folder ->
         div [ class "App__container" ]
-          [ Html.App.map FoldersMsg (Folders.Views.NavBar.view maybeModal folder)
+          [ Html.App.map FoldersMsg (Folders.Views.NavBar.view model)
           , div [ class "App__TreeSide" ]
             [ Html.App.map FoldersMsg (Folders.Views.Tree.view folder)
             ]

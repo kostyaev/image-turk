@@ -364,30 +364,30 @@ html, body {
   width: 450px;
   margin-bottom: 20px;
 
-  color: #2A2A2A;
+  color: rgba(0, 0, 0, 0.9);
   border: 1px solid #D4D4D4;
   border-radius: 4px;
   background-color: #fff;
 
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 300;
 
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
 }
 
-.Modal__turking__filters--btn {
+.Modal__turking__filters__btn {
   padding: 7px 15px;
 }
 
-.Modal__turking__filters--btn:hover {
+.Modal__turking__filters__btn:hover {
   cursor: pointer;
 
   background-color: #F7F7F7;
 }
 
-.Modal__turking__filters--btn--selected {
+.Modal__turking__filters__btn--selected {
   font-weight: 500;
 }
 

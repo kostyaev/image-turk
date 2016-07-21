@@ -15,6 +15,7 @@ type alias UpdateModel =
   , folder : Maybe Folder
   , modal : Maybe ModalName
   , inputs : InputFields
+  , imgSource : Maybe String
   }
 
 
@@ -72,6 +73,7 @@ update message model =
         newInputs =
           { newName = newName
           , newFolder = ""
+          , query = ""
           }
       in
         ({ model | inputs = newInputs }, Cmd.none)
@@ -105,6 +107,7 @@ update message model =
         newInputs =
           { newName = ""
           , newFolder = newFolder
+          , query = ""
           }
       in
         ({ model | inputs = newInputs }, Cmd.none)
@@ -136,3 +139,22 @@ update message model =
             |> Navigation.newUrl
       in
         (newModel, navigateCmd)
+
+
+    HandleTurkingInputChange query ->
+      let
+        newInputs =
+          { newName = ""
+          , newFolder = ""
+          , query = query
+          }
+      in
+        ({ model | inputs = newInputs }, Cmd.none)
+
+
+    SelectImgSource newSource ->
+      let
+        newModel =
+          ({ model | imgSource = Just newSource})
+      in
+        (newModel, Cmd.none)

@@ -23,6 +23,7 @@ update message model =
           , location = model.location
           , modal = model.modal
           , inputs = model.inputs
+          , imgSource = model.imgSource
           }
 
         (updatedModel, cmd) =
@@ -32,5 +33,6 @@ update message model =
          | folder = updatedModel.folder
          , modal = updatedModel.modal
          , inputs = updatedModel.inputs
+         , imgSource = updatedModel.imgSource
          }
         , Cmd.map FoldersMsg cmd)

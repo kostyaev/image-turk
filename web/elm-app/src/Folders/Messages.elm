@@ -5,6 +5,14 @@ import Folders.Models exposing (FolderId, Folder)
 import Models exposing (ModalName)
 
 
+type alias InputValue =
+  String
+
+
+type alias ImgSourceName =
+  String
+
+
 type Msg
   = FetchRootDone Folder
   | FetchRootFail Http.Error
@@ -13,11 +21,13 @@ type Msg
   | FetchAndNavigate FolderId
   | ShowModal ModalName
   | CloseModal
-  | HandleRenameInputChange String
+  | HandleRenameInputChange InputValue
   | RenameFolder FolderId
   | RenameFail Http.Error
   | RenameSuccess Folder
-  | HandleNewFolderInputChange String
+  | HandleNewFolderInputChange InputValue
   | NewFolder
   | NewFolderFail Http.Error
   | NewFolderSuccess Folder
+  | HandleTurkingInputChange InputValue
+  | SelectImgSource ImgSourceName
