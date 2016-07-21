@@ -8,7 +8,7 @@ import Folders.Models exposing (Folder, FolderId, ModalName)
 import Models exposing (ImgSource)
 
 
-renderModal : ModalName -> FolderId -> ImgSource -> Html Msg
+renderModal : ModalName -> FolderId -> Maybe ImgSource -> Html Msg
 renderModal name folderId imgSource =
   let
     selectedSource =
@@ -140,7 +140,7 @@ renderTurkingView selectedSource =
           ]
           [ text "Imagenet" ]
       ]
-    , div [ class "btn" ] [ text "FETCH" ]
+    , div [ class "btn", onClick FetchImages ] [ text "FETCH" ]
     , div [ class "btn--cancel", onClick CloseModal ] [ text "Exit" ]
     , div [ class "Modal__turking__results" ] []
     ]

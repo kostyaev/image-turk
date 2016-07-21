@@ -106,6 +106,7 @@ def create_dir(path_id):
 
 
 @app.route("/api/search", methods=["GET"])
+@app.route("/api/search/", methods=["GET"])
 def search():
     q = request.args.get('query')
     search_engine = request.args.get('source')

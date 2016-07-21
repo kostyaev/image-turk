@@ -42,7 +42,7 @@ html, body {
 
   vertical-align: top;
 
-  background-color: #F7F7F7;
+  background-color: #F2F2F2;
 }
 
 .App__TileSide {
@@ -413,8 +413,10 @@ html, body {
 
   width: 100%;
   height: 70px;
+}
 
-
+.App__TreeNav__blank-space {
+  cursor: not-allowed;
 }
 
 .App__TreeNav__back-icon:hover {
@@ -445,11 +447,31 @@ html, body {
   transform: rotate(360deg);
 }
 
+.App__TreeNav__blank-space::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: block;
+
+  width: 24.71px;
+  height: 20px;
+  margin: auto;
+
+  content: "";
+  transition: transform .3s ease-in-out;
+
+  background-image: url("/assets/home.svg");
+  background-repeat: no-repeat;
+}
+
 .Folder__Tree__container, .Folder__Tree__container--open {
   display: flex;
 
   width: 250px;
-  height: 54px;
+  height: 45px;
 
   align-items: center;
 }

@@ -1,16 +1,16 @@
 module Models exposing (..)
 
-import Folders.Models exposing (Folder)
+import Folders.Models exposing (Folder, ImageRecord)
 import Routing
 import Hop.Types exposing (Location)
 
 
 type alias ModalName =
-  Maybe String
+  String
 
 
 type alias ImgSource =
-  Maybe String
+  String
 
 
 type alias InputFields =
@@ -20,13 +20,19 @@ type alias InputFields =
   }
 
 
+type alias SearchResults =
+  { images: List ImageRecord
+  }
+
+
 type alias MainModel =
   { location : Location
   , route : Routing.Route
   , folder : Maybe Folder
-  , modal : ModalName
+  , modal : Maybe ModalName
   , inputs: InputFields
-  , imgSource : ImgSource
+  , imgSource : Maybe ImgSource
+  , searchResults : Maybe SearchResults
   }
 
 
@@ -38,4 +44,5 @@ newMainModel route location =
   , modal = Nothing
   , inputs = InputFields "" "" ""
   , imgSource = Nothing
+  , searchResults = Nothing
   }

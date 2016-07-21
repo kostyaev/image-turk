@@ -1,11 +1,12 @@
 module Folders.Commands exposing (..)
 
 import Http
-import Json.Decode exposing (Decoder, object2, object6, list, int, string, (:=), maybe)
+import Json.Decode exposing (Decoder, object1, object2, object6, list, int, string, (:=), maybe)
 import Json.Encode as ToJson
 import Task
 import Folders.Models exposing (FolderId, FolderName, Folder, ImageRecord, SubFolder)
 import Folders.Messages exposing (..)
+import Models exposing (SearchResults)
 
 
 apiUrl : String
@@ -111,3 +112,16 @@ createFolder : FolderName -> FolderId -> Cmd Msg
 createFolder folderName parent =
   createFolderTask folderName parent
     |> Task.perform NewFolderFail NewFolderSuccess
+
+
+fetchImages source query =
+  let
+    query =
+      Http.url (serverUrl ++ "/api/search") [ ("source", source), ("query", query) ]
+  in
+    Http.get imagesListDecoder query
+      |> Task.perform FetchImagesFail FetchImagesDone
+
+
+imagesListDecoder =
+  object1 SearchResults ("images" := list imageDecoder)

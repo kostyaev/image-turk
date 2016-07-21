@@ -6,8 +6,8 @@ import Navigation
 import Hop exposing (makeUrl)
 import Hop.Types exposing (Location)
 import Routing
-import Folders.Commands exposing (fetchFolder, rename, createFolder)
-import Models exposing (InputFields, ModalName)
+import Folders.Commands exposing (fetchFolder, rename, createFolder, fetchImages)
+import Models exposing (InputFields, ModalName, SearchResults)
 
 
 type alias UpdateModel =
@@ -16,6 +16,7 @@ type alias UpdateModel =
   , modal : Maybe ModalName
   , inputs : InputFields
   , imgSource : Maybe String
+  , searchResults : Maybe SearchResults
   }
 
 
@@ -156,5 +157,28 @@ update message model =
       let
         newModel =
           ({ model | imgSource = Just newSource})
+      in
+        (newModel, Cmd.none)
+
+
+    FetchImages ->
+      let
+        source =
+          case model.imgSource of
+            Just source -> source
+            Nothing -> "google"
+
+        query =
+          model.inputs.query
+      in
+        (model, fetchImages source query)
+
+    FetchImagesFail error ->
+      (model, Cmd.none)
+
+    FetchImagesDone searchResults ->
+      let
+        newModel =
+          ({ model | searchResults = Just searchResults })
       in
         (newModel, Cmd.none)

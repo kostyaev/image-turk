@@ -56,7 +56,7 @@ renderNothing =
 renderBackButton : FolderId -> Html Msg
 renderBackButton parent =
   if String.isEmpty parent then
-    renderNothing
+    div [ class "App__TreeNav__blank-space" ] []
   else
     div [ class "App__TreeNav__back-icon", onClick (FetchAndNavigate parent) ] []
 
