@@ -4,7 +4,7 @@ import Html exposing (Html, div, img, text)
 import Html.Attributes exposing (class, src)
 import Html.Events exposing (onClick, onInput)
 import Folders.Messages exposing (..)
-import Folders.Views.Modals exposing (renderModal)
+import Modals.View exposing (renderModal)
 import Models exposing (MainModel)
 
 
@@ -23,7 +23,7 @@ view model =
       model.imgSource
 
     searchResults =
-      model.searchResults  
+      model.searchResults
   in
     case maybeModal of
       Just modal ->
