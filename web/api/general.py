@@ -151,7 +151,7 @@ def add_image():
     if 'url' in json:
         url = json['url']
         id = json['image_id']
-        dir_id = json['dir_id']
+        dir_id = id2path(json['dir_id'])
         if '.gif' not in url:
             data = urllib2.urlopen(url).read()
             if len(data) > 10000:
