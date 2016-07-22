@@ -40,37 +40,14 @@ def list_dirs(relative_path):
         dir_records = []
         server_url = "http://localhost:5000"
 
-        for full_path in full_paths_dirs:
-          dir_record = {}
-
-          name = full_path.rstrip('/').rsplit('/', 1)[1]
-
-          parent = full_path.rstrip('/').rsplit('/', 1)[0]
-          all_siblings_files = listdir(parent)
-          siblings = [unicode(f, "utf-8") if type(f) != unicode else f for f in all_siblings_files if os.path.isdir(join(parent, f))]
-
-          all_children_files = listdir(full_path)
-          children = [unicode(f, "utf-8") if type(f) != unicode else f for f in all_children_files if os.path.isdir(join(full_path, f))]
-          images = [server_url + "/" + name + "/" + f for f in all_children_files if f.endswith(".jpg") or f.endswith(".JPEG") or f.endswith(".JPG")]
-
-          dir_record["full_path"] = full_path
-          dir_record["name"] = name
-          dir_record["parent"] = parent
-          dir_record["children"] = children
-          dir_record["images"] = images
-          dir_record["siblings"] = siblings
-
-          dir_records.append(dir_record)
-
     except Exception as e:
         logger.info("Exception occured {}", e.message)
         logger.exception(e)
-    # return render_template("browse.html",
-    #                        title='Browse',
-    #                        dirs=sorted(dirs),
-    #                        images=sorted(images),
-    #                        total=len(images) + len(dirs))
-    return jsonify(dir_records)
+    return render_template("browse.html",
+                           title='Browse',
+                           dirs=sorted(dirs),
+                           images=sorted(images),
+                           total=len(images) + len(dirs))
 
 
 @app.route("/browse", defaults={'relative_path': ''}, methods=["POST"])
