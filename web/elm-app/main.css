@@ -420,8 +420,42 @@ html, body {
   border: 1px solid rgba(155,155,155,0.2);
 }
 
+.Modal__turking__results__img--saving, .Modal__turking__results__img--saved {
+  position: relative;
+}
+
+.Modal__turking__results__img--saving img, .Modal__turking__results__img--saved img {
+  filter: grayscale(100%) opacity(55%);
+}
+
+.Modal__turking__results__img--saving::after, .Modal__turking__results__img--saved::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 66px;
+  height: 66px;
+  margin: auto;
+
+  content: "";
+
+  border-radius: 50%;
+  background-repeat: no-repeat;
+}
+
+.Modal__turking__results__img--saving {
+  background-image: url("/assets/loading.gif");
+}
+
+.Modal__turking__results__img--saved {
+  background-image: url("/assets/saved.svg");
+}
+
 .btn__container {
   display: inline-block;
+
   margin-bottom: 20px;
 }
 

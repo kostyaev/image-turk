@@ -200,27 +200,36 @@ update message model =
           case model.folder of
             Just folder -> folder.id
             Nothing -> Debug.crash "Expected folder with an id"
+
+        setStatusToSavedImg =
+          setStatusTo imgId "saving"
+
+        newSearchResults =
+          case model.searchResults of
+            Just results ->
+              ({ results | images = List.map setStatusToSavedImg results.images })
+            Nothing ->
+              Debug.crash "Expected not empty search results"
+
+        newModel =
+          ({ model | searchResults = Just newSearchResults })
       in
-        (model, (saveImg imgId url folderId))
+        (newModel, (saveImg imgId url folderId))
+
 
     SaveImgFail error ->
       (model, Cmd.none)
 
+
     SaveImgSuccess savedImg ->
       let
+        setStatusToSavedImg =
+          setStatusTo savedImg.id "saved"
+
         newSearchResults =
           case model.searchResults of
             Just results ->
-              ({ results | images =
-                List.map
-                  (\img ->
-                    if img.id == savedImg.id then
-                      ({ img | status = Just "saved" })
-                    else
-                      img
-                  )
-                  results.images
-              })
+              ({ results | images = List.map setStatusToSavedImg results.images })
             Nothing ->
               Debug.crash "Expected not empty search results"
 
@@ -228,3 +237,10 @@ update message model =
           ({ model | searchResults = Just newSearchResults })
       in
         (newModel, Cmd.none)
+
+
+setStatusTo targetId status imgRecord =
+  if imgRecord.id == targetId then
+    ({ imgRecord | status = Just status })
+  else
+    imgRecord

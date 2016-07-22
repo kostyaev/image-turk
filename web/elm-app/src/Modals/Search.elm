@@ -23,60 +23,73 @@ renderSearchView selectedSource searchResults =
         Just results -> results.images
         Nothing -> []
   in
-  div [ class "Modal__dialog__turking" ]
-    [ div [ class "Modal__dialog__title" ]
-        [ img [ src "/assets/turking_cloud.svg" ] []
-        , div [ class "Modal__dialog__title__name" ] [ text "Search images" ]
+    div [ class "Modal__dialog__turking" ]
+      [ div [ class "Modal__dialog__title" ]
+          [ img [ src "/assets/turking_cloud.svg" ] []
+          , div [ class "Modal__dialog__title__name" ] [ text "Search images" ]
+          ]
+      , input [ onInput HandleTurkingInputChange
+              , type' "text"
+              , class "input"
+              , placeholder "...what do you want to find?"
+              , autofocus True
+              , onEnter FetchImages
+              ] []
+      , div [ class "Modal__turking__filters" ]
+        [ div
+            [ btnClassName "google"
+            , onClick (SelectImgSource "google")
+            ]
+            [ text "Google" ]
+        , div
+            [ btnClassName "flickr"
+            , onClick (SelectImgSource "flickr")
+            ]
+            [ text "Flickr" ]
+        , div
+            [ btnClassName "bing"
+            , onClick (SelectImgSource "bing")
+            ]
+            [ text "Bing" ]
+        , div
+            [ btnClassName "instagram"
+            , onClick (SelectImgSource "instagram")
+            ]
+            [ text "Instagram" ]
+        , div
+            [ btnClassName "yandex"
+            , onClick (SelectImgSource "yandex")
+            ]
+            [ text "Yandex" ]
+        , div
+            [ btnClassName "imagenet"
+            , onClick (SelectImgSource "imagenet")
+            ]
+            [ text "Imagenet" ]
         ]
-    , input [ onInput HandleTurkingInputChange
-            , type' "text"
-            , class "input"
-            , placeholder "...what do you want to find?"
-            , autofocus True
-            , onEnter FetchImages
-            ] []
-    , div [ class "Modal__turking__filters" ]
-      [ div
-          [ btnClassName "google"
-          , onClick (SelectImgSource "google")
+      , div [ class "btn__container" ]
+          [ div [ class "btn", onClick FetchImages ] [ text "FETCH" ]
+          , div [ class "btn--cancel", onClick CloseModal ] [ text "Exit" ]
           ]
-          [ text "Google" ]
-      , div
-          [ btnClassName "flickr"
-          , onClick (SelectImgSource "flickr")
-          ]
-          [ text "Flickr" ]
-      , div
-          [ btnClassName "bing"
-          , onClick (SelectImgSource "bing")
-          ]
-          [ text "Bing" ]
-      , div
-          [ btnClassName "instagram"
-          , onClick (SelectImgSource "instagram")
-          ]
-          [ text "Instagram" ]
-      , div
-          [ btnClassName "yandex"
-          , onClick (SelectImgSource "yandex")
-          ]
-          [ text "Yandex" ]
-      , div
-          [ btnClassName "imagenet"
-          , onClick (SelectImgSource "imagenet")
-          ]
-          [ text "Imagenet" ]
+      , div [ class "Modal__turking__results" ] (List.map renderSearchResult images)
       ]
-    , div [ class "btn__container" ]
-        [ div [ class "btn", onClick FetchImages ] [ text "FETCH" ]
-        , div [ class "btn--cancel", onClick CloseModal ] [ text "Exit" ]
-        ]
-    , div [ class "Modal__turking__results" ] (List.map renderSearchResult images)
-    ]
 
 
 renderSearchResult : ImageRecord -> Html Msg
 renderSearchResult imgRecord =
-  div [ class "Modal__turking__results__img", onClick (SaveImg imgRecord) ]
-    [ img [ src imgRecord.url ] []
-    ]
+  let
+    imgClassName =
+      case imgRecord.status of
+        Just status ->
+          classList
+            [ ("Modal__turking__results__img", True)
+            , ("Modal__turking__results__img--saving", status == "saving")
+            , ("Modal__turking__results__img--saved", status == "saved")
+            ]
+
+        Nothing ->
+          class "Modal__turking__results__img"
+  in
+    div [ imgClassName, onClick (SaveImg imgRecord) ]
+      [ img [ src imgRecord.url ] []
+      ]
