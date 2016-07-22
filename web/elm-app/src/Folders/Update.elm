@@ -61,16 +61,21 @@ update message model =
     ShowModal modalName ->
       let
         newModel =
-          ({ model | modal = Just modalName })
+          ({ model | modal = Just modalName, searchResults = Nothing })
       in
         (newModel, Cmd.none)
 
     CloseModal ->
       let
+        id =
+          case model.folder of
+            Just folder -> folder.id
+            Nothing -> Debug.crash "Expect folder with an ID"
+
         newModel =
           ({ model | modal = Nothing })
       in
-        (newModel, Cmd.none)
+        (newModel, fetchFolder id)
 
 
     HandleRenameInputChange newName ->
@@ -201,8 +206,11 @@ update message model =
             Just folder -> folder.id
             Nothing -> Debug.crash "Expected folder with an id"
 
-        setStatusToSavedImg =
-          setStatusTo imgId "saving"
+        setStatusToSavedImg imgRecord =
+          if imgRecord.id == imgId then
+            ({ imgRecord | status = Just "saving" })
+          else
+            imgRecord
 
         newSearchResults =
           case model.searchResults of
@@ -223,8 +231,11 @@ update message model =
 
     SaveImgSuccess savedImg ->
       let
-        setStatusToSavedImg =
-          setStatusTo savedImg.id "saved"
+        setStatusToSavedImg imgRecord =
+          if imgRecord.id == savedImg.id then
+            ({ imgRecord | status = Just "saved" })
+          else
+            imgRecord
 
         newSearchResults =
           case model.searchResults of
@@ -237,10 +248,3 @@ update message model =
           ({ model | searchResults = Just newSearchResults })
       in
         (newModel, Cmd.none)
-
-
-setStatusTo targetId status imgRecord =
-  if imgRecord.id == targetId then
-    ({ imgRecord | status = Just status })
-  else
-    imgRecord

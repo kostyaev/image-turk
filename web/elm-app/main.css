@@ -2,6 +2,8 @@
     Main styles
 */
 
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans:300,500,300italic);
+
 html, body {
   width: 100%;
   height: 100%;
@@ -98,10 +100,10 @@ html, body {
   background-color: rgba(210, 210, 210, 0.3);
 }
 
-.App__NavBar__container__turking__turking {
+/*.App__NavBar__container__turking__turking {
   position: absolute;
   right: 0;
-}
+}*/
 
 .input {
   height: 37px;
@@ -415,6 +417,7 @@ html, body {
 }
 
 .Modal__turking__results__img img {
+  cursor: pointer;
   max-height: 130px;
 
   border: 1px solid rgba(155,155,155,0.2);
@@ -445,11 +448,13 @@ html, body {
   background-repeat: no-repeat;
 }
 
-.Modal__turking__results__img--saving {
-  background-image: url("/assets/loading.gif");
+.Modal__turking__results__img--saving::after {
+  background-image: url("/assets/saved.svg");
+  /* FIX */
+  /*background-image: url("/assets/loading.gif");*/
 }
 
-.Modal__turking__results__img--saved {
+.Modal__turking__results__img--saved::after {
   background-image: url("/assets/saved.svg");
 }
 

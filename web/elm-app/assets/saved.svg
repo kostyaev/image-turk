@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="66px" height="66px" viewBox="0 0 66 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 39 (31667) - http://www.bohemiancoding.com/sketch -->
-    <title>Oval</title>
+    <title>Group 5</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="turking" transform="translate(-491.000000, -319.000000)" fill="#5EC2AF">
+        <g id="turking" transform="translate(-491.000000, -319.000000)">
             <g id="checked" transform="translate(491.000000, 319.000000)">
                 <g id="Layer_1">
                     <g id="Group">
-                        <path d="M33,66 C51.2253967,66 66,51.2253967 66,33 C66,14.7746033 51.2253967,0 33,0 C14.7746033,0 0,14.7746033 0,33 C0,51.2253967 14.7746033,66 33,66 Z" id="Oval"></path>
+                        <g id="Group-5">
+                            <path d="M33,66 C51.2253967,66 66,51.2253967 66,33 C66,14.7746033 51.2253967,0 33,0 C14.7746033,0 0,14.7746033 0,33 C0,51.2253967 14.7746033,66 33,66 Z" id="Oval" fill="#5EC2AF"></path>
+                            <polygon id="Shape" fill="#ECF0F1" points="26.8888889 51.1292338 14.2555556 38.3077944 20.8555556 31.6092869 26.8888889 37.7331211 45.1444444 19.2046434 51.7444444 25.9031509"></polygon>
+                        </g>
                     </g>
                 </g>
             </g>
