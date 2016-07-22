@@ -77,6 +77,6 @@ renderSearchView selectedSource searchResults =
 
 renderSearchResult : ImageRecord -> Html Msg
 renderSearchResult imgRecord =
-  div [ class "Modal__turking__results__img" ]
+  div [ class "Modal__turking__results__img", onClick (SaveImg imgRecord) ]
     [ img [ src imgRecord.url ] []
     ]

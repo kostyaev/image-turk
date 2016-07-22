@@ -1,8 +1,8 @@
 module Folders.Messages exposing (..)
 
 import Http
-import Folders.Models exposing (FolderId, Folder)
-import Models exposing (ModalName, SearchResults)
+import Folders.Models exposing (FolderId, Folder, ImageRecord)
+import Models exposing (ModalName, SearchResults, SaveImageResult)
 
 
 type alias InputValue =
@@ -35,3 +35,6 @@ type Msg
   | FetchImages
   | FetchImagesFail Http.Error
   | FetchImagesDone SearchResults
+  | SaveImg ImageRecord
+  | SaveImgFail Http.Error
+  | SaveImgSuccess SaveImageResult

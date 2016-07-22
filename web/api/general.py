@@ -147,16 +147,17 @@ def search():
 @app.route("/api/images", methods=["POST"])
 def add_image():
     json = request.json
-    response = {}
+    fail_response = {'status': 'error'}
     if 'url' in json:
         url = json['url']
         id = json['image_id']
         dir_id = id2path(json['dir_id'])
+        success_response = {'status': 'ok', 'id': id}
         if '.gif' not in url:
             data = urllib2.urlopen(url).read()
             if len(data) > 10000:
                 with open(os.path.join(static_dir, dir_id) + '/' + id + ".jpg", 'w') as f:
                     f.write(data)
         else:
-            return respond(response, status_code=400)
-    return respond(response)
+            return respond(success_response, status_code=400)
+    return respond(fail_response)

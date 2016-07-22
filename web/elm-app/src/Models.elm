@@ -25,6 +25,12 @@ type alias SearchResults =
   }
 
 
+type alias SaveImageResult =
+  { id : String
+  , status: String
+  }
+
+
 type alias MainModel =
   { location : Location
   , route : Routing.Route

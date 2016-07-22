@@ -7,8 +7,8 @@ import Hop exposing (makeUrl)
 import Hop.Types exposing (Location)
 import Routing
 import Folders.Commands exposing (fetchFolder)
-import Modals.Commands exposing (renameFolder, createFolder, fetchImages)
-import Models exposing (InputFields, ModalName, SearchResults)
+import Modals.Commands exposing (renameFolder, createFolder, fetchImages, saveImg)
+import Models exposing (InputFields, ModalName, SearchResults, SaveImageResult)
 
 
 type alias UpdateModel =
@@ -184,5 +184,47 @@ update message model =
       let
         newModel =
           ({ model | searchResults = Just searchResults })
+      in
+        (newModel, Cmd.none)
+
+
+    SaveImg imgRecord ->
+      let
+        imgId =
+          imgRecord.id
+
+        url =
+          imgRecord.url
+
+        folderId =
+          case model.folder of
+            Just folder -> folder.id
+            Nothing -> Debug.crash "Expected folder with an id"
+      in
+        (model, (saveImg imgId url folderId))
+
+    SaveImgFail error ->
+      (model, Cmd.none)
+
+    SaveImgSuccess savedImg ->
+      let
+        newSearchResults =
+          case model.searchResults of
+            Just results ->
+              ({ results | images =
+                List.map
+                  (\img ->
+                    if img.id == savedImg.id then
+                      ({ img | status = Just "saved" })
+                    else
+                      img
+                  )
+                  results.images
+              })
+            Nothing ->
+              Debug.crash "Expected not empty search results"
+
+        newModel =
+          ({ model | searchResults = Just newSearchResults })
       in
         (newModel, Cmd.none)

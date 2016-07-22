@@ -3,9 +3,10 @@ module Modals.Commands exposing (..)
 import Http
 import Task
 import Folders.Models exposing (FolderId, FolderName, Folder)
+import Models exposing (SaveImageResult)
 import Folders.Messages exposing (..)
 import Json.Encode as ToJson
-import Utils exposing (serverUrl, imagesListDecoder, apiUrl, memberDecoder)
+import Utils exposing (serverUrl, imagesListDecoder, apiUrl, memberDecoder, statusDecoder)
 
 
 fetchImages : String -> String -> Cmd Msg
@@ -16,6 +17,35 @@ fetchImages source query =
   in
     Http.get imagesListDecoder query
       |> Task.perform FetchImagesFail FetchImagesDone
+
+
+saveImg : String -> String -> String -> Cmd Msg
+saveImg imgId url folderId =
+  saveImgTask imgId url folderId
+    |> Task.perform SaveImgFail SaveImgSuccess
+
+
+saveImgTask : String -> String -> String -> Platform.Task Http.Error SaveImageResult
+saveImgTask imgId url folderId =
+  let
+    body =
+      ToJson.object
+        [ ("image_id", ToJson.string imgId)
+        , ("url", ToJson.string url)
+        , ("dir_id", ToJson.string folderId)
+        ]
+        |> ToJson.encode 0
+        |> Http.string
+
+    config =
+      { verb = "POST"
+      , headers = [ ( "Content-Type", "application/json" ) ]
+      , url = serverUrl ++ "/api/images"
+      , body = body
+      }
+  in
+    Http.send Http.defaultSettings config
+      |> Http.fromJson statusDecoder
 
 
 renameFolder : FolderId -> FolderName -> Cmd Msg

@@ -16,6 +16,7 @@ type alias ModalName =
 type alias ImageRecord =
   { id: String
   , url: String
+  , status: Maybe String
   }
 
 
@@ -39,7 +40,7 @@ new : Folder
 new =
   { id = ""
   , name = "Untitled folder"
-  , images = Just [ImageRecord "" ""]
+  , images = Just [ImageRecord "" "" Nothing]
   , children = Just [SubFolder "" ""]
   , siblings = Just [SubFolder "" ""]
   , parent = ""
