@@ -112,9 +112,16 @@ def add_item(relative_path):
 @app.route("/browse/<path:relative_path>", methods=["DELETE"])
 def remove_item(relative_path):
     json = request.json
-
     if 'img' in json:
-        os.remove(static_dir + json['img'])
+        if len(json['remote_dir']) == 0:
+            os.remove(static_dir + json['img'])
+        else:
+            old_path = static_dir + json['img']
+            remote_dir = join(static_dir, json['remote_dir'])
+            if not os.path.exists(remote_dir):
+                os.makedirs(remote_dir)
+            new_path = join(remote_dir, json['img'].rsplit('/', 1)[1])
+            os.rename(old_path, new_path)
     elif 'dir' in json:
         dir_name = json['dir']
         relative_path = relative_path + "/" if relative_path != '' else relative_path

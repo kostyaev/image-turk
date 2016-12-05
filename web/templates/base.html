@@ -32,7 +32,6 @@
       $('.webImage').on("click", function (e) {
          var $input = $( this );
          var src = $input.attr("src")
-         console.log(window.location.href)
          body = { "url": src, "id" :  $input.attr("id")}
          $(this).remove()
 
@@ -55,7 +54,8 @@
 
        $('.localImage').on("click", function (e) {
          var $input = $( this );
-         body = { "img": $input.attr("src")}
+         var remoteDir = $('#remote_dir').val();
+         body = { "img": $input.attr("src"), "remote_dir": remoteDir}
          $(this).remove()
          $.ajax({
           type: "DELETE",
