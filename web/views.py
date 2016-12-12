@@ -10,6 +10,7 @@ from config import *
 import urllib2
 from loggers import logger
 import specific_engines
+import json
 
 google_searcher = searchtools.query.GoogleWebSearch()
 imagenet_searcher = specific_engines.ImagenetSearcher()
@@ -18,9 +19,11 @@ bing_searcher = None
 instagram_searcher = None
 flickr_searcher = None
 
+
 @app.route("/ping", methods=["GET"])
 def ping():
     return "ok"
+
 
 @app.route("/browse", defaults={'relative_path': ""})
 @app.route("/browse/<path:relative_path>", methods=["GET"])
@@ -30,9 +33,32 @@ def list_dirs(relative_path):
     try:
         path = join(static_dir, relative_path)
         all_files = listdir(path)
-        dirs = [unicode(f, "utf-8") if type(f) != unicode else f for f in all_files if os.path.isdir(join(path, f))]
         relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
-        images = [relative_path + f for f in all_files if f.endswith(".jpg") or f.endswith(".JPEG")]
+
+        areas = []
+        dirs = []
+        images = []
+
+        for f in all_files:
+            if f.endswith("_areas.txt"):
+                img_areas = []
+                with open(join(path, f)) as f_areas:
+                    for line in f_areas:
+                        annotations = line.rstrip('\n').split(' ')
+                        img_areas.append({
+                            'x': annotations[0],
+                            'y': annotations[1],
+                            'width': annotations[2],
+                            'height': annotations[3]
+                        })
+                    areas.append((relative_path + f.rstrip('_areas.txt'), json.dumps(img_areas)))
+            if f.endswith(".jpg") or f.endswith(".JPEG"):
+                images.append(relative_path + f)
+            if os.path.isdir(join(path, f)):
+                dirs.append(unicode(f, "utf-8") if type(f) != unicode else f)
+
+        areas = dict(areas)
+
     except Exception as e:
         logger.info("Exception occured {}", e.message)
         logger.exception(e)
@@ -40,7 +66,9 @@ def list_dirs(relative_path):
                            title='Browse',
                            dirs=sorted(dirs),
                            images=sorted(images),
+                           areas=areas,
                            total=len(images) + len(dirs))
+
 
 @app.route("/browse", defaults={'relative_path': ''}, methods=["POST"])
 @app.route("/browse/<path:relative_path>", methods=["POST"])
@@ -59,12 +87,12 @@ def query_page(relative_path):
     elif search_engine == 'bing':
         global bing_searcher
         if bing_searcher is None:
-           bing_searcher = searchtools.query.BingAPISearch()
+            bing_searcher = searchtools.query.BingAPISearch()
         searcher = bing_searcher
     elif search_engine == 'instagram':
         global instagram_searcher
         if instagram_searcher is None:
-           instagram_searcher = specific_engines.InstagramSearcher()
+            instagram_searcher = specific_engines.InstagramSearcher()
         searcher = instagram_searcher
     elif search_engine == 'yandex':
         searcher = yandex_searcher
@@ -139,3 +167,20 @@ def remove_item(relative_path):
     response = jsonify({})
     return response
 
+
+@app.route("/browse/areas", defaults={'relative_path': ''}, methods=["PUT"])
+@app.route("/browse/<path:relative_path>/areas", methods=["PUT"])
+def update_areas(relative_path):
+    json = request.json
+
+    areas_filepath = static_dir + json['img'].rsplit('.')[0] + '_areas.txt'
+
+    if len(json['areas']) == 0:
+        os.remove(areas_filepath)
+    else:
+        with open(areas_filepath, 'w+') as f:
+            for area in json['areas']:
+                f.write('{0} {1} {2} {3}\n'.format(area['x'], area['y'], area['width'], area['height']))
+
+    response = jsonify({})
+    return response

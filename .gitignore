@@ -3,3 +3,4 @@ static/
 venv/
 *.pyc
 .idea/
+data/
