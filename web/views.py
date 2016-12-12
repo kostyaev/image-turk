@@ -51,14 +51,14 @@ def list_dirs(relative_path):
                             'width': annotations[2],
                             'height': annotations[3]
                         })
-                    areas.append((relative_path + f.rstrip('_areas.txt'), json.dumps(img_areas)))
+
+                    areas.append((relative_path + f.rsplit('_areas.txt')[0], json.dumps(img_areas)))
             if f.endswith(".jpg") or f.endswith(".JPEG"):
                 images.append(relative_path + f)
             if os.path.isdir(join(path, f)):
                 dirs.append(unicode(f, "utf-8") if type(f) != unicode else f)
 
         areas = dict(areas)
-
     except Exception as e:
         logger.info("Exception occured {}", e.message)
         logger.exception(e)
