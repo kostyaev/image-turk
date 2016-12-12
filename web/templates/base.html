@@ -24,145 +24,295 @@
             top: 10px;
             background-size: cover;
         }
+
+        .imgWrapper {
+            display: inline-block;
+            position: relative;
+        }
+
+        .imgRemove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            display: none;
+        }
+
+        .annotations .imgRemove {
+            display: block;
+        }
+
     </style>
 
+    <link href="http://www.jqueryscript.net/demo/jQuery-Plugin-For-Selecting-Multiple-Areas-of-An-Image-Select-Areas/resources/jquery.selectareas.css"
+          media="screen" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://www.jqueryscript.net/demo/jQuery-Plugin-For-Selecting-Multiple-Areas-of-An-Image-Select-Areas/jquery.selectareas.js"></script>
     <script>
-    $(document).ready(function() {
-      $('.webImage').on("click", function (e) {
-         var $input = $( this );
-         var src = $input.attr("src")
-         body = { "url": src, "id" :  $input.attr("id")}
-         $(this).remove()
+    $(document).ready(function () {
+        var $content = $('#content');
 
-         $.ajax({
-          type: "PUT",
-          context: this,
-          dataType: "json",
-          contentType: "application/json; charset=utf-8",
-          url: window.location.href,
-          data: JSON.stringify(body),
-          success: function(html){
-            <!--$(this).remove()-->
-         },
-          failure: function(errMsg) {
-            <!--$(this).addClass('classRed');-->
-         }
+        $('#annotations_enabled').on("change", function () {
+            if ($(this).is(":checked")) {
+                $content.addClass('annotations');
+                enableSelect();
+            } else {
+                $content.removeClass('annotations');
+                disableSelect();
+            }
+        })
+
+        $('.webImage').on("click", function (e) {
+            var $input = $(this);
+            var src = $input.attr("src");
+            body = {"url": src, "id": $input.attr("id")};
+            $(this).remove();
+
+            $.ajax({
+                type: "PUT",
+                context: this,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: window.location.href,
+                data: JSON.stringify(body),
+                success: function (html) {
+                    <!--$(this).remove()-->
+                },
+                failure: function (errMsg) {
+                    <!--$(this).addClass('classRed');-->
+                }
+            });
+
         });
 
-       });
+        $('.imgRemove').on("click", function (e) {
+            var $input = $(this);
+            var remoteDir = $('#remote_dir').val();
+            var src = $input.data("img");
+            $(this).parent().remove();
+            removeImageRequest(src, remoteDir);
 
-       $('.localImage').on("click", function (e) {
-         var $input = $( this );
-         var remoteDir = $('#remote_dir').val();
-         body = { "img": $input.attr("src"), "remote_dir": remoteDir}
-         $(this).remove()
-         $.ajax({
-          type: "DELETE",
-          context: this,
-          dataType: "json",
-          contentType: "application/json; charset=utf-8",
-          url: window.location.href,
-          data: JSON.stringify(body),
-          success: function(html){
-         },
-          failure: function(errMsg) {
-         }
         });
 
-       });
+        $('.localImage').on("click", function (e) {
+            var $input = $(this);
+            var remoteDir = $('#remote_dir').val();
+            $(this).remove();
+            var src = $input.attr('src');
+            removeImageRequest(src, remoteDir);
+
+        });
+
+        function removeImageRequest(src, remoteDir) {
+            body = {"img": src, "remote_dir": remoteDir}
+            $.ajax({
+                type: "DELETE",
+                context: this,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: window.location.href,
+                data: JSON.stringify(body),
+                success: function (html) {
+                },
+                failure: function (errMsg) {
+                }
+            });
+        }
 
 
         $('body').on("click", 'img.dir', function (e) {
-         window.location.href = window.location.href + "/" + $(this).parent().attr('id')
+            window.location.href = window.location.href + "/" + $(this).parent().attr('id')
 
-       });
-
-       $('body').on("dblclick", 'input.dir', function (e) {
-         var body = { "dir": $(this).parent().attr("id") }
-         $(this).parent().remove()
-         $.ajax({
-          type: "DELETE",
-          context: this,
-          dataType: "json",
-          contentType: "application/json; charset=utf-8",
-          url: window.location.href,
-          data: JSON.stringify(body),
-          success: function(html){
-            <!--$(this).remove()-->
-         },
-          failure: function(errMsg) {
-            <!--$(this).addClass('classRed');-->
-         }
         });
-       });
+
+        $('body').on("dblclick", 'input.dir', function (e) {
+            var body = {"dir": $(this).parent().attr("id")}
+            $(this).parent().remove()
+            $.ajax({
+                type: "DELETE",
+                context: this,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: window.location.href,
+                data: JSON.stringify(body),
+                success: function (html) {
+                    <!--$(this).remove()-->
+                },
+                failure: function (errMsg) {
+                    <!--$(this).addClass('classRed');-->
+                }
+            });
+        });
 
         $('.createDir').on("click", function (e) {
-         var dirName = $('#dirName').val();
-         var body = { "dir": dirName };
+            var dirName = $('#dirName').val();
+            var body = {"dir": dirName};
 
-         var dirExample = $(".dirSection").first().clone();
-         dirExample.attr("id", dirName);
-         dirExample.children("p").text(dirName);
-         $( ".dirs" ).prepend(dirExample);
+            var dirExample = $(".dirSection").first().clone();
+            dirExample.attr("id", dirName);
+            dirExample.children("p").text(dirName);
+            $(".dirs").prepend(dirExample);
 
-         $.ajax({
-          type: "PUT",
-          context: this,
-          dataType: "json",
-          contentType: "application/json; charset=utf-8",
-          url: window.location.href,
-          data: JSON.stringify(body),
-          success: function(html){
-         },
-          failure: function(errMsg) {
-         }
+            $.ajax({
+                type: "PUT",
+                context: this,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: window.location.href,
+                data: JSON.stringify(body),
+                success: function (html) {
+                },
+                failure: function (errMsg) {
+                }
+            });
         });
-       });
 
 
         $('.renameDir').on("click", function (e) {
-         var dirName = $('#newDirName').val();
-         var body = { "renameDir": dirName };
-         console.log(window.location.href);
-          $.ajax({
-          type: "DELETE",
-          context: this,
-          dataType: "json",
-          contentType: "application/json; charset=utf-8",
-          url: window.location.href,
-          data: JSON.stringify(body),
-          success: function(html) {
-            parent_path = '/browse' + location.href.split('/browse')[1].split('/').slice(0,-1).join('/');
-            location.replace(parent_path);
-         },
-          failure: function(errMsg) {
-         }
+            var dirName = $('#newDirName').val();
+            var body = {"renameDir": dirName};
+            console.log(window.location.href);
+            $.ajax({
+                type: "DELETE",
+                context: this,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: window.location.href,
+                data: JSON.stringify(body),
+                success: function (html) {
+                    parent_path = '/browse' + location.href.split('/browse')[ 1 ].split('/').slice(0, -1).join('/');
+                    location.replace(parent_path);
+                },
+                failure: function (errMsg) {
+                }
+            });
+
         });
 
-       });
+        $('.move_dir').on("click", function (e) {
+            var dest_dir = $('#dest_dir').val();
+            var body = {"move_dir": dest_dir};
+            console.log(window.location.href);
+            $.ajax({
+                type: "DELETE",
+                context: this,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: window.location.href,
+                data: JSON.stringify(body),
+                success: function (html) {
+                    location.reload();
 
-       $('.move_dir').on("click", function (e) {
-         var dest_dir = $('#dest_dir').val();
-         var body = { "move_dir": dest_dir };
-         console.log(window.location.href);
-          $.ajax({
-          type: "DELETE",
-          context: this,
-          dataType: "json",
-          contentType: "application/json; charset=utf-8",
-          url: window.location.href,
-          data: JSON.stringify(body),
-          success: function(html){
-            location.reload();
+                },
+                failure: function (errMsg) {
+                }
+            });
 
-         },
-          failure: function(errMsg) {
-         }
         });
 
-       });
 
+        function enableSelect() {
+            $('.localImage').each(function (i, img) {
+
+                var $img = $(img)
+                var initialAreas = $img.data('areas') ? $img.data('areas') : JSON.parse($img.attr('data-areas'))
+                $img.data('disabling', false)
+
+
+                function onLoad() {
+
+                    var ratio = img.naturalWidth / $img.width();
+
+                    initialAreas = initialAreas.map(function (area) {
+                        return {
+                            x: Math.ceil(area.x / ratio),
+                            y: Math.ceil(area.y / ratio),
+                            width: Math.floor(area.width / ratio),
+                            height: Math.floor(area.height / ratio)
+                        }
+                    });
+
+                    $img.selectAreas({
+                        areas: initialAreas
+                    });
+
+                    if (!$img.data('inited')) {
+                        $img.data('inited', true);
+
+                        $img.on('changed', function (e, _, areas) {
+
+                            if ($img.data('disabling')) {
+                                return
+                            }
+
+                            areas = areas.map(function (area) {
+                                return {
+                                    x: Math.ceil(area.x * ratio),
+                                    y: Math.ceil(area.y * ratio),
+                                    width: Math.floor(area.width * ratio),
+                                    height: Math.floor(area.height * ratio)
+                                }
+                            });
+
+                            var body = {
+                                img: $img.attr('src'),
+                                areas: areas
+                            };
+
+                            $.ajax({
+                                type: "PUT",
+                                context: this,
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                url: window.location.href + '/areas',
+                                data: JSON.stringify(body),
+                                success: function (html) {
+
+
+                                },
+                                failure: function (errMsg) {
+                                }
+                            });
+                        });
+
+                    }
+
+                }
+
+                if (img.naturalWidth === 0) {
+                    img.onload = onLoad;
+                } else {
+                    onLoad();
+                }
+            })
+        }
+
+        function disableSelect() {
+            $('.localImage').each(function (i, img) {
+                var $img = $(img);
+
+                var ratio = img.naturalWidth / $img.width();
+
+                var areas = $img.selectAreas('areas');
+
+                areas = areas.map(function (area) {
+                    return {
+                        x: Math.ceil(area.x * ratio),
+                        y: Math.ceil(area.y * ratio),
+                        width: Math.floor(area.width * ratio),
+                        height: Math.floor(area.height * ratio)
+                    }
+                });
+
+                $img.data('areas', areas);
+
+                $img.data('disabling', true);
+
+                $img.selectAreas('destroy');
+            })
+        }
 
     });
     </script>
@@ -172,6 +322,8 @@
 <body>
 <div>Image Turk: <a href="/browse">Home</a></div>
 <hr>
-{% block content %}{% endblock %}
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
 </body>
 </html>

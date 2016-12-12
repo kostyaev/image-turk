@@ -57,6 +57,13 @@
 
 <br/>
 
+<div>
+    <label for="annotations_enabled">Annotation mode:</label>
+    <input type="checkbox" name="annotations_enabled" id="annotations_enabled"/>
+</div>
+
+<br/>
+
 <div style="display:none;">
     <div style="float: left; height: 270px;" id="dir" class="dirSection">
         <input type="button" class="dir delete"/>
@@ -86,6 +93,10 @@
 <br/>
 
 {% for image in images %}
-<img src="{{ image }}" class="localImage imgContain" style="max-width: 256px"/>
+<div class="imgWrapper">
+    <img src="{{ image }}" data-areas="{{ areas[ image.rsplit('.')[0] ] or [] }}" class="localImage imgContain"
+         style="max-width: 256px"/>
+    <span class="imgRemove" data-img="{{ image }}">X</span>
+</div>
 {% endfor %}
 {% endblock %}
