@@ -36,6 +36,7 @@ def list_dirs(relative_path):
         relative_path = "/" if relative_path == "" else "/" + relative_path + "/"
 
         areas = []
+        points = []
         dirs = []
         images = []
 
@@ -53,12 +54,24 @@ def list_dirs(relative_path):
                         })
 
                     areas.append((relative_path + f.rsplit('_areas.txt')[0], json.dumps(img_areas)))
+            if f.endswith("_points.txt"):
+                img_points = []
+                with open(join(path, f)) as f_areas:
+                    for line in f_areas:
+                        annotations = line.rstrip('\n').split(' ')
+                        img_points.append({
+                            'x': annotations[0],
+                            'y': annotations[1]
+                        })
+
+                points.append((relative_path + f.rsplit('_points.txt')[0], json.dumps(img_points)))
             if f.endswith(".jpg") or f.endswith(".JPEG"):
                 images.append(relative_path + f)
             if os.path.isdir(join(path, f)):
                 dirs.append(unicode(f, "utf-8") if type(f) != unicode else f)
 
         areas = dict(areas)
+        points = dict(points)
     except Exception as e:
         logger.info("Exception occured {}", e.message)
         logger.exception(e)
@@ -67,6 +80,7 @@ def list_dirs(relative_path):
                            dirs=sorted(dirs),
                            images=sorted(images),
                            areas=areas,
+                           points=points,
                            total=len(images) + len(dirs))
 
 
@@ -181,6 +195,23 @@ def update_areas(relative_path):
         with open(areas_filepath, 'w+') as f:
             for area in json['areas']:
                 f.write('{0} {1} {2} {3}\n'.format(area['x'], area['y'], area['width'], area['height']))
+
+    response = jsonify({})
+    return response
+
+@app.route("/browse/points", defaults={'relative_path': ''}, methods=["PUT"])
+@app.route("/browse/<path:relative_path>/points", methods=["PUT"])
+def update_points(relative_path):
+    json = request.json
+
+    areas_filepath = static_dir + json['img'].rsplit('.')[0] + '_points.txt'
+
+    if len(json['points']) == 0:
+        os.remove(areas_filepath)
+    else:
+        with open(areas_filepath, 'w+') as f:
+            for area in json['points']:
+                f.write('{0} {1}\n'.format(area['x'], area['y']))
 
     response = jsonify({})
     return response

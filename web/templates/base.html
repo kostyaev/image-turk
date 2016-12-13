@@ -54,15 +54,22 @@
     $(document).ready(function () {
         var $content = $('#content');
 
-        $('#annotations_enabled').on("change", function () {
-            if ($(this).is(":checked")) {
-                $content.addClass('annotations');
-                enableSelect();
-            } else {
-                $content.removeClass('annotations');
-                disableSelect();
+        $('input[name=mode]').on("change", function () {
+
+            switch (this.value) {
+                case 'moderation':
+                    disableSelect();
+                    break;
+                case 'bounding':
+                    enableSelect('areas');
+                    break;
+                case 'points':
+                    enableSelect('points');
+                    break;
             }
+
         })
+
 
         $('.webImage').on("click", function (e) {
             var $input = $(this);
@@ -213,12 +220,20 @@
         });
 
 
-        function enableSelect() {
+        function enableSelect(mode) {
+
+            if ($content.hasClass('annotations')) {
+                disableSelect();
+            }
+
+            $content.addClass('annotations');
+
             $('.localImage').each(function (i, img) {
 
                 var $img = $(img)
-                var initialAreas = $img.data('areas') ? $img.data('areas') : JSON.parse($img.attr('data-areas'))
+                var initialAreas = $img.data(mode) ? $img.data(mode) : JSON.parse($img.attr('data-' + mode))
                 $img.data('disabling', false)
+                $img.data('mode', mode)
 
 
                 function onLoad() {
@@ -229,19 +244,25 @@
                         return {
                             x: Math.ceil(area.x / ratio),
                             y: Math.ceil(area.y / ratio),
-                            width: Math.floor(area.width / ratio),
-                            height: Math.floor(area.height / ratio)
+                            width: Math.floor(area.width / ratio) || 5,
+                            height: Math.floor(area.height / ratio) || 5
                         }
                     });
 
+                    console.log(initialAreas)
+
                     $img.selectAreas({
-                        areas: initialAreas
+                        areas: initialAreas,
+                        minSize: [ 5, 5 ],
+                        maxSize: mode === 'points' ? [ 5.1, 5.1 ] : [ 0, 0 ]
                     });
 
                     if (!$img.data('inited')) {
                         $img.data('inited', true);
 
                         $img.on('changed', function (e, _, areas) {
+
+                            var _mode = $img.data('mode');
 
                             if ($img.data('disabling')) {
                                 return
@@ -258,7 +279,7 @@
 
                             var body = {
                                 img: $img.attr('src'),
-                                areas: areas
+                                [_mode]: areas
                             };
 
                             $.ajax({
@@ -266,11 +287,9 @@
                                 context: this,
                                 dataType: "json",
                                 contentType: "application/json; charset=utf-8",
-                                url: window.location.href + '/areas',
+                                url: window.location.href + '/' + _mode,
                                 data: JSON.stringify(body),
                                 success: function (html) {
-
-
                                 },
                                 failure: function (errMsg) {
                                 }
@@ -290,8 +309,11 @@
         }
 
         function disableSelect() {
+            $content.removeClass('annotations');
+
             $('.localImage').each(function (i, img) {
                 var $img = $(img);
+                var mode = $img.data('mode')
 
                 var ratio = img.naturalWidth / $img.width();
 
@@ -306,7 +328,7 @@
                     }
                 });
 
-                $img.data('areas', areas);
+                $img.data(mode, areas);
 
                 $img.data('disabling', true);
 

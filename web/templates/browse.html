@@ -58,8 +58,19 @@
 <br/>
 
 <div>
-    <label for="annotations_enabled">Annotation mode:</label>
-    <input type="checkbox" name="annotations_enabled" id="annotations_enabled"/>
+    <label>
+        <input type="radio" name="mode" value="moderation" checked/>
+        Moderation mode
+    </label>
+
+    <label>
+        <input type="radio" name="mode" value="bounding"/>
+        Bounding mode
+    </label>
+    <label>
+        <input type="radio" name="mode" value="points"/>
+        Points mode
+    </label>
 </div>
 
 <br/>
@@ -94,7 +105,7 @@
 
 {% for image in images %}
 <div class="imgWrapper">
-    <img src="{{ image }}" data-areas="{{ areas[ image.rsplit('.')[0] ] or [] }}" class="localImage imgContain"
+    <img src="{{ image }}" data-areas="{{ areas[ image.rsplit('.')[0] ] or [] }}" data-points="{{ points[ image.rsplit('.')[0] ] or [] }}" class="localImage imgContain"
          style="max-width: 256px"/>
     <span class="imgRemove" data-img="{{ image }}">X</span>
 </div>
