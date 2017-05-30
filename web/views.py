@@ -66,7 +66,7 @@ def list_dirs(relative_path):
 
                 points.append((relative_path + f.rsplit('_points.txt')[0], json.dumps(img_points)))
             if f.endswith(".jpg") or f.endswith(".JPEG"):
-                images.append(relative_path + f)
+                images.append((relative_path + f, f.rsplit('.', 1)[0]))
             if os.path.isdir(join(path, f)):
                 dirs.append(unicode(f, "utf-8") if type(f) != unicode else f)
 

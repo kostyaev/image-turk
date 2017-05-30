@@ -103,11 +103,12 @@
 <div style="clear: left;"></div>
 <br/>
 
-{% for image in images %}
+{% for image,name in images %}
 <div class="imgWrapper">
     <img src="{{ image }}" data-areas="{{ areas[ image.rsplit('.')[0] ] or [] }}" data-points="{{ points[ image.rsplit('.')[0] ] or [] }}" class="localImage imgContain"
          style="max-width: 256px"/>
     <span class="imgRemove" data-img="{{ image }}">X</span>
+    <figcaption>{{name}}</figcaption>
 </div>
 {% endfor %}
 {% endblock %}
