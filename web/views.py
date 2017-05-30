@@ -66,7 +66,7 @@ def list_dirs(relative_path):
 
                 points.append((relative_path + f.rsplit('_points.txt')[0], json.dumps(img_points)))
             if f.endswith(".jpg") or f.endswith(".JPEG"):
-                images.append((relative_path + f, f.rsplit('.', 1)[0]))
+                images.append((relative_path + f, f.rsplit('.', 1)[0], 'mark' if '_marked' in f else ''))
             if os.path.isdir(join(path, f)):
                 dirs.append(unicode(f, "utf-8") if type(f) != unicode else f)
 
@@ -154,8 +154,18 @@ def add_item(relative_path):
 @app.route("/browse/<path:relative_path>", methods=["DELETE"])
 def remove_item(relative_path):
     json = request.json
+    response = {}
     if 'img' in json:
-        if len(json['remote_dir']) == 0:
+        if json['mark']:
+            name, ext = json['img'].rsplit('.')
+            if name.endswith('_marked'):
+                name = name.replace('_marked', '')
+            else:
+                name += '_marked'
+            response['name'] = name.rsplit('/', 1)[1]
+            response['url'] = name + '.' + ext
+            os.rename(static_dir + json['img'], static_dir + name + '.' + ext)
+        elif len(json['remote_dir']) == 0:
             os.remove(static_dir + json['img'])
         else:
             old_path = static_dir + json['img']
@@ -178,8 +188,8 @@ def remove_item(relative_path):
         old_path = static_dir + relative_path
         new_path = '/'.join((static_dir + relative_path).split('/')[:-1]) + '/' + dir_name
         os.rename(old_path, new_path)
-    response = jsonify({})
-    return response
+
+    return jsonify(response)
 
 
 @app.route("/browse/areas", defaults={'relative_path': ''}, methods=["PUT"])

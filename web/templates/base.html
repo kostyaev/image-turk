@@ -44,6 +44,10 @@
             display: block;
         }
 
+        .mark {
+            background:#5050F1;
+        }
+
     </style>
 
     <link href="http://www.jqueryscript.net/demo/jQuery-Plugin-For-Selecting-Multiple-Areas-of-An-Image-Select-Areas/resources/jquery.selectareas.css"
@@ -53,11 +57,16 @@
     <script>
     $(document).ready(function () {
         var $content = $('#content');
+        var marking = true
 
         $('input[name=mode]').on("change", function () {
 
             switch (this.value) {
                 case 'moderation':
+                    disableSelect();
+                    marking=false;
+                    break;
+                case 'marking':
                     disableSelect();
                     break;
                 case 'bounding':
@@ -99,21 +108,29 @@
             var remoteDir = $('#remote_dir').val();
             var src = $input.data("img");
             $(this).parent().remove();
-            removeImageRequest(src, remoteDir);
+            removeImageRequest(src, remoteDir, false, $input);
 
         });
 
         $('.localImage').on("click", function (e) {
             var $input = $(this);
             var remoteDir = $('#remote_dir').val();
-            $(this).remove();
+            if (!marking) {
+                $(this).parent().remove();
+            }
+            <!--else {-->
+                <!--label = $(this).next().next();-->
+                <!--name = label.text()-->
+                <!--label.text("test")-->
+            <!--}-->
             var src = $input.attr('src');
-            removeImageRequest(src, remoteDir);
+            var label = $(this).next().next()
+            removeImageRequest(src, remoteDir, marking, $input);
 
         });
 
-        function removeImageRequest(src, remoteDir) {
-            body = {"img": src, "remote_dir": remoteDir}
+        function removeImageRequest(src, remoteDir, markingMode, input) {
+            body = {"img": src, "remote_dir": remoteDir, 'mark': markingMode}
             $.ajax({
                 type: "DELETE",
                 context: this,
@@ -121,7 +138,17 @@
                 contentType: "application/json; charset=utf-8",
                 url: window.location.href,
                 data: JSON.stringify(body),
-                success: function (html) {
+                success: function (result) {
+                    if (markingMode) {
+                        var label = input.next().next()
+                        if (result.name.includes('_marked')) {
+                            input.parent().css('background', '#5050F1');
+                        } else {
+                            input.parent().css('background', '#FFF');
+                        }
+                        label.text(result.name);
+                        input.attr('src', result.url);
+                    }
                 },
                 failure: function (errMsg) {
                 }
