@@ -18,6 +18,8 @@ yandex_searcher = specific_engines.YandexSearcher()
 bing_searcher = None
 instagram_searcher = None
 flickr_searcher = None
+emotions = 'happy,anger,surprise,sadness,fear,disgust,admire'.split(',')
+
 
 
 @app.route("/ping", methods=["GET"])
@@ -81,13 +83,19 @@ def list_dirs(relative_path):
 
         images = sorted(images.values(), key=lambda x: x['name'])
         mark_now = False
+
+        current_emotion_id = 0
         for idx, img in enumerate(images):
             if img['mark']:
                 mark_now = False if mark_now else True
             if mark_now:
                 img['mark_class'] = 'mark_border' if img['mark'] else 'mark'
+                img['emotion'] = emotions[current_emotion_id]
             else:
                 img['mark_class'] = 'mark_border' if img['mark'] else ''
+                if img['mark']:
+                    img['emotion'] = emotions[current_emotion_id]
+                    current_emotion_id += 1
 
         areas = dict(areas)
         points = dict(points)
@@ -185,16 +193,23 @@ def remove_item(relative_path):
             if os.path.exists(marks_path):
                 marked_images = set([line.rstrip('\n') for line in open(marks_path)])
 
+            marked_before = [m for m in marked_images if m < fname]
+
             if fname in marked_images:
                 marked_images.remove(fname)
                 response['mark'] = False
+                response['name'] = fname
             else:
                 marked_images.add(fname)
                 response['mark'] = True
 
+                next_emotion_id = max(0, (len(marked_before)) / 2)
+                response['name'] = emotions[next_emotion_id] + ' ' + fname
+
             with open(marks_path, 'w') as f:
                 for marked_img in sorted(marked_images):
                     f.write(marked_img + '\n')
+
 
         elif len(json['remote_dir']) == 0:
             os.remove(static_dir + json['img'])

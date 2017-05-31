@@ -114,7 +114,7 @@
     <img src="{{ image.url }}" data-areas="{{ areas[ image.url.rsplit('.')[0] ] or [] }}" data-points="{{ points[ image.url.rsplit('.')[0] ] or [] }}" class="localImage imgContain"
          style="max-width: 256px"/>
     <span class="imgRemove" data-img="{{ image.url }}">X</span>
-    <figcaption>{{image.name}}</figcaption>
+    <figcaption>{{image.emotion}} {{image.name}}</figcaption>
 </div>
 {% endfor %}
 {% endblock %}
