@@ -109,12 +109,12 @@
 <div style="clear: left;"></div>
 <br/>
 
-{% for image,name,mark in images %}
-<div class="imgWrapper {{mark}}">
-    <img src="{{ image }}" data-areas="{{ areas[ image.rsplit('.')[0] ] or [] }}" data-points="{{ points[ image.rsplit('.')[0] ] or [] }}" class="localImage imgContain"
+{% for image in images %}
+<div class="imgWrapper {{image.mark_class}}">
+    <img src="{{ image.url }}" data-areas="{{ areas[ image.url.rsplit('.')[0] ] or [] }}" data-points="{{ points[ image.url.rsplit('.')[0] ] or [] }}" class="localImage imgContain"
          style="max-width: 256px"/>
-    <span class="imgRemove" data-img="{{ image }}">X</span>
-    <figcaption>{{name}}</figcaption>
+    <span class="imgRemove" data-img="{{ image.url }}">X</span>
+    <figcaption>{{image.name}}</figcaption>
 </div>
 {% endfor %}
 {% endblock %}

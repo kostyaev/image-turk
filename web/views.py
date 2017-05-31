@@ -38,7 +38,7 @@ def list_dirs(relative_path):
         areas = []
         points = []
         dirs = []
-        images = []
+        images = {}
 
         for f in all_files:
             if f.endswith("_areas.txt"):
@@ -66,9 +66,28 @@ def list_dirs(relative_path):
 
                 points.append((relative_path + f.rsplit('_points.txt')[0], json.dumps(img_points)))
             if f.endswith(".jpg") or f.endswith(".JPEG"):
-                images.append((relative_path + f, f.rsplit('.', 1)[0], 'mark' if '_marked' in f else ''))
+                url = relative_path + f
+                images[f] = {'url' : url, 'name': f, 'mark': False}
+
             if os.path.isdir(join(path, f)):
                 dirs.append(unicode(f, "utf-8") if type(f) != unicode else f)
+
+        marks_path = os.path.join(path, '_marks.txt')
+        if os.path.exists(marks_path):
+            for line in open(marks_path):
+                photo_name = line.rstrip('\n')
+                if photo_name in images:
+                    images[photo_name]['mark'] = True
+
+        images = sorted(images.values(), key=lambda x: x['name'])
+        mark_now = False
+        for idx, img in enumerate(images):
+            if img['mark']:
+                mark_now = False if mark_now else True
+            if mark_now:
+                img['mark_class'] = 'mark_border' if img['mark'] else 'mark'
+            else:
+                img['mark_class'] = 'mark_border' if img['mark'] else ''
 
         areas = dict(areas)
         points = dict(points)
@@ -78,7 +97,7 @@ def list_dirs(relative_path):
     return render_template("browse.html",
                            title='Browse',
                            dirs=sorted(dirs),
-                           images=sorted(images),
+                           images=images,
                            areas=areas,
                            points=points,
                            total=len(images) + len(dirs))
@@ -158,13 +177,25 @@ def remove_item(relative_path):
     if 'img' in json:
         if json['mark']:
             name, ext = json['img'].rsplit('.')
-            if name.endswith('_marked'):
-                name = name.replace('_marked', '')
+            fname = name.rsplit('/', 1)[1] + '.' + ext
+
+            marks_path = os.path.join(static_dir, relative_path, '_marks.txt')
+
+            marked_images = set()
+            if os.path.exists(marks_path):
+                marked_images = set([line.rstrip('\n') for line in open(marks_path)])
+
+            if fname in marked_images:
+                marked_images.remove(fname)
+                response['mark'] = False
             else:
-                name += '_marked'
-            response['name'] = name.rsplit('/', 1)[1]
-            response['url'] = name + '.' + ext
-            os.rename(static_dir + json['img'], static_dir + name + '.' + ext)
+                marked_images.add(fname)
+                response['mark'] = True
+
+            with open(marks_path, 'w') as f:
+                for marked_img in sorted(marked_images):
+                    f.write(marked_img + '\n')
+
         elif len(json['remote_dir']) == 0:
             os.remove(static_dir + json['img'])
         else:
@@ -208,6 +239,7 @@ def update_areas(relative_path):
 
     response = jsonify({})
     return response
+
 
 @app.route("/browse/points", defaults={'relative_path': ''}, methods=["PUT"])
 @app.route("/browse/<path:relative_path>/points", methods=["PUT"])

@@ -48,6 +48,10 @@
             background:#5050F1;
         }
 
+        .mark_border {
+            background:#F150F1;
+        }
+
     </style>
 
     <link href="http://www.jqueryscript.net/demo/jQuery-Plugin-For-Selecting-Multiple-Areas-of-An-Image-Select-Areas/resources/jquery.selectareas.css"
@@ -141,13 +145,13 @@
                 success: function (result) {
                     if (markingMode) {
                         var label = input.next().next()
-                        if (result.name.includes('_marked')) {
-                            input.parent().css('background', '#5050F1');
+                        if (result.mark) {
+                            input.parent().css('background', '#F150F1');
                         } else {
                             input.parent().css('background', '#FFF');
                         }
-                        label.text(result.name);
-                        input.attr('src', result.url);
+                        <!--label.text(result.name);-->
+                        <!--input.attr('src', result.url);-->
                     }
                 },
                 failure: function (errMsg) {
