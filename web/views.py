@@ -18,7 +18,7 @@ yandex_searcher = specific_engines.YandexSearcher()
 bing_searcher = None
 instagram_searcher = None
 flickr_searcher = None
-emotions = 'happy,anger,surprise,sadness,fear,disgust,admire'.split(',')
+emotions = 'happy,anger,surprise,sadness,fear,disgust,contempt,admire'.split(',')
 
 
 
