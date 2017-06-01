@@ -71,8 +71,17 @@ def list_dirs(relative_path):
                 url = relative_path + f
                 images[f] = {'url' : url, 'name': f, 'mark': False}
 
-            if os.path.isdir(join(path, f)):
-                dirs.append(unicode(f, "utf-8") if type(f) != unicode else f)
+            d_path = join(path, f)
+            if os.path.isdir(d_path):
+                inner_files = os.listdir(d_path)
+                completed = False
+
+                if '_marks.txt' in inner_files:
+                    if len(list(open(os.path.join(d_path, '_marks.txt')))) == len(emotions) * 2:
+                        completed = True
+                d = {'name': unicode(f, "utf-8") if type(f) != unicode else f,
+                     'completed': completed}
+                dirs.append(d)
 
         marks_path = os.path.join(path, '_marks.txt')
         if os.path.exists(marks_path):
@@ -99,12 +108,13 @@ def list_dirs(relative_path):
 
         areas = dict(areas)
         points = dict(points)
+        dirs = sorted(dirs, key=lambda x: x['name'])
     except Exception as e:
         logger.info("Exception occured {}", e.message)
         logger.exception(e)
     return render_template("browse.html",
                            title='Browse',
-                           dirs=sorted(dirs),
+                           dirs=dirs,
                            images=images,
                            areas=areas,
                            points=points,
