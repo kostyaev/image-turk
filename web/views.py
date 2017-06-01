@@ -74,11 +74,14 @@ def list_dirs(relative_path):
             d_path = join(path, f)
             if os.path.isdir(d_path):
                 inner_files = os.listdir(d_path)
-                completed = False
+                completed = 'not_started'
 
                 if '_marks.txt' in inner_files:
-                    if len(list(open(os.path.join(d_path, '_marks.txt')))) == len(emotions) * 2:
-                        completed = True
+                    tagged = len(list(open(os.path.join(d_path, '_marks.txt'))))
+                    if tagged == len(emotions) * 2:
+                        completed = 'completed'
+                    elif tagged > 0:
+                        completed = 'started'
                 d = {'name': unicode(f, "utf-8") if type(f) != unicode else f,
                      'completed': completed}
                 dirs.append(d)

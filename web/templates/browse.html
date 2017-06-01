@@ -98,16 +98,16 @@
     <div style="float: left; height: 270px;" id="{{dir.name}}" class="dirSection">
         <input type="button" class="dir delete"/>
 
-        {% if dir.completed %}
-
+        {% if dir.completed == 'completed' %}
             <img src="http://icons.iconarchive.com/icons/hopstarter/soft-scraps/256/Folder-Generic-Green-icon.png" alt="alternate text"
              class="dir" style="width: 200px; height: 200px; display: block; position: relative;">
-
+        {% elif dir.completed == 'started' %}
+            <img src="http://icons.iconarchive.com/icons/hopstarter/soft-scraps/256/Folder-Generic-Blue-icon.png" alt="alternate text"
+             class="dir" style="width: 200px; height: 200px; display: block; position: relative;">
         {% else %}
             <img src="http://icons.iconarchive.com/icons/hopstarter/mac-folders/256/Documents-icon.png" alt="alternate text"
              class="dir" style="width: 200px; height: 200px; display: block; position: relative;">
         {% endif %}
-
 
         <p style="width: 200px; position: relative; text-align: center; word-break: break-word;">{{dir.name}}</p>
     </div>
