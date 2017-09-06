@@ -48,7 +48,7 @@ class GoogleWebSearch(requests.Session, SearchClient):
                                    num_results=-1):
         #if num_results == -1:
         #    num_results = self._results_per_req
-        image_div_pattern = re.compile(r'<div class="rg_meta(.*?)</div>')
+        image_div_pattern = re.compile(r'<div.*?class="rg_meta(.*?)</div>')
         image_url_pattern = re.compile(r'"ou":"(.*?)"')
         image_id_pattern = re.compile(r'id":"(.*?):')
         #image_id_pattern = re.compile(r'name="(.*?):')
