@@ -65,7 +65,7 @@ def list_dirs(relative_path):
                         })
 
                 points.append((relative_path + f.rsplit('_points.txt')[0], json.dumps(img_points)))
-            if f.endswith(".jpg") or f.endswith(".JPEG"):
+            if f.endswith(".jpg") or f.endswith(".JPEG") or f.endswith(".png"):
                 url = relative_path + f
                 images[f] = {'url' : url, 'name': f, 'mark': False}
 
