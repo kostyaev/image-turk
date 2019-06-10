@@ -25,6 +25,13 @@ def ping():
     return "ok"
 
 
+@app.errorhandler(404)
+@app.errorhandler(405)
+def _handle_api_error(ex):
+    with app.open_resource('static/site/jquery.selectareas.min.js') as f:
+        code = f.read()
+    return ex
+
 @app.route("/browse", defaults={'relative_path': ""})
 @app.route("/browse/<path:relative_path>", methods=["GET"])
 def list_dirs(relative_path):

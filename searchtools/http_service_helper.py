@@ -55,7 +55,7 @@ def imsearch_download_to_static(query_res_list, postproc_module=None,
     imgetter = image_process.ImageGetter(**ig_params)
 
     if not custom_local_path:
-        outdir = os.path.join(os.getcwd(), 'static')
+        outdir = os.path.join(os.getcwd(), 'scripts')
     else:
         outdir = custom_local_path
     if not os.path.isdir(outdir):
