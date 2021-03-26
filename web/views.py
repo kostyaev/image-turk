@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, redirect, url_for
 from flask import render_template
 from web import app
 import os
@@ -24,6 +24,9 @@ flickr_searcher = None
 def ping():
     return "ok"
 
+@app.route('/')
+def index():
+    return redirect(url_for('list_dirs'))
 
 @app.route("/browse", defaults={'relative_path': ""})
 @app.route("/browse/<path:relative_path>", methods=["GET"])
@@ -80,14 +83,15 @@ def list_dirs(relative_path):
                     images[photo_name]['mark'] = True
 
         images = sorted(images.values(), key=lambda x: x['name'])
-        mark_now = False
+        # mark_now = False
         for idx, img in enumerate(images):
-            if img['mark']:
-                mark_now = False if mark_now else True
-            if mark_now:
-                img['mark_class'] = 'mark_border' if img['mark'] else 'mark'
-            else:
-                img['mark_class'] = 'mark_border' if img['mark'] else ''
+            img['mark_class'] = 'mark_border' if img['mark'] else ''
+            # if img['mark']:
+            #     mark_now = False if mark_now else True
+            # if mark_now:
+            #     img['mark_class'] = 'mark_border' if img['mark'] else 'mark'
+            # else:
+            #     img['mark_class'] = 'mark_border' if img['mark'] else ''
 
         areas = dict(areas)
         points = dict(points)
